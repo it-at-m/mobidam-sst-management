@@ -1,0 +1,72 @@
+{
+    "allowRemoteResourceManagement": false,
+    "policyEnforcementMode": "ENFORCING",
+    "resources": [
+        {
+            "name": "MOBIDAM_SST_MANAGEMENT_BACKEND_READ_THEENTITY",
+            "type": "mobidam-sst-management-mobidam-sst-management-backend-service",
+            "scopes": []
+        },
+        {
+            "name": "MOBIDAM_SST_MANAGEMENT_BACKEND_WRITE_THEENTITY",
+            "type": "mobidam-sst-management-mobidam-sst-management-backend-service",
+            "scopes": []
+        },
+        {
+            "name": "MOBIDAM_SST_MANAGEMENT_BACKEND_DELETE_THEENTITY",
+            "type": "mobidam-sst-management-mobidam-sst-management-backend-service",
+            "scopes": []
+        }
+    ],
+    "policies": [
+        {
+            "name": "rolepolicy_admin",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+                "roles": "[{\"id\":\"mobidam-sst-management/clientrole_admin\",\"required\":false}]"
+            }
+        },
+        {
+            "name": "rolepolicy_readonly",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+                "roles": "[{\"id\":\"mobidam-sst-management/clientrole_readonly\",\"required\":false}]"
+            }
+        },
+        {
+            "name": "permission_MOBIDAM_SST_MANAGEMENT_BACKEND_DELETE_THEENTITY",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+                "resources": "[\"MOBIDAM_SST_MANAGEMENT_BACKEND_DELETE_THEENTITY\"]",
+                "applyPolicies": "[\"rolepolicy_admin\"]"
+            }
+        },
+        {
+            "name": "permission_MOBIDAM_SST_MANAGEMENT_BACKEND_WRITE_THEENTITY",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+                "resources": "[\"MOBIDAM_SST_MANAGEMENT_BACKEND_WRITE_THEENTITY\"]",
+                "applyPolicies": "[\"rolepolicy_admin\"]"
+            }
+        },
+        {
+            "name": "permission_MOBIDAM_SST_MANAGEMENT_BACKEND_READ_THEENTITY",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+                "resources": "[\"MOBIDAM_SST_MANAGEMENT_BACKEND_READ_THEENTITY\"]",
+                "applyPolicies": "[\"rolepolicy_admin\",\"rolepolicy_readonly\"]"
+            }
+        }
+    ],
+    "scopes": []
+}
