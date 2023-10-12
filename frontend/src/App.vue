@@ -1,22 +1,34 @@
 <template>
     <v-app>
-        <the-snackbar />
         <v-app-bar
             app
             clipped-left
             dark
             color="primary"
         >
+            <v-col
+                cols="4"
+                class="d-flex align-center justify-start"
+            >
+                <v-toolbar-title class="font-weight-bold">
+                    <span class="white--text">MobidaM</span>
+                </v-toolbar-title>
+            </v-col>
             <v-row align="center">
                 <v-col
-                    cols="2"
-                    class="d-flex align-center justify-start"
+                    cols="6"
+                    class="d-flex align-center justify-center"
                 >
-                    <span class="font-weight-bold text-h5">MobidaM</span>
+                    <v-img
+                        class="my-3"
+                        :src="require('./assets/logo.png')"
+                        max-height="60"
+                        max-width="100"
+                        contain
+                    ></v-img>
                 </v-col>
-                <v-spacer />
                 <v-col
-                    cols="2"
+                    cols="6"
                     class="d-flex align-center justify-end"
                 >
                     <v-btn
