@@ -11,6 +11,17 @@
                 </p>
             </v-col>
         </v-row>
+        <v-row>
+            <v-list lines="two">
+                <v-list-item
+                    v-for="n in 3"
+                    :key="n"
+                    @click="$router.push(`/interfaceDetailView/${1}`)"
+                >
+                    dummy
+                </v-list-item>
+            </v-list>
+        </v-row>
     </v-container>
 </template>
 
