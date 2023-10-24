@@ -2,12 +2,11 @@ name: Backend compliance check and build test
 
 on:
   push:
-    branches:
-      branches-ignore:
-        - 'sprint'
-        - 'main'
-      paths:
-        - 'mobidam-sst-management-backend/**'
+    branches-ignore:
+      - 'sprint'
+      - 'main'
+    paths:
+      - 'mobidam-sst-management-backend/**'
   pull_request:
     types: [ opened, reopened ]
 

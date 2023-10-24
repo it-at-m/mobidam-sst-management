@@ -2,12 +2,11 @@ name: Frontend compliance check and build test
 
 on:
   push:
-    branches:
-      branches-ignore:
-        - 'sprint'
-        - 'main'
-      paths:
-        - 'mobidam-sst-management-frontend/**'
+    branches-ignore:
+      - 'sprint'
+      - 'main'
+    paths:
+      - 'mobidam-sst-management-frontend/**'
   pull_request:
     types: [ opened, reopened ]
 
