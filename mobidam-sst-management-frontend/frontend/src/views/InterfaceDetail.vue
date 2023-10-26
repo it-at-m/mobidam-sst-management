@@ -1,23 +1,47 @@
 <template>
     <v-container>
-        Dummy Daten über die Schnittstelle
-        <v-text-field
-            prepend-icon="mdi-account-plus"
-            label="zuzuordnende Person"
-            type="person"
-            hint="Gib den Namen einer Person an, die Du der Schnittstelle zuordnen möchstest "
-        ></v-text-field>
+        <h1>Schnittstelle {{ interfaceID }}</h1>
+        Hier findet man später weitere Informationen zur Schnittstelle.
+        <v-row>
+            <v-col> <h3>Zugewiesene Personen</h3></v-col>
+            <v-col>
+                <v-btn
+                    small
+                    @click="showAddPersonDialog = true"
+                >
+                    <v-icon>mdi-account-plus</v-icon>
+                </v-btn>
+            </v-col>
+        </v-row>
+        <v-list lines="two">
+            <v-list-item
+                v-for="n in 5"
+                :key="n"
+            >
+                <v-col> Person {{ n }} </v-col>
+                <v-col>
+                    <v-icon>mdi-delete</v-icon>
+                </v-col>
+            </v-list-item>
+        </v-list>
+        <add-person-dialog
+            :show-dialog.sync="showAddPersonDialog"
+        ></add-person-dialog>
     </v-container>
 </template>
 
 <script setup lang="ts">
 import HealthService from "@/api/HealthService";
 import HealthState from "@/types/HealthState";
+import AddPersonDialog from "@/components/AddPersonDialog.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router/composables";
 
 const snackbarStore = useSnackbarStore();
 const status = ref("DOWN");
+let interfaceID = useRouter().currentRoute.params.id;
+const showAddPersonDialog = ref(false);
 
 onMounted(() => {
     HealthService.checkHealth()
