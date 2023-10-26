@@ -12,11 +12,14 @@
             </v-col>
         </v-row>
         <v-row>
+            <h2>Schnittstellen</h2>
+        </v-row>
+        <v-row>
             <v-list lines="two">
                 <v-list-item
                     v-for="n in 5"
                     :key="n"
-                    @click="$router.push(`/interfaceDetailView/${1}`)"
+                    @click="$router.push(`/interfaceDetailView/${n}`)"
                 >
                     Schnittstelle {{ n }}
                 </v-list-item>
