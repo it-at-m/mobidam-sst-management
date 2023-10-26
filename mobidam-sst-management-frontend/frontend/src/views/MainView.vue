@@ -14,11 +14,11 @@
         <v-row>
             <v-list lines="two">
                 <v-list-item
-                    v-for="n in 3"
+                    v-for="n in 5"
                     :key="n"
                     @click="$router.push(`/interfaceDetailView/${1}`)"
                 >
-                    dummy
+                    Schnittstelle {{ n }}
                 </v-list-item>
             </v-list>
         </v-row>
