@@ -28,6 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Git checkout to main branch # the workflow is triggered in the default branch, which doesn't have to be MAIN
+        uses: actions/checkout@v4
         with: { ref: main } # this also serves as a safeguard for workflows triggered manually
 
       - name: Set up JDK 17
@@ -62,6 +63,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Get number of Tuesday on a Tuesday
+        if: github.event_name != 'workflow_dispatch' # the following constraint is only applied if the job was triggered automatically
+        id: number-of-tuesday
+        run: >- # ((day_of_month-1)/7)+1 works only if the job is only triggered on tuesdays, https://stackoverflow.com/a/75975946
+          printf >> "$GITHUB_OUTPUT"
+          "VALUE=%s"
+          "$((($(date +%d)-1)/7+1))" # (3)
+
+      - name: Check if job should be run # the automatically triggered actions should only be executed every 3 weeks
+        if: github.event_name != 'workflow_dispatch' && steps.number-of-tuesday.outputs.VALUE != 3
+        run: | # canceling the job if the conditions weren't met, https://stackoverflow.com/a/75809743
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Git checkout to main branch # the workflow is triggered in the default branch, which doesn't have to be MAIN
+        uses: actions/checkout@v4
+        with: { ref: main } # this also serves as a safeguard for workflows triggered manually
 
       - name: Fail if branch is not main
         if: github.ref != 'refs/heads/main'
