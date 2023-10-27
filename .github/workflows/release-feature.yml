@@ -2,9 +2,6 @@ name: Build and release to dev
 
 on:
   workflow_dispatch:
-    branches-ignore:
-      - 'sprint'
-      - 'main'
 
 jobs:
   backend-build-and-docker-push:
