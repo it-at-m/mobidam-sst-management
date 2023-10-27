@@ -1,0 +1,16 @@
+name: Build and release to demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  backend-build-and-docker-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fail if branch is not main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "This workflow should not be triggered with workflow_dispatch on a branch other than main"
+          exit 1
