@@ -7,10 +7,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    DatetimeInput: typeof import('@/components/common/DatetimeInput.vue')['default']
+    DatetimeInput: typeof import('./src/components/common/DatetimeInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheSnackbar: typeof import('@/components/TheSnackbar.vue')['default']
+    TheSnackbar: typeof import('./src/components/TheSnackbar.vue')['default']
     VApp: typeof import('vuetify/lib')['VApp']
     VAppBar: typeof import('vuetify/lib')['VAppBar']
     VAppBarNavIcon: typeof import('vuetify/lib')['VAppBarNavIcon']
@@ -36,6 +36,6 @@ declare module '@vue/runtime-core' {
     VSpacer: typeof import('vuetify/lib')['VSpacer']
     VTextField: typeof import('vuetify/lib')['VTextField']
     VToolbarTitle: typeof import('vuetify/lib')['VToolbarTitle']
-    YesNoDialog: typeof import('@/components/common/YesNoDialog.vue')['default']
+    YesNoDialog: typeof import('./src/components/common/YesNoDialog.vue')['default']
   }
 }
