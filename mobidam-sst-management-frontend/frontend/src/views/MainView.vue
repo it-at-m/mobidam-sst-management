@@ -19,7 +19,7 @@
                 <v-list-item
                     v-for="n in 5"
                     :key="n"
-                    @click="$router.push(`/interfaceDetailView/${n}`)"
+                    @click="$router.push(`/schnittstelleDetailView/${n}`)"
                 >
                     Schnittstelle {{ n }}
                 </v-list-item>
