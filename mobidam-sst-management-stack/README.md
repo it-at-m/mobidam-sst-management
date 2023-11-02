@@ -1,38 +1,39 @@
 # Stack
 
 - Services
-    - require Keycloak for single sign on
+  - benötigt Keycloak für Single Sign On
 - DBs:
-    - Postgres for Keycloak
+   - Postgres für Keycloak
 - Keycloak
 
 ## Docker
-
-Use docker compose to start the infrastructure
+Nutze docker compose um die Infrastruktur zu starten
 
 ```
-# Starts the infrastructure services like keycloak and db for backend
+# Statet die Infrastrukturservices, wie keycloak und db für das Backend
 docker compose up -d
 
-# Starts all services
+# Startet alle Services
 docker compose --profile full up -d
 
-# Includes the backend service on startup
+# Inkludiert Backendservices beim Starten 
 docker compose --profile backend up -d
 
-# Includes the frontend service on startup
+# Inkludiert Frontend Services beim Starten
 docker compose --profile frontend up -d
 ```
 
-additional configuration for the services is done via `*.env`-Files
+Weitere Konfigurationen für den Service können mit Hilfe der `*.env`-Files getätigt werden.
 
 
 ### Keycloak
 
-An admin user and a test user are created by `init-keycloak`. You can change the configuration via the keycloak ui.
+Ein Admin- und ein Test-User werden mit `init-keycloak` generiert. 
+Die Konfiguration kann mittels der Keycloak UI angepasst werden.
 
-#### Configuration Migration
+#### Konfigurations Migration
 
-Realm, client user and other configuration should be done by the migration client. Its config files are located in
-`keycloak\migartion`. The main file is `keycloak-changelog.yml`. It contains the list of migration files that
-should be applied. For more information check https://mayope.github.io/keycloakmigration/migrations/client/.
+Realm, Client User und andere Konfigurationen werden vom Migration Client übernommen.  Die zugehörigen Konfigurationsfiles sind unter
+`keycloak\migartion` zu finden. Im Hauptfile (`keycloak-changelog.yml`) ist eine Liste an Migrations Files zu finden, 
+die angewendet werden sollen. Weitere Informationen sind unter folgendem Linke zu finden: 
+https://mayope.github.io/keycloakmigration/migrations/client/
