@@ -37,7 +37,7 @@ jobs:
             git config --global user.email "github-actions@github.com"
             git config --global user.name "GitHub Actions"
             git add mobidam-sst-management-backend/pom.xml
-            git commit -m "Bump version to $new_version"
+            git commit -m "Bump backend version to $new_version"
             git push
           fi
           echo "::set-output name=new_version::$new_version"

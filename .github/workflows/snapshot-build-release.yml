@@ -15,14 +15,14 @@ on:
 jobs:
   build-backend-snapshot:
     if: github.event.inputs.artefact == 'backend' || github.event.inputs.artefact == 'all'
-    uses: ./.github/workflows/workflow-snapshot-backend.yaml
+    uses: ./.github/workflows/workflow-snapshot-backend.yml
     with:
       version: ${{ github.event.inputs.version }}
     secrets: inherit
 
   build-frontend-snapshot:
     if: github.event.inputs.artefact == 'frontend' || github.event.inputs.artefact == 'all'
-    uses: ./.github/workflows/workflow-snapshot-frontend.yaml
+    uses: ./.github/workflows/workflow-snapshot-frontend.yml
     with:
       version: ${{ github.event.inputs.version }}
     secrets: inherit
