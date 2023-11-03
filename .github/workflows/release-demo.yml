@@ -84,12 +84,6 @@ jobs:
         uses: actions/checkout@v4
         with: { ref: main } # this also serves as a safeguard for workflows triggered manually
 
-      - name: Fail if branch is not main
-        if: github.ref != 'refs/heads/main'
-        run: |
-          echo "This workflow should not be triggered with workflow_dispatch on a branch other than main"
-          exit 1
-
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
