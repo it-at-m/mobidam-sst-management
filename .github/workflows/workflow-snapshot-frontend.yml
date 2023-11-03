@@ -13,8 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Git checkout to main branch # this also serves as a safeguard for workflows triggered manually
+        uses: actions/checkout@v4
+        with: { ref: main }
 
       - name: Set Maven Project Version
         id: set-version
