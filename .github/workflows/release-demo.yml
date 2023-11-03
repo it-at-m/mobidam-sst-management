@@ -19,8 +19,8 @@ jobs:
           "VALUE=%s"
           "$((($(date +%d)-1)/7+1))" # (3)
 
-      - name: Check if job should be run # the automatically triggered actions should only be executed every 3 weeks
-        if: github.event_name != 'workflow_dispatch' && steps.number-of-tuesday.outputs.VALUE != 3
+      - name: Check if job should be run # the automatically triggered actions should only be executed every third tuesday in month
+        if: github.event_name != 'workflow_dispatch' && steps.number-of-tuesday.outputs.VALUE != 3 # change the number to every first, second or third tuesday if needed
         run: | # canceling the job if the conditions weren't met, https://stackoverflow.com/a/75809743
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
@@ -57,7 +57,7 @@ jobs:
         with:
           context: ./mobidam-sst-management-backend
           push: true
-          tags: itatm/mobidam/mobidam-sst-management-backend:demo
+          tags: itatm/mobidam:demo, itatm/mobidam:backend
 
   frontend-build-and-docker-push:
     runs-on: ubuntu-latest
@@ -72,8 +72,8 @@ jobs:
           "VALUE=%s"
           "$((($(date +%d)-1)/7+1))" # (3)
 
-      - name: Check if job should be run # the automatically triggered actions should only be executed every 3 weeks
-        if: github.event_name != 'workflow_dispatch' && steps.number-of-tuesday.outputs.VALUE != 3
+      - name: Check if job should be run # the automatically triggered actions should only be executed every third tuesday in month
+        if: github.event_name != 'workflow_dispatch' && steps.number-of-tuesday.outputs.VALUE != 3 # change the number to every first, second or third tuesday if needed
         run: | # canceling the job if the conditions weren't met, https://stackoverflow.com/a/75809743
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
@@ -116,4 +116,4 @@ jobs:
         with:
           context: ./mobidam-sst-management-frontend
           push: true
-          tags: itatm/mobidam/mobidam-sst-management-frontend:demo
+          tags: itatm/mobidam:demo, itatm/mobidam:frontend
