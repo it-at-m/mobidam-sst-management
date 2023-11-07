@@ -3,7 +3,7 @@ name: Build and release to dev
 on:
   workflow_dispatch:
     branches:
-      - 'main'
+      - main
 
 jobs:
   backend-build-and-docker-push:
