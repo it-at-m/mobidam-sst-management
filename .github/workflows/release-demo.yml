@@ -3,7 +3,7 @@ name: Build and release to demo
 on:
   workflow_dispatch: # execute manually
   schedule:
-    - cron: '0 12 * * 2' # execute automatically every Tuesday at 12:00pm
+    - cron: '0 13 * * 6' # execute automatically every Saturday at 13:00
 
 jobs:
   backend-build-and-docker-push:
@@ -11,9 +11,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get number of Tuesday on a Tuesday
+      - name: Get seconds passed since project start
+        id: calculate-time-passed
         run: |
-          project_start_date=$(echo -n "2023-10-28 12:00")
+          project_start_date=$(echo -n "2023-10-28 10:00")
           project_start_epoch_seconds=$(date -d "$project_start_date" +%s)
-          time_passed=$(($project_start_epoch_seconds-$(date +"%s")))
-          echo "$time_passed"
+          time_passed=$(($(date +"%s")-$project_start_epoch_seconds))
+          echo "::set-output name=time_passed::$time_passed"
+
+      - name: Get number of weeks passed
+        id: get-number-of-weeks
+        run: |
+          number_of_weeks=$((${{ steps.calculate-time-passed.outputs.time_passed }}/1814400))
+          echo "::set-output name=number_of_weeks::$number_of_weeks"
+
+      - name: Check if job should be run # the automatically triggered actions should only be executed every third tuesday in month
+        run: | # canceling the job if the conditions weren't met, https://stackoverflow.com/a/75809743
+          echo "${{ steps.get-number-of-weeks.outputs.number_of_weeks }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
