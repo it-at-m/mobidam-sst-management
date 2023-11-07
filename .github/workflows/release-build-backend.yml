@@ -1,25 +1,20 @@
-name: Backend release
+name: Build backend release
 
-on:
-  workflow_call:
-    inputs:
-      release-version:
-        description: 'Services release version'
-        type: string
-        required: true
+on: [workflow_dispatch]
 
 jobs:
   release:
     name: Create docker release
     runs-on: ubuntu-latest
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v3
+      - name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
+        uses: actions/checkout@v4
+        with: { ref: main }
 
       - name: Install Java and Maven
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: "17"
           distribution: "temurin"
           cache: "maven"
 
@@ -59,3 +54,42 @@ jobs:
           context: ./mobidam-sst-management-backend
           push: true
           tags: itatm/mobidam:mobidam-sst-management-backend-${{ steps.set-version.outputs.new_version }}, itatm/mobidam:mobidam-sst-management-backend-latest
+
+  github-release:
+    needs: release
+    name: Create github release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
+        uses: actions/checkout@v4
+        with: { ref: main }
+
+      - name: Get New Project Version
+        id: get-version
+        run: |
+          current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          new_version=$(echo $current_version | sed 's/-SNAPSHOT//')
+          echo "New version: $new_version"
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ github.event.inputs.release-version }}',
+              sha: context.sha
+            })
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: backend-${{ github.event.inputs.release-version }}
+          release_name: Release Backend ${{ github.event.inputs.release-version }}
+          draft: false
+          prerelease: false
