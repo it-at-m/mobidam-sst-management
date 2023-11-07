@@ -2,8 +2,10 @@ package de.muenchen.mobidam.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.io.Serial;
 import java.time.LocalDate;
 
 /**
@@ -21,6 +23,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Zuordnung extends BaseEntity {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false)
@@ -36,11 +39,11 @@ public class Zuordnung extends BaseEntity {
     private String functionAddress;
 
     @Column(nullable = false)
-    @NotEmpty
+    @NotNull
     private LocalDate validFrom;
 
     @Column(nullable = false)
-    @NotEmpty
+    @NotNull
     private LocalDate validUntil;
 
 }
