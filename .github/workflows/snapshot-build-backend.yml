@@ -1,7 +1,7 @@
-name: Build frontend snapshot container
+name: Build backend snapshot container
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       version:
         description: 'Which part of the version to increase (major, minor, patch)'
@@ -20,7 +20,7 @@ jobs:
       - name: Set Maven Project Version
         id: set-version
         run: |
-          current_version=$(mvn help:evaluate -f mobidam-sst-management-frontend/pom.xml -Dexpression=project.version -q -DforceStdout)
+          current_version=$(mvn help:evaluate -f mobidam-sst-management-backend/pom.xml -Dexpression=project.version -q -DforceStdout)
           echo "Current version: $current_version"
           if [ "${{ github.event.inputs.version }}" == "major" ]; then
             new_version=$(echo $current_version | awk -F. -v OFS=. '{$1=$1+1; $2=0; $3=0; print $0"-SNAPSHOT"}')
@@ -32,12 +32,12 @@ jobs:
             new_version="$current_version"
           fi
           echo "New version: $new_version"
-          mvn -B versions:set -DnewVersion=$new_version -f mobidam-sst-management-frontend/pom.xml
+          mvn -B versions:set -DnewVersion=$new_version -f mobidam-sst-management-backend/pom.xml
           if [ "${{ github.event.inputs.version }}" != "none" ]; then
             git config --global user.email "github-actions@github.com"
             git config --global user.name "GitHub Actions"
-            git add mobidam-sst-management-frontend/pom.xml
-            git commit -m "Bump frontend version to $new_version"
+            git add mobidam-sst-management-backend/pom.xml
+            git commit -m "Bump backend version to $new_version"
             git push
           fi
           echo "::set-output name=new_version::$new_version"
@@ -45,12 +45,12 @@ jobs:
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: "11"
+          java-version: "17"
           distribution: "temurin"
           cache: "maven"
 
       - name: Build with Maven
-        run: mvn -B verify -f mobidam-sst-management-frontend/pom.xml -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN
+        run: mvn -B verify -f mobidam-sst-management-backend/pom.xml -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -67,6 +67,6 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
-          context: ./mobidam-sst-management-frontend
+          context: ./mobidam-sst-management-backend
           push: true
-          tags: itatm/mobidam:mobidam-sst-management-frontend-${{ steps.set-version.outputs.new_version }}
+          tags: itatm/mobidam:mobidam-sst-management-backend-${{ steps.set-version.outputs.new_version }}
