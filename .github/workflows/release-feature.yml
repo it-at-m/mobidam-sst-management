@@ -1,9 +1,6 @@
 name: Build and release to dev
 
-on:
-  workflow_dispatch:
-    branches:
-      - main
+on: [workflow_dispatch]
 
 jobs:
   backend-build-and-docker-push:
