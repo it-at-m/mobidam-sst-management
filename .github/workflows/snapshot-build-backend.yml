@@ -2,6 +2,8 @@ name: Build backend snapshot container
 
 on:
   workflow_dispatch:
+    branches:
+      - 'main'
     inputs:
       version:
         description: 'Which part of the version to increase (major, minor, patch)'
