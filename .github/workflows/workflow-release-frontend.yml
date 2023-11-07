@@ -58,4 +58,4 @@ jobs:
         with:
           context: ./mobidam-sst-management-frontend
           push: true
-          tags: itatm/mobidam-sst-management-frontend:${{ steps.set-version.outputs.new_version }}, itatm/mobidam-sst-management-frontend:latest
+          tags: itatm/mobidam:mobidam-sst-management-frontend-${{ steps.set-version.outputs.new_version }}, itatm/mobidam:mobidam-sst-management-frontend-latest
