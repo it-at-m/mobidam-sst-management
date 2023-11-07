@@ -2,7 +2,7 @@ name: Build and release to demo
 
 on:
   workflow_dispatch: # execute manually
-  schedule:
+  schedule: # it's important that the hour in the cron-job is after the hour of project_start_date in step calculate-time-passed
     - cron: '0 13 * * 6' # execute automatically every Saturday at 13:00, change!! day of week if needed
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
       - name: Get seconds passed since project start # project_start_date needs to be changed!! if different dispatch day is preferred
         id: calculate-time-passed
         run: | # 2023-10-28 is a Saturday and is used as the base for calculating the weeks passed
-          project_start_date=$(echo -n "2023-10-28 10:00")
+          project_start_date=$(echo -n "2023-10-28 10:00") # it's important that the hour in this step is before the hour given in the cron-job
           project_start_epoch_seconds=$(date -d "$project_start_date" +%s)
           time_passed=$(($(date +"%s")-$project_start_epoch_seconds))
           echo "::set-output name=time_passed::$time_passed"
