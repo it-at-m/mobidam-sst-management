@@ -13,4 +13,4 @@ jobs:
 
       - name: Get number of Tuesday on a Tuesday
         run: |
-          echo $(date +"%Y-%m-%d")
+          echo $(date +"%s")
