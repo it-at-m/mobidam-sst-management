@@ -13,4 +13,7 @@ jobs:
 
       - name: Get number of Tuesday on a Tuesday
         run: |
-          echo $(date +"%s")
+          project_start_date=$(echo -n "2023-10-28 12:00")
+          project_start_epoch_seconds=$(date -d "$project_start_date" +%s)
+          time_passed=$($project_start_epoch_seconds-$(date +"%s"))
+          echo "$time_passed"
