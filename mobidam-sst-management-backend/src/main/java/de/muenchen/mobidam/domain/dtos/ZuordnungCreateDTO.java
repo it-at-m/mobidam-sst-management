@@ -4,14 +4,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
-@NoArgsConstructor
+@Builder
 public class ZuordnungCreateDTO {
 
     @NotNull

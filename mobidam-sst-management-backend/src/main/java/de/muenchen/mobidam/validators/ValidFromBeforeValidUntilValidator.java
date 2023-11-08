@@ -2,6 +2,7 @@ package de.muenchen.mobidam.validators;
 import de.muenchen.mobidam.annotations.ValidFromBeforeValidUntil;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ValidationException;
 
 import java.lang.reflect.Method;
 import java.time.LocalDate;
@@ -10,10 +11,13 @@ public class ValidFromBeforeValidUntilValidator implements ConstraintValidator<V
         private String startDateFieldName;
         private String endDateFieldName;
 
+        private String message;
+
         @Override
         public void initialize(final ValidFromBeforeValidUntil constraintAnnotation) {
             startDateFieldName = constraintAnnotation.startDate();
             endDateFieldName = constraintAnnotation.endDate();
+            message = constraintAnnotation.message();
         }
 
         @Override
@@ -28,7 +32,12 @@ public class ValidFromBeforeValidUntilValidator implements ConstraintValidator<V
 
                 final Method endDateGetter = o.getClass().getMethod(endDateFieldName);
                 final LocalDate endDate = (LocalDate) endDateGetter.invoke(o);
-                return !endDate.isBefore(startDate);
+                if(endDate.isBefore(startDate)){
+                    throw new ValidationException(message);
+                }
+                else{
+                    return true;
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
