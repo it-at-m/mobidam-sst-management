@@ -1,4 +1,5 @@
 package de.muenchen.mobidam.domain;
+import de.muenchen.mobidam.annotations.ValidFromBeforeValidUntil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@ValidFromBeforeValidUntil(startDate = "getValidFrom", endDate = "getValidUntil", message = "Startdatum muss vor dem Enddatum liegen.")
 public class Zuordnung extends BaseEntity {
 
     @Serial
