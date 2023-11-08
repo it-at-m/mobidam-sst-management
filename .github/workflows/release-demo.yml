@@ -25,7 +25,7 @@ jobs:
           number_of_weeks=$((${{ steps.calculate-time-passed.outputs.time_passed }}/604800))
           echo "::set-output name=number_of_weeks::$number_of_weeks"
 
-      - name: Check if job should be run # the automatically triggered actions should only be executed every third tuesday in month
+      - name: Check if job should be run # the automatically triggered actions should only be executed every third week
         if: github.event_name != 'workflow_dispatch' && steps.get-number-of-weeks.outputs.number_of_weeks != 3 # change!! the period duration by changing the number of weeks to pass
         run: | # canceling the job if the conditions weren't met, https://stackoverflow.com/a/75809743
           gh run cancel ${{ github.run_id }}
@@ -84,7 +84,7 @@ jobs:
           number_of_weeks=$((${{ steps.calculate-time-passed.outputs.time_passed }}/604800))
           echo "::set-output name=number_of_weeks::$number_of_weeks"
 
-      - name: Check if job should be run # the automatically triggered actions should only be executed every third tuesday in month
+      - name: Check if job should be run # the automatically triggered actions should only be executed every third week
         if: github.event_name != 'workflow_dispatch' && steps.get-number-of-weeks.outputs.number_of_weeks != 3 # change!! the period duration by changing the number of weeks to pass
         run: | # canceling the job if the conditions weren't met, https://stackoverflow.com/a/75809743
           gh run cancel ${{ github.run_id }}
