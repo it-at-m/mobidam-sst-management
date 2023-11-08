@@ -15,6 +15,8 @@ import lombok.ToString;
 public class ZuordnungCreateDTO {
 
     @NotNull
+    private String schnittstelle;
+    @NotNull
     private String userID;
     @NotNull
     private String department;

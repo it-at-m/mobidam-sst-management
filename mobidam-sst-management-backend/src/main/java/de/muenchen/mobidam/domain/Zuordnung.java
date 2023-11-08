@@ -28,6 +28,10 @@ public class Zuordnung extends BaseEntity {
 
     @Column(nullable = false)
     @NotEmpty
+    private String schnittstelle;
+
+    @Column(nullable = false)
+    @NotEmpty
     private String userID;
 
     @Column(nullable = false)

@@ -18,6 +18,8 @@ public class ZuordnungDTO {
     @NotNull
     private UUID id;
     @NotNull
+    private String schnittstelle;
+    @NotNull
     private String userID;
     @NotNull
     private String department;
