@@ -2,6 +2,7 @@ package de.muenchen.mobidam.domain;
 import de.muenchen.mobidam.annotations.ValidFromBeforeValidUntil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@ValidFromBeforeValidUntil(startDate = "getValidFrom", endDate = "getValidUntil", message = "Startdatum muss vor dem Enddatum liegen.")
+@ValidFromBeforeValidUntil(startDate = "getValidFrom", endDate = "getValidUntil", message = "Das Startdatum muss vor dem Enddatum liegen.")
 public class Zuordnung extends BaseEntity {
 
     @Serial
@@ -51,5 +52,19 @@ public class Zuordnung extends BaseEntity {
     @Column(nullable = false)
     @NotNull
     private LocalDate validUntil;
+
+    public void setValidFrom(LocalDate validFrom) {
+        if (validFrom != null && validFrom.isBefore(LocalDate.now())) {
+            throw new ValidationException("Das Startdatum darf nicht in der Vergangenheit liegen!");
+        }
+        this.validFrom = validFrom;
+    }
+
+    public void setValidUntil(LocalDate validUntil) {
+        if (validUntil != null && validUntil.isBefore(LocalDate.now())) {
+            throw new ValidationException("Das Enddatum darf nicht in der Vergangenheit liegen!");
+        }
+        this.validUntil = validUntil;
+    }
 
 }
