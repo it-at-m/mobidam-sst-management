@@ -13,21 +13,21 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ZuordnungTest {
 
     @Test
-    public void validFromInThePast(){
+    public void validFromInThePast() {
         LocalDate start = LocalDate.now().minusDays(7);
 
         Zuordnung zuordnung = new Zuordnung();
 
-        assertThrows(ValidationException.class,() -> zuordnung.setValidFrom(start));
+        assertThrows(ValidationException.class, () -> zuordnung.setValidFrom(start));
     }
 
     @Test
-    public void validUntilInThePast(){
+    public void validUntilInThePast() {
         LocalDate end = LocalDate.now().minusDays(1);
 
         Zuordnung zuordnung = new Zuordnung();
 
-        assertThrows(ValidationException.class,() -> zuordnung.setValidFrom(end));
+        assertThrows(ValidationException.class, () -> zuordnung.setValidFrom(end));
     }
 
 }

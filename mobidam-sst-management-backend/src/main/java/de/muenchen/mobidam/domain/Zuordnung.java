@@ -1,14 +1,18 @@
 package de.muenchen.mobidam.domain;
+
 import de.muenchen.mobidam.annotations.ValidFromBeforeValidUntil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
 import java.io.Serial;
 import java.time.LocalDate;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * This class represents a TheEntity.
