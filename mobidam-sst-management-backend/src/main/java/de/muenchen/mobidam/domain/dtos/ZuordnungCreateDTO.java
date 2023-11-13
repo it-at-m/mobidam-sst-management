@@ -1,6 +1,6 @@
 package de.muenchen.mobidam.domain.dtos;
 
-import de.muenchen.mobidam.annotations.ValidFromBeforeValidUntil;
+import de.muenchen.mobidam.annotations.StartDateNotAfterEndDate;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true)
 @NoArgsConstructor
-@ValidFromBeforeValidUntil(startDate = "getValidFrom", endDate = "getValidUntil", message = "Enddatum muss nach dem Startdatum liegen.")
+@StartDateNotAfterEndDate(startDate = "getValidFrom", endDate = "getValidUntil", message = "Enddatum muss nach dem Startdatum liegen.")
 public class ZuordnungCreateDTO {
 
     @NotNull

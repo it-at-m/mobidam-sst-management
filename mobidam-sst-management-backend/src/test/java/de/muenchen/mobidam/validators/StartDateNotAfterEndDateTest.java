@@ -3,7 +3,7 @@ package de.muenchen.mobidam.validators;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import de.muenchen.mobidam.annotations.ValidFromBeforeValidUntil;
+import de.muenchen.mobidam.annotations.StartDateNotAfterEndDate;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
@@ -11,9 +11,9 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class ValidFromBeforeValidUntilTest {
+public class StartDateNotAfterEndDateTest {
 
-    @ValidFromBeforeValidUntil(startDate = "startDate", endDate = "endDate")
+    @StartDateNotAfterEndDate(startDate = "startDate", endDate = "endDate")
     private record TestClass(LocalDate startDate, LocalDate endDate) {
     }
 
