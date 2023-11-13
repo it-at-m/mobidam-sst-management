@@ -34,6 +34,6 @@ info.application.version: @project.version@
 app:
   db:
     postgres:
-      url: jdbc:postgresql://localhost:5432/praktikumsplaner
+      url: jdbc:postgresql://localhost:5432/mobidam
       username: db-backend-user
       password: db-backend-password
