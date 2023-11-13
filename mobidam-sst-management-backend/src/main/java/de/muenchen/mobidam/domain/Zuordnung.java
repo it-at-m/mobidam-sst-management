@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import java.io.Serial;
 import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,9 +28,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @StartDateNotAfterEndDate(startDate = "getValidFrom", endDate = "getValidUntil", message = "Das Startdatum muss vor dem Enddatum liegen.")
 public class Zuordnung extends BaseEntity {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     @Column(nullable = false)
     @NotEmpty
