@@ -3,7 +3,6 @@ package de.muenchen.mobidam.rest;
 import de.muenchen.mobidam.domain.dtos.ZuordnungCreateDTO;
 import de.muenchen.mobidam.domain.dtos.ZuordnungDTO;
 import de.muenchen.mobidam.domain.mappers.ZuordnungMapper;
-import de.muenchen.mobidam.exceptions.SavingException;
 import de.muenchen.mobidam.service.ZuordnungService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -25,12 +24,7 @@ public class ZuordnungController {
     @Operation(summary = "Create an zuordnung")
     @PostMapping
     public ResponseEntity<ZuordnungDTO> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
-        try {
-            ZuordnungDTO savedZuordnung = zuordnungService.create(zuordnungCreateDTO);
-            return new ResponseEntity<>(savedZuordnung, HttpStatus.OK);
-        } catch (SavingException savingException) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(zuordnungService.create(zuordnungCreateDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Get a list of zuordnung")

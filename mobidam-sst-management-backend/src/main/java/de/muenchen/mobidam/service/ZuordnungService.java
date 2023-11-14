@@ -4,9 +4,7 @@ import de.muenchen.mobidam.domain.Zuordnung;
 import de.muenchen.mobidam.domain.dtos.ZuordnungCreateDTO;
 import de.muenchen.mobidam.domain.dtos.ZuordnungDTO;
 import de.muenchen.mobidam.domain.mappers.ZuordnungMapper;
-import de.muenchen.mobidam.exceptions.SavingException;
 import de.muenchen.mobidam.repository.ZuordnungRepository;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,13 +16,7 @@ public class ZuordnungService {
     private final ZuordnungMapper zuordnungMapper;
 
     public ZuordnungDTO create(ZuordnungCreateDTO zuordnungCreateDTO) {
-        try {
-            Zuordnung zuordnungEntity = zuordnungMapper.toEntity(zuordnungCreateDTO);
-            Zuordnung savedZuordnung = zuordnungRepository.save(zuordnungEntity);
-            return zuordnungMapper.toDTO(savedZuordnung);
-        } catch (Exception exception) {
-            throw new SavingException("Fehler beim Anlegen der Zuordnung!");
-        }
+        return zuordnungMapper.toDTO(zuordnungRepository.save(zuordnungMapper.toEntity(zuordnungCreateDTO)));
     }
 
     public Iterable<Zuordnung> findAll() {
@@ -38,5 +30,4 @@ public class ZuordnungService {
         }
         return false;
     }
-
 }
