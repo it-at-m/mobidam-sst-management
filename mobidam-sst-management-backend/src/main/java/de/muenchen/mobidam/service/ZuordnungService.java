@@ -32,8 +32,7 @@ public class ZuordnungService {
     }
 
     public boolean deleteById(String zuordnungId) {
-        Optional<Zuordnung> toDelete = this.zuordnungRepository.findById(UUID.fromString(zuordnungId));
-        if (toDelete.isPresent()) {
+        if (this.zuordnungRepository.existsById(UUID.fromString(zuordnungId))) {
             this.zuordnungRepository.deleteById(UUID.fromString(zuordnungId));
             return true;
         }
