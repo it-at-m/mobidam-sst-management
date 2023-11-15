@@ -28,10 +28,10 @@ public class ZuordnungController {
     }
 
     @Operation(summary = "Get a list of zuordnung")
-    @GetMapping
-    public ResponseEntity<Iterable<ZuordnungDTO>> getAll() {
+    @GetMapping("/bySchnittstelle/{id}")
+    public ResponseEntity<Iterable<ZuordnungDTO>> getAllById(@PathVariable String id) {
         List<ZuordnungDTO> personDTOList = new ArrayList<>();
-        zuordnungService.findAll()
+        zuordnungService.getAllById(id)
                 .forEach(task -> personDTOList.add(zuordnungMapper.toDTO(task)));
         personDTOList.sort(Comparator.comparing(ZuordnungDTO::getValidUntil));
         return new ResponseEntity<>(personDTOList, HttpStatus.OK);

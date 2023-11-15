@@ -19,8 +19,8 @@ public class ZuordnungService {
         return zuordnungMapper.toDTO(zuordnungRepository.save(zuordnungMapper.toEntity(zuordnungCreateDTO)));
     }
 
-    public Iterable<Zuordnung> findAll() {
-        return this.zuordnungRepository.findAll();
+    public Iterable<Zuordnung> getAllById(String id) {
+        return this.zuordnungRepository.findZuordnungsBySchnittstelle(id);
     }
 
     public boolean deleteById(String zuordnungId) {
