@@ -31,9 +31,3 @@ management:
 info.application.name: @project.artifactId@
 info.application.version: @project.version@
 
-app:
-  db:
-    postgres:
-      url: jdbc:postgresql://localhost:5432/mobidam
-      username: db-backend-user
-      password: db-backend-password
