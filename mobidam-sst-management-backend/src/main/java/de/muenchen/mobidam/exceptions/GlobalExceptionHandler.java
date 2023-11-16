@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Globaler Exception Handler
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

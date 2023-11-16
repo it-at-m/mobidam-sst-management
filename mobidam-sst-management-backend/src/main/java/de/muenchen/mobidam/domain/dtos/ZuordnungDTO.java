@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Data Transfare Object für Zuordnungen
+ */
 @Getter
 @Setter
 @ToString(callSuper = true)

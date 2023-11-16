@@ -6,6 +6,9 @@ import de.muenchen.mobidam.domain.dtos.ZuordnungDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+/**
+ * Mapper DTO<->Entity für Zuordnungen
+ */
 @Mapper
 public interface ZuordnungMapper {
     ZuordnungDTO toDTO(Zuordnung zuordnung);

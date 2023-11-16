@@ -7,6 +7,10 @@ import jakarta.validation.ValidationException;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 
+/**
+ * Validierung einer binären Datum-Korrelation
+ * Das Startdatum darf nicht nach dem Enddatum liegen
+ */
 public class StartDateNotAfterEndDateValidator implements ConstraintValidator<StartDateNotAfterEndDate, Object> {
     private String startDateFieldName;
     private String endDateFieldName;
@@ -20,6 +24,12 @@ public class StartDateNotAfterEndDateValidator implements ConstraintValidator<St
         message = constraintAnnotation.message();
     }
 
+    /**
+     *
+     * @param o auslösendes, zu testendes Objekt
+     * @param constraintValidatorContext Kontext
+     * @return false, falls validierung fehlgeschlagen, sonst true
+     */
     @Override
     public boolean isValid(final Object o, final ConstraintValidatorContext constraintValidatorContext) {
         try {

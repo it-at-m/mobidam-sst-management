@@ -9,6 +9,9 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service der Operationen auf Zuordnungen
+ */
 @AllArgsConstructor
 @Service
 public class ZuordnungService {

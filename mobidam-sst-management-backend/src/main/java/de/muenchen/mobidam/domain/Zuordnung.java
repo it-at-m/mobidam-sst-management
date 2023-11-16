@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Zuordnung Entity
+ */
 @Entity
 @Getter
 @Setter

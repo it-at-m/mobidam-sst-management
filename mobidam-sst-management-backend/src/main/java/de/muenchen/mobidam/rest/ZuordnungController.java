@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller der Operationen auf Zuordnungen
+ */
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/zuordnung")
@@ -21,13 +24,13 @@ public class ZuordnungController {
     private final ZuordnungService zuordnungService;
     private final ZuordnungMapper zuordnungMapper;
 
-    @Operation(summary = "Create an zuordnung")
+    @Operation(summary = "Erstellt eine Zuordnung")
     @PostMapping
     public ResponseEntity<ZuordnungDTO> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
         return new ResponseEntity<>(zuordnungService.create(zuordnungCreateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get a list of zuordnung")
+    @Operation(summary = "Returned die Liste der aller Zuprdnungen einer Schnittstelle")
     @GetMapping("/bySchnittstelle/{id}")
     public ResponseEntity<Iterable<ZuordnungDTO>> getAllById(@PathVariable String id) {
         List<ZuordnungDTO> personDTOList = new ArrayList<>();
@@ -37,7 +40,7 @@ public class ZuordnungController {
         return new ResponseEntity<>(personDTOList, HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete an zuordnung by its id")
+    @Operation(summary = "Entfernt die Zuordnung mit der gegebenen ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return this.zuordnungService.deleteById(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
