@@ -14,7 +14,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Zuordnung Entity
+ * Zuordnung entity
  */
 @Entity
 @Getter

@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * Service der Operationen auf Zuordnungen
+ * Service Controller of operations on zuordnungen
  */
 @AllArgsConstructor
 @Service

@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller der Operationen auf Zuordnungen
+ * Controller of operations on zuordnungen
  */
 @RestController
 @AllArgsConstructor
@@ -24,13 +24,13 @@ public class ZuordnungController {
     private final ZuordnungService zuordnungService;
     private final ZuordnungMapper zuordnungMapper;
 
-    @Operation(summary = "Erstellt eine Zuordnung")
+    @Operation(summary = "Generates a zuordnung")
     @PostMapping
     public ResponseEntity<ZuordnungDTO> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
         return new ResponseEntity<>(zuordnungService.create(zuordnungCreateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Returned die Liste der aller Zuprdnungen einer Schnittstelle")
+    @Operation(summary = "Returns the list of all zuordnungen of a schnittstelle")
     @GetMapping("/bySchnittstelle/{id}")
     public ResponseEntity<Iterable<ZuordnungDTO>> getAllById(@PathVariable String id) {
         List<ZuordnungDTO> personDTOList = new ArrayList<>();
@@ -40,7 +40,7 @@ public class ZuordnungController {
         return new ResponseEntity<>(personDTOList, HttpStatus.OK);
     }
 
-    @Operation(summary = "Entfernt die Zuordnung mit der gegebenen ID")
+    @Operation(summary = "Deletes the zuordnung with the given ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return this.zuordnungService.deleteById(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 /**
- * Mapper DTO<->Entity für Zuordnungen
+ * Mapper DTO<->Entity for Zuordnungen
  */
 @Mapper
 public interface ZuordnungMapper {

@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Data Transfare Object für Zuordnungen
+ * Data Transfare Object for zuordnungen
  */
 @Getter
 @Setter

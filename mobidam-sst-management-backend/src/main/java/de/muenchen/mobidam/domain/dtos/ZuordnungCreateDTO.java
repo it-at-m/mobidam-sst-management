@@ -9,8 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Data Transfare Objekt zur Erstellung der Zuordnungen
- * ohne ID
+ * Data Transfare object for creating the zuordnung
+ * Difference to ZuordnungDTO: no ID
  */
 @Getter
 @Setter

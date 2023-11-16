@@ -7,14 +7,14 @@ import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Repository für entity Zuordnung
+ * Repository for entity zuordnung
  */
 public interface ZuordnungRepository extends CrudRepository<Zuordnung, UUID> {
 
     /**
-     * Zur Anforderung aller Zuordnungen, die zu einer Schnittstelle gehören
-     * @param schnittstelle Identifier der konkreten Schnittstelle
-     * @return Liste aller zugehörigen Zuordnungen
+     * To request all zuordnungen that belong to a schnittstelle
+     * @param schnittstelle Identifier of the specific schnittstelle
+     * @return list of zuordnungen
      */
     List<Zuordnung> findZuordnungsBySchnittstelle(String schnittstelle);
 }

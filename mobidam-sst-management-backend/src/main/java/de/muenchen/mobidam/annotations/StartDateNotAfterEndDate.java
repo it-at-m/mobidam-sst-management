@@ -12,8 +12,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation zum test einer binären Datum-Korrelation
- * Startdatum darf nicht nach dem Enddatum liegen
+ * Annotation for testing a binary date correlation
+ * Start date must not be after the end date
  */
 @Target({ TYPE, ANNOTATION_TYPE })
 @Retention(RUNTIME)

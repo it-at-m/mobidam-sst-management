@@ -8,8 +8,8 @@ import java.lang.reflect.Method;
 import java.time.LocalDate;
 
 /**
- * Validierung einer binären Datum-Korrelation
- * Das Startdatum darf nicht nach dem Enddatum liegen
+ * Validation of a binary date correlation
+ *  The start date must not be after the end date
  */
 public class StartDateNotAfterEndDateValidator implements ConstraintValidator<StartDateNotAfterEndDate, Object> {
     private String startDateFieldName;
@@ -25,10 +25,9 @@ public class StartDateNotAfterEndDateValidator implements ConstraintValidator<St
     }
 
     /**
-     *
-     * @param o auslösendes, zu testendes Objekt
-     * @param constraintValidatorContext Kontext
-     * @return false, falls validierung fehlgeschlagen, sonst true
+     * @param o Object to be tested
+     * @param constraintValidatorContext triggering context
+     * @return false if validation failed, otherwise true
      */
     @Override
     public boolean isValid(final Object o, final ConstraintValidatorContext constraintValidatorContext) {
