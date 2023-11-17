@@ -6,7 +6,7 @@ services:
     depends_on:
       - keycloak
     ports:
-      - "8080:8082"
+      - "8080:8080"
     profiles:
       - frontend
       - full
