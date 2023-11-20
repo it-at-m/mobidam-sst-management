@@ -32,7 +32,7 @@ public class SpringRestConfiguration implements RepositoryRestConfigurer {
      */
     @Override
     public void configureRepositoryRestConfiguration(final RepositoryRestConfiguration config, final CorsRegistry corsRegistry) {
-        config.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.DEFAULT);
+        config.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
     }
 
     /**
