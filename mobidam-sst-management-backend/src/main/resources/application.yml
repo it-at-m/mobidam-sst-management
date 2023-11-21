@@ -4,7 +4,7 @@ spring:
 
 server:
   shutdown: "graceful"
-  port: 8080
+  port: 39146
   error:
     include-exception: false
     include-stacktrace: never
@@ -30,11 +30,3 @@ management:
       enabled: true
 info.application.name: @project.artifactId@
 info.application.version: @project.version@
-
-#Postgres settings
-app:
-  db:
-    postgres:
-      url: jdbc:postgresql://localhost:5432/mobidam
-      username: db-backend-user
-      password: db-backend-password
