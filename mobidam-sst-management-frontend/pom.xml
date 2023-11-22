@@ -7,7 +7,7 @@
 
     <groupId>de.muenchen.mobidam</groupId>
     <artifactId>mobidam-sst-management-frontend</artifactId>
-    <version>1.1.0</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>mobidam_sst_management_frontend</name>
 

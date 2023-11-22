@@ -7,10 +7,9 @@ jobs:
     name: Create docker release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      #- name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
-      #  uses: actions/checkout@v4
-      #  with: { ref: main }
+      - name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
+        uses: actions/checkout@v4
+        with: { ref: main }
 
       - name: Install Java and Maven
         uses: actions/setup-java@v3
@@ -61,10 +60,9 @@ jobs:
     name: Create github release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      #- name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
-      #  uses: actions/checkout@v4
-      #  with: { ref: main }
+      - name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
+        uses: actions/checkout@v4
+        with: { ref: main }
 
       - name: Get New Project Version
         id: get-version
