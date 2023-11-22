@@ -61,9 +61,10 @@ jobs:
     name: Create github release
     runs-on: ubuntu-latest
     steps:
-      - name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
-        uses: actions/checkout@v4
-        with: { ref: main }
+      - uses: actions/checkout@v4
+      #- name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
+      #  uses: actions/checkout@v4
+      #  with: { ref: main }
 
       - name: Get New Project Version
         id: get-version
