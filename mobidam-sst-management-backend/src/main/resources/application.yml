@@ -30,3 +30,4 @@ management:
       enabled: true
 info.application.name: @project.artifactId@
 info.application.version: @project.version@
+
