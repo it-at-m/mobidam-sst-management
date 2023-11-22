@@ -1,7 +1,6 @@
 package de.muenchen.mobidam.exceptions;
 
 import jakarta.validation.ValidationException;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
