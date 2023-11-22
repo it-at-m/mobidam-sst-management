@@ -68,7 +68,7 @@ jobs:
       - name: Get New Project Version
         id: get-version
         run: |
-          current_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          current_version=$(mvn help:evaluate -f mobidam-sst-management-backend/pom.xml -Dexpression=project.version -q -DforceStdout)
           new_version=$(echo $current_version | sed 's/-SNAPSHOT//')
           echo "New version: $new_version"
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
