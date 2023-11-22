@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
-        uses: actions/checkout@v4
-        with: { ref: main }
+      #- name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
+      #  uses: actions/checkout@v4
+      #  with: { ref: main }
 
       - name: Set Maven Project Version
         id: set-version
@@ -69,4 +69,4 @@ jobs:
         with:
           context: ./mobidam-sst-management-frontend
           push: true
-          tags: itatm/mobidam:mobidam-sst-management-frontend-${{ steps.set-version.outputs.new_version }}
+          tags: itatm/mobidam:mobidam-sst-management-frontend-${{ steps.set-version.outputs.new_version }},itatm/mobidam:mobidam-sst-management-frontend-prod
