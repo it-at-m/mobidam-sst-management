@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       #- name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
       #  uses: actions/checkout@v4
       #  with: { ref: main }
