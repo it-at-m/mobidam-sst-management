@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h1>Schnittstelle {{ interfaceID }}</h1>
+        <h1>Schnittstelle {{ schnittstelleID }}</h1>
         Hier findet man später weitere Informationen zur Schnittstelle.
         <v-row>
             <v-col> <h3>Zugewiesene Personen</h3></v-col>
@@ -40,7 +40,7 @@ import { useRouter } from "vue-router/composables";
 
 const snackbarStore = useSnackbarStore();
 const status = ref("DOWN");
-let interfaceID = useRouter().currentRoute.params.id;
+let schnittstelleID = useRouter().currentRoute.params.id;
 const showAddPersonDialog = ref(false);
 
 onMounted(() => {

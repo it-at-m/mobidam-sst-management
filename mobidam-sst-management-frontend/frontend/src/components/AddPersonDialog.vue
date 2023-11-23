@@ -108,6 +108,7 @@ import Zuordnung from "@/types/Zuordnung";
 import { ref, reactive } from "vue";
 import ZuordnungService from "@/api/ZuordnungService";
 import { Levels } from "@/api/error";
+import { useRouter } from "vue-router/composables";
 interface Props {
     showDialog: boolean;
 }
@@ -131,16 +132,14 @@ const emit = defineEmits<{
 }>();
 
 const form = ref<HTMLFormElement>();
+let schnittstelleID = useRouter().currentRoute.params.id;
 
 function saveTask(): void {
     if (!form.value?.validate()) return;
     const snackbarStore = useSnackbarStore();
-    newZuordnung.schnittstelle = "schnittstelle";
+    newZuordnung.schnittstelle = schnittstelleID;
     newZuordnung.validUntil = "2023-11-30";
     newZuordnung.validFrom = "2023-11-30";
-    //console.log(newZuordnung.validFrom);
-    //console.log(newZuordnung.validUntil)
-    //console.log(newZuordnung.functionAddress);
     ZuordnungService.create(newZuordnung)
         .then(() => {
             closeDialog();
