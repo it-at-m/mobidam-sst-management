@@ -14,6 +14,7 @@
                 <v-form ref="form">
                     <v-text-field
                         ref="person"
+                        v-model="newZuordnung.userID"
                         label="Person angeben"
                         hint="Welche Person soll der
                     Schnittstelle zugewiesen werden?"
@@ -21,6 +22,7 @@
                     </v-text-field>
                     <v-text-field
                         ref="department"
+                        v-model="newZuordnung.department"
                         label="Fachbereich"
                         hint="Welchem Fachbereich ist die betreffende Person zugeordnet?"
                         counter="255"
@@ -28,6 +30,7 @@
                     ></v-text-field>
                     <v-text-field
                         ref="adress"
+                        v-model="newZuordnung.functionAddress"
                         label="Funktionsadresse"
                         hint="Welchem Gruppenpostfach gehört diese Person an?"
                         counter="255"
@@ -41,6 +44,7 @@
                             >
                                 <template #activator="{ on }">
                                     <v-text-field
+                                        v-model="newZuordnung.validFrom"
                                         label="Gültig ab"
                                         readonly
                                         v-on="on"
@@ -61,6 +65,7 @@
                             >
                                 <template #activator="{ on }">
                                     <v-text-field
+                                        v-model="newZuordnung.validUntil"
                                         label="Gültig bis"
                                         readonly
                                         v-on="on"
@@ -88,6 +93,7 @@
                 <v-btn
                     class="white--text"
                     color="green"
+                    @click="saveTask"
                 >
                     Speichern
                 </v-btn>
@@ -97,6 +103,11 @@
 </template>
 
 <script setup lang="ts">
+import { useSnackbarStore } from "@/stores/snackbar";
+import Zuordnung from "@/types/Zuordnung";
+import { ref, reactive } from "vue";
+import ZuordnungService from "@/api/ZuordnungService";
+import { Levels } from "@/api/error";
 interface Props {
     showDialog: boolean;
 }
@@ -105,10 +116,60 @@ const props = withDefaults(defineProps<Props>(), {
     showDialog: false,
 });
 
+const newZuordnung: Zuordnung = reactive({
+    schnittstelle: "",
+    userID: "",
+    department: "",
+    functionAddress: "",
+    validFrom: "",
+    validUntil: "",
+});
+
 const emit = defineEmits<{
     (e: "update:showDialog", b: boolean): void;
     (e: "taskDeleted"): void;
 }>();
+
+const form = ref<HTMLFormElement>();
+
+function saveTask(): void {
+    if (!form.value?.validate()) return;
+    const snackbarStore = useSnackbarStore();
+    newZuordnung.schnittstelle = "schnittstelle";
+    newZuordnung.validUntil = "2023-11-30";
+    newZuordnung.validFrom = "2023-11-30";
+    //console.log(newZuordnung.validFrom);
+    //console.log(newZuordnung.validUntil)
+    //console.log(newZuordnung.functionAddress);
+    ZuordnungService.create(newZuordnung)
+        .then(() => {
+            closeDialog();
+            resetZuordnung();
+            snackbarStore.showMessage({
+                message: "Aufgabe erfolgreich hinzugefügt!",
+                level: Levels.INFO,
+                show: true,
+            });
+            //emit("task-updated");
+        })
+        .catch((statusCode) => {
+            //console.log("problem");
+            snackbarStore.showMessage({
+                message: statusCode,
+                level: Levels.ERROR,
+                show: true,
+            });
+        });
+}
+
+function resetZuordnung(): void {
+    newZuordnung.schnittstelle = "";
+    newZuordnung.userID = "";
+    newZuordnung.department = "";
+    newZuordnung.functionAddress = "";
+    newZuordnung.validFrom = "";
+    newZuordnung.validUntil = "";
+}
 
 function closeDialog() {
     emit("update:showDialog", false);

@@ -60,7 +60,7 @@ services:
     depends_on:
       - postgres-keycloak
     ports:
-      - 8100:8080
+      - 8100:39146
     env_file:
       - local-keycloak.env
     networks:

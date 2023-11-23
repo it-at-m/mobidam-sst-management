@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    include:
+      - routing
   application.name: @project.artifactId@
   banner.location: banner.txt
   main:
@@ -15,7 +18,7 @@ spring:
         instrumentation-type: decorate_on_each  # https://github.com/spring-cloud/spring-cloud-gateway/pull/2106
 
 server:
-  port: 8080
+  port: 8082
   error:
     include-exception: false
     include-stacktrace: never
@@ -56,3 +59,9 @@ info.application.version: @project.version@
 info.appswitcher.url: https://appswitcher.muenchen.de
 
 config.map5xxto400: false
+
+app:
+  gateway:
+    routing:
+      backend:
+        uri: http://localhost:39146/

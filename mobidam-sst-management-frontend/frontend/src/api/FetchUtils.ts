@@ -24,9 +24,15 @@ export default class FetchUtils {
             body: body ? JSON.stringify(body) : undefined,
             headers: FetchUtils.getHeaders(),
             mode: "cors",
-            credentials: "same-origin",
+            credentials: this.getCredentials(),
             redirect: "manual",
         };
+    }
+
+    private static getCredentials(): RequestCredentials {
+        return import.meta.env.MODE === "development"
+            ? "include"
+            : "same-origin";
     }
 
     /**
@@ -47,6 +53,19 @@ export default class FetchUtils {
             headers,
             mode: "cors",
             credentials: "same-origin",
+            redirect: "manual",
+        };
+    }
+
+    /**
+     * Liefert eine default DELETE-Config für fetch
+     */
+    static getDELETEConfig(): RequestInit {
+        return {
+            method: "DELETE",
+            headers: this.getHeaders(),
+            mode: "cors",
+            credentials: "include",
             redirect: "manual",
         };
     }
