@@ -4,5 +4,6 @@
 
 ### Hinzugefügt
 - Tabelle Zuordnung mit `Put`, `Delete`, `GetAll(schnittstellenID)`
+- Build, Test und Deployment Workflows erstellt
 
 ### Verbessert
