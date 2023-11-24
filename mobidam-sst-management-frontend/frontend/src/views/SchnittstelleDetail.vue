@@ -15,10 +15,10 @@
         </v-row>
         <v-list lines="two">
             <v-list-item
-                v-for="n in 5"
-                :key="n"
+                v-for="zuordnung in zuordnungen"
+                :key="zuordnung.id"
             >
-                <v-col> Person {{ n }} </v-col>
+                <v-col> {{ zuordnung.userID }} </v-col>
                 <v-col>
                     <v-icon>mdi-delete</v-icon>
                 </v-col>
@@ -26,6 +26,7 @@
         </v-list>
         <add-person-dialog
             :show-dialog.sync="showAddPersonDialog"
+            @zuordnung-saved="refreshTasks"
         ></add-person-dialog>
     </v-container>
 </template>
@@ -37,11 +38,15 @@ import AddPersonDialog from "@/components/AddPersonDialog.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router/composables";
+import ZuordnungService from "@/api/ZuordnungService";
+import Zuordnung from "@/types/Zuordnung";
+import { Levels } from "@/api/error";
 
 const snackbarStore = useSnackbarStore();
 const status = ref("DOWN");
 let schnittstelleID = useRouter().currentRoute.params.id;
 const showAddPersonDialog = ref(false);
+const zuordnungen = ref<Zuordnung[]>([]);
 
 onMounted(() => {
     HealthService.checkHealth()
@@ -49,7 +54,21 @@ onMounted(() => {
         .catch((error) => {
             snackbarStore.showMessage(error);
         });
+    refreshTasks();
 });
+
+function refreshTasks() {
+    ZuordnungService.getZuordnungenByID(schnittstelleID)
+        .then((fetchedZuordnungen) => {
+            zuordnungen.value = [...fetchedZuordnungen];
+        })
+        .catch(() => {
+            useSnackbarStore().showMessage({
+                message: "Es gab einen Fehler beim Laden der Aufgaben!",
+                level: Levels.ERROR,
+            });
+        });
+}
 </script>
 
 <style scoped>

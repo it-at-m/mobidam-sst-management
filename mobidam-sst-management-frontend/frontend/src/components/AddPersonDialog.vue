@@ -130,7 +130,7 @@ const newZuordnung: Zuordnung = reactive({
 
 const emit = defineEmits<{
     (e: "update:showDialog", b: boolean): void;
-    (e: "taskDeleted"): void;
+    (e: "zuordnung-saved"): void;
 }>();
 
 const form = ref<HTMLFormElement>();
@@ -144,12 +144,12 @@ function saveTask(): void {
         .then(() => {
             closeDialog();
             resetZuordnung();
+            emit("zuordnung-saved");
             snackbarStore.showMessage({
                 message: "Aufgabe erfolgreich hinzugefügt!",
                 level: Levels.INFO,
                 show: true,
             });
-            //emit("task-updated");
         })
         .catch((statusCode) => {
             //console.log("problem");

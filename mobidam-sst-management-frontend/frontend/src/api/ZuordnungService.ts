@@ -22,7 +22,7 @@ export default class ZuordnungService {
         instanceId: string | undefined
     ): Promise<Zuordnung[]> {
         return fetch(
-            `${this.base}/api/mobidam-sst-management-backend/zuordnungBySchnittstelle/${instanceId}`,
+            `${this.base}/api/zuordnung/bySchnittstelle/${instanceId}`,
             FetchUtils.getGETConfig()
         ).then((response) => {
             if (response.status != 502) {
