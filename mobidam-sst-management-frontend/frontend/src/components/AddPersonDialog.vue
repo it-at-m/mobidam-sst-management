@@ -40,7 +40,7 @@
                         <v-col>
                             <v-menu
                                 max-width="100%"
-                                :close-on-content-click="false"
+                                :close-on-content-click="true"
                             >
                                 <template #activator="{ on }">
                                     <v-text-field
@@ -51,6 +51,7 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
+                                    v-model="newZuordnung.validFrom"
                                     color="primary"
                                     header-color="primary"
                                     :first-day-of-week="1"
@@ -61,7 +62,7 @@
                         <v-col>
                             <v-menu
                                 max-width="100%"
-                                :close-on-content-click="false"
+                                :close-on-content-click="true"
                             >
                                 <template #activator="{ on }">
                                     <v-text-field
@@ -72,6 +73,7 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
+                                    v-model="newZuordnung.validUntil"
                                     color="primary"
                                     header-color="primary"
                                     :first-day-of-week="1"
@@ -138,8 +140,6 @@ function saveTask(): void {
     if (!form.value?.validate()) return;
     const snackbarStore = useSnackbarStore();
     newZuordnung.schnittstelle = schnittstelleID;
-    newZuordnung.validUntil = "2023-11-30";
-    newZuordnung.validFrom = "2023-11-30";
     ZuordnungService.create(newZuordnung)
         .then(() => {
             closeDialog();
