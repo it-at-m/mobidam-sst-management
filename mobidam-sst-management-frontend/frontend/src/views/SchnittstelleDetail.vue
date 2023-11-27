@@ -22,7 +22,10 @@
                 <v-col>
                     <v-btn
                         small
-                        @click="deleteZuordnung(zuordnung)"
+                        @click="
+                            showYesNoDialog = true;
+                            tryToDeleteZuordnung(zuordnung);
+                        "
                     >
                         <v-icon>mdi-delete</v-icon>
                     </v-btn>
@@ -33,6 +36,13 @@
             :show-dialog.sync="showAddPersonDialog"
             @zuordnung-saved="refreshTasks"
         ></add-person-dialog>
+        <yes-no-dialog
+            dialogtext="Test"
+            dialogtitle="Test Me"
+            :value.sync="showYesNoDialog"
+            @no="showYesNoDialog = false"
+            @yes="deleteZuordnung"
+        ></yes-no-dialog>
     </v-container>
 </template>
 
@@ -46,12 +56,16 @@ import { useRouter } from "vue-router/composables";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
 import { Levels } from "@/api/error";
+import YesNoDialog from "@/components/common/YesNoDialog.vue";
 
 const snackbarStore = useSnackbarStore();
 const status = ref("DOWN");
 let schnittstelleID = useRouter().currentRoute.params.id;
 const showAddPersonDialog = ref(false);
 const zuordnungen = ref<Zuordnung[]>([]);
+const showYesNoDialog = ref(false);
+
+let zuordnungToDeleteId: string | undefined = undefined;
 
 onMounted(() => {
     HealthService.checkHealth()
@@ -62,8 +76,12 @@ onMounted(() => {
     refreshTasks();
 });
 
-function deleteZuordnung(zuordnung: Zuordnung) {
-    ZuordnungService.delete(zuordnung.id)
+function tryToDeleteZuordnung(zuordnung: Zuordnung) {
+    zuordnungToDeleteId = zuordnung.id;
+}
+
+function deleteZuordnung() {
+    ZuordnungService.delete(zuordnungToDeleteId)
         .then(() => {
             useSnackbarStore().showMessage({
                 message: "Zuordnung wurde erfolgreich gelöscht.",
@@ -76,6 +94,9 @@ function deleteZuordnung(zuordnung: Zuordnung) {
                 message: "Es gab einen Fehler beim Löschen der Zuordnung.",
                 level: Levels.ERROR,
             });
+        })
+        .finally(() => {
+            showYesNoDialog.value = false;
         });
 }
 
