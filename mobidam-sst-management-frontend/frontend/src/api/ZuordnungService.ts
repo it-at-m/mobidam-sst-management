@@ -39,7 +39,7 @@ export default class ZuordnungService {
         instanceId: string | undefined
     ): Promise<Response | void> {
         return fetch(
-            `${this.base}/api/mobidam-sst-management-backend/zuordnung/${instanceId}`,
+            `${this.base}/api/zuordnung/${instanceId}`,
             FetchUtils.getDELETEConfig()
         )
             .then()

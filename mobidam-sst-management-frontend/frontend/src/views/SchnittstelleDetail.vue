@@ -20,7 +20,12 @@
             >
                 <v-col> {{ zuordnung.userID }} </v-col>
                 <v-col>
-                    <v-icon>mdi-delete</v-icon>
+                    <v-btn
+                        small
+                        @click="deleteZuordnung(zuordnung)"
+                    >
+                        <v-icon>mdi-delete</v-icon>
+                    </v-btn>
                 </v-col>
             </v-list-item>
         </v-list>
@@ -57,6 +62,23 @@ onMounted(() => {
     refreshTasks();
 });
 
+function deleteZuordnung(zuordnung: Zuordnung) {
+    ZuordnungService.delete(zuordnung.id)
+        .then(() => {
+            useSnackbarStore().showMessage({
+                message: "Zuordnung wurde erfolgreich gelöscht.",
+                level: Levels.INFO,
+            });
+            refreshTasks();
+        })
+        .catch(() => {
+            useSnackbarStore().showMessage({
+                message: "Es gab einen Fehler beim Löschen der Zuordnung.",
+                level: Levels.ERROR,
+            });
+        });
+}
+
 function refreshTasks() {
     ZuordnungService.getZuordnungenByID(schnittstelleID)
         .then((fetchedZuordnungen) => {
@@ -64,7 +86,7 @@ function refreshTasks() {
         })
         .catch(() => {
             useSnackbarStore().showMessage({
-                message: "Es gab einen Fehler beim Laden der Aufgaben!",
+                message: "Es gab einen Fehler beim Laden der Zuordnungen!",
                 level: Levels.ERROR,
             });
         });
