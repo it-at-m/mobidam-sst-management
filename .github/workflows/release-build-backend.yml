@@ -7,9 +7,9 @@ jobs:
     name: Create docker release
     runs-on: ubuntu-latest
     steps:
-      - name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
+      - name: Git checkout to main branch # Releases are published on main branch
         uses: actions/checkout@v4
-        #with: { ref: main }
+        with: { ref: test }
 
       - name: Install Java and Maven
         uses: actions/setup-java@v3
@@ -60,9 +60,9 @@ jobs:
     name: Create github release
     runs-on: ubuntu-latest
     steps:
-      - name: Git checkout to main branch # this serves as a safeguard for workflows triggered manually
+      - name: Git checkout to main branch # Releases are published on main branch
         uses: actions/checkout@v4
-        with: { ref: main }
+        with: { ref: test }
 
       - name: Get New Project Version
         id: get-version
@@ -82,3 +82,25 @@ jobs:
           release_name: Release Backend ${{ steps.get-version.outputs.new_version }}
           draft: false
           prerelease: false
+
+  increase-snapshot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git checkout to sprint branch # Snapshots are published on sprint branch
+        uses: actions/checkout@v4
+        with: { ref: 142_DeploymentPipelines }
+
+      - name: Set Maven Project Version
+        id: set-version
+        run: |
+          current_version=$(mvn help:evaluate -f mobidam-sst-management-backend/pom.xml -Dexpression=project.version -q -DforceStdout)
+          echo "Current version: $current_version"
+          new_version=$(echo $current_version | awk -F. -v OFS=. '{$3=$3+1; print $0"-SNAPSHOT"}')
+          echo "New version: $new_version"
+          mvn -B versions:set -DnewVersion=$new_version -f mobidam-sst-management-backend/pom.xml
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add mobidam-sst-management-backend/pom.xml
+          git commit -m "Bump backend version to $new_version"
+          git push
