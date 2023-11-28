@@ -84,8 +84,9 @@ jobs:
           prerelease: false
 
   increase-snapshot:
+    needs: release
+    name: Increase patch-number of the SNAPSHOT-Version
     runs-on: ubuntu-latest
-
     steps:
       - name: Git checkout to sprint branch # Snapshots are published on sprint branch
         uses: actions/checkout@v4
