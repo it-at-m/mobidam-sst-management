@@ -1,4 +1,4 @@
-name: Build and release to dev
+name: Build and publish to dev
 
 on: [workflow_dispatch]
 

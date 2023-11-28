@@ -1,4 +1,4 @@
-name: Build and release to demo
+name: Build and publish to demo
 
 on:
   workflow_dispatch: # execute manually
