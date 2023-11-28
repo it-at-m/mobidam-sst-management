@@ -29,7 +29,7 @@
                         maxlength="255"
                     ></v-text-field>
                     <v-text-field
-                        ref="adress"
+                        ref="address"
                         v-model="newZuordnung.functionAddress"
                         label="Funktionsadresse"
                         hint="Welchem Gruppenpostfach gehört diese Person an?"
@@ -94,7 +94,7 @@
                 <v-spacer></v-spacer>
                 <v-btn
                     class="white--text"
-                    color="green"
+                    color="success"
                     @click="saveTask"
                 >
                     Speichern

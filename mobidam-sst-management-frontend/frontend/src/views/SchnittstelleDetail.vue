@@ -37,8 +37,8 @@
             @zuordnung-saved="refreshTasks"
         ></add-person-dialog>
         <yes-no-dialog
-            dialogtext="Test"
-            dialogtitle="Test Me"
+            dialogtext="Sicher, dass Du die Zuordnung löschen möchtest?"
+            dialogtitle="Zuordnung löschen"
             :value.sync="showYesNoDialog"
             @no="showYesNoDialog = false"
             @yes="deleteZuordnung"

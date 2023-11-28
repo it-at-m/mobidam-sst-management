@@ -44,7 +44,7 @@
                 </v-btn>
                 <v-btn
                     id="yesnodialog-btn-yes"
-                    color="primary"
+                    color="success"
                     @click="yes"
                 >
                     Ja

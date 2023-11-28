@@ -5,7 +5,6 @@ export default class ZuordnungService {
     private static base: string | undefined = import.meta.env
         .VITE_VUE_APP_API_URL;
     public static create(instance: Zuordnung): Promise<Zuordnung> {
-        //console.log(instance);
         return fetch(
             `${this.base}/api/zuordnung`,
             FetchUtils.getPOSTConfig(instance)
