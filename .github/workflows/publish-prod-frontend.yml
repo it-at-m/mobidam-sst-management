@@ -15,7 +15,8 @@ jobs:
     steps:
       - name: Git checkout to specific version
         uses: actions/checkout@v4
-        with: { ref: frontend-${{ github.event.inputs.version }} }
+        with:
+          ref: refs/tags/backend-${{ github.event.inputs.version }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
