@@ -18,6 +18,7 @@
                         label="Person angeben"
                         hint="Welche Person soll der
                     Schnittstelle zugewiesen werden?"
+                        :rules="textInputRules"
                     >
                     </v-text-field>
                     <v-text-field
@@ -27,6 +28,8 @@
                         hint="Welchem Fachbereich ist die betreffende Person zugeordnet?"
                         counter="255"
                         maxlength="255"
+                        minlength="1"
+                        :rules="textInputRules"
                     ></v-text-field>
                     <v-text-field
                         ref="address"
@@ -35,6 +38,8 @@
                         hint="Welchem Gruppenpostfach gehört diese Person an?"
                         counter="255"
                         maxlength="255"
+                        minlength="1"
+                        :rules="textInputRules"
                     ></v-text-field>
                     <v-row>
                         <v-col>
@@ -47,6 +52,7 @@
                                         v-model="newZuordnung.validFrom"
                                         label="Gültig ab"
                                         readonly
+                                        :rules="textInputRules"
                                         v-on="on"
                                     ></v-text-field>
                                 </template>
@@ -69,6 +75,7 @@
                                         v-model="newZuordnung.validUntil"
                                         label="Gültig bis"
                                         readonly
+                                        :rules="textInputRules"
                                         v-on="on"
                                     ></v-text-field>
                                 </template>
@@ -111,6 +118,18 @@ import { ref, reactive } from "vue";
 import ZuordnungService from "@/api/ZuordnungService";
 import { Levels } from "@/api/error";
 import { useRouter } from "vue-router/composables";
+import { useRules } from "@/composables/rules";
+
+const maxLength = 255;
+const validationRules = useRules();
+const textInputRules = [
+    validationRules.notEmptyRule("Das Feld darf nicht leer sein."),
+    validationRules.maxLengthRule(
+        maxLength,
+        "Die Eingabe darf maximal " + maxLength + " Zeichen lang sein."
+    ),
+];
+
 interface Props {
     showDialog: boolean;
 }
@@ -137,28 +156,32 @@ const form = ref<HTMLFormElement>();
 let schnittstelleID = useRouter().currentRoute.params.id;
 
 function saveTask(): void {
-    if (!form.value?.validate()) return;
-    const snackbarStore = useSnackbarStore();
-    newZuordnung.schnittstelle = schnittstelleID;
-    ZuordnungService.create(newZuordnung)
-        .then(() => {
-            closeDialog();
-            resetZuordnung();
-            emit("zuordnung-saved");
-            snackbarStore.showMessage({
-                message: "Aufgabe erfolgreich hinzugefügt!",
-                level: Levels.INFO,
-                show: true,
+    if (form.value?.validate()) {
+        const snackbarStore = useSnackbarStore();
+        newZuordnung.schnittstelle = schnittstelleID;
+        ZuordnungService.create(newZuordnung)
+            .then(() => {
+                closeDialog();
+                resetZuordnung();
+                emit("zuordnung-saved");
+                snackbarStore.showMessage({
+                    message: "Aufgabe erfolgreich hinzugefügt!",
+                    level: Levels.INFO,
+                    show: true,
+                });
+            })
+            .catch((statusCode) => {
+                //console.log("problem");
+                snackbarStore.showMessage({
+                    message: statusCode,
+                    level: Levels.ERROR,
+                    show: true,
+                });
+            })
+            .finally(() => {
+                form.value?.resetValidation();
             });
-        })
-        .catch((statusCode) => {
-            //console.log("problem");
-            snackbarStore.showMessage({
-                message: statusCode,
-                level: Levels.ERROR,
-                show: true,
-            });
-        });
+    }
 }
 
 function resetZuordnung(): void {
@@ -172,6 +195,7 @@ function resetZuordnung(): void {
 
 function closeDialog() {
     emit("update:showDialog", false);
+    form.value?.resetValidation();
 }
 </script>
 
