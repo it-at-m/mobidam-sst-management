@@ -3,14 +3,16 @@
         <h1>Schnittstelle {{ schnittstelleID }}</h1>
         Hier findet man später weitere Informationen zur Schnittstelle.
         <v-row>
-            <v-col> <h3>Zugewiesene Personen</h3></v-col>
             <v-col>
-                <v-btn
-                    small
-                    @click="showAddPersonDialog = true"
-                >
-                    <v-icon>mdi-account-plus</v-icon>
-                </v-btn>
+                <h3>
+                    Zugewiesene Personen
+                    <v-btn
+                        small
+                        @click="showAddPersonDialog = true"
+                    >
+                        <v-icon>mdi-account-plus</v-icon>
+                    </v-btn>
+                </h3>
             </v-col>
         </v-row>
         <v-list lines="two">
@@ -18,7 +20,28 @@
                 v-for="zuordnung in zuordnungen"
                 :key="zuordnung.id"
             >
-                <v-col> {{ zuordnung.userID }} </v-col>
+                <v-col>
+                    <v-icon>mdi-account</v-icon> {{ zuordnung.userID }}
+                </v-col>
+                <v-col>
+                    <v-icon>mdi-share</v-icon
+                    >{{ zuordnung.schnittstelle }}</v-col
+                >
+                <v-col>
+                    <v-icon>mdi-home</v-icon> {{ zuordnung.department }}</v-col
+                >
+                <v-col>
+                    <v-icon>mdi-email</v-icon>
+                    {{ zuordnung.functionAddress }}</v-col
+                >
+                <v-col>
+                    <v-icon>mdi-calendar-start</v-icon>
+                    {{ zuordnung.validFrom }}
+                </v-col>
+                <v-col>
+                    <v-icon>mdi-calendar-end</v-icon>
+                    {{ zuordnung.validUntil }}
+                </v-col>
                 <v-col>
                     <v-btn
                         small
