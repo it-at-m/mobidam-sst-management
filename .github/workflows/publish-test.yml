@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'sprint'
+  workflow_dispatch:
 
 jobs:
   backend-build-and-docker-push:
