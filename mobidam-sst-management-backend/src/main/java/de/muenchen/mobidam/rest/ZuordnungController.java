@@ -27,8 +27,6 @@ public class ZuordnungController {
     @Operation(summary = "Generates a zuordnung")
     @PostMapping
     public ResponseEntity<ZuordnungDTO> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
-        System.out.println("hi!!!");
-        System.out.println(zuordnungCreateDTO.getDepartment());
         return new ResponseEntity<>(zuordnungService.create(zuordnungCreateDTO), HttpStatus.OK);
     }
 

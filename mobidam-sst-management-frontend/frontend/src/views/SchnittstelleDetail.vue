@@ -24,10 +24,6 @@
                     <v-icon>mdi-account</v-icon> {{ zuordnung.userID }}
                 </v-col>
                 <v-col>
-                    <v-icon>mdi-share</v-icon
-                    >{{ zuordnung.schnittstelle }}</v-col
-                >
-                <v-col>
                     <v-icon>mdi-home</v-icon> {{ zuordnung.department }}</v-col
                 >
                 <v-col>
