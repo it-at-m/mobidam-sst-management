@@ -1,5 +1,7 @@
 import Zuordnung from "@/types/Zuordnung";
 import FetchUtils from "@/api/FetchUtils";
+import { Levels } from "@/api/error";
+import { useSnackbarStore } from "@/stores/snackbar";
 
 export default class ZuordnungService {
     private static base: string | undefined = import.meta.env
@@ -8,13 +10,22 @@ export default class ZuordnungService {
         return fetch(
             `${this.base}/api/zuordnung`,
             FetchUtils.getPOSTConfig(instance)
-        ).then((response) => {
-            FetchUtils.defaultResponseHandler(
-                response,
-                "Das Erstellen der Zuordnung ist fehlgeschlagen."
-            );
-            return response.json();
-        });
+        )
+            .then((response) => {
+                useSnackbarStore().showMessage({
+                    message: "Speichern erfolgreich.",
+                    level: Levels.SUCCESS,
+                });
+                FetchUtils.defaultResponseHandler(response);
+                return response.json();
+            })
+            .catch((err) => {
+                useSnackbarStore().showMessage({
+                    message: "Speichern der Person fehlgeschlagen.",
+                    level: Levels.ERROR,
+                });
+                FetchUtils.defaultResponseHandler(err);
+            });
     }
 
     public static getZuordnungenByID(
@@ -41,7 +52,12 @@ export default class ZuordnungService {
             `${this.base}/api/zuordnung/${instanceId}`,
             FetchUtils.getDELETEConfig()
         )
-            .then()
+            .then(() => {
+                useSnackbarStore().showMessage({
+                    message: "Löschen erfolgreich.",
+                    level: Levels.SUCCESS,
+                });
+            })
             .catch((err) => {
                 FetchUtils.defaultResponseHandler(
                     err,

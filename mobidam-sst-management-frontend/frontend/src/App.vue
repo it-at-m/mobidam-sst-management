@@ -1,5 +1,6 @@
 <template>
     <v-app>
+        <the-snackbar />
         <v-app-bar
             app
             clipped-left
@@ -57,9 +58,9 @@ import InfoService from "@/api/InfoService";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router/composables";
 import { useSnackbarStore } from "@/stores/snackbar";
+import TheSnackbar from "@/components/TheSnackbar.vue";
 
 const query = ref("");
-const appswitcherBaseUrl = ref<string | null>(null);
 
 const route = useRoute();
 const snackbarStore = useSnackbarStore();
@@ -67,13 +68,9 @@ const snackbarStore = useSnackbarStore();
 onMounted(() => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     query.value = route.params.query;
-    InfoService.getInfo()
-        .then((content: any) => {
-            appswitcherBaseUrl.value = content.appswitcher.url;
-        })
-        .catch((error) => {
-            snackbarStore.showMessage(error);
-        });
+    InfoService.getInfo().catch((error) => {
+        snackbarStore.showMessage(error);
+    });
     /* eslint-enable  @typescript-eslint/no-explicit-any */
 });
 

@@ -157,26 +157,12 @@ let schnittstelleID = useRouter().currentRoute.params.id;
 
 function saveTask(): void {
     if (form.value?.validate()) {
-        const snackbarStore = useSnackbarStore();
         newZuordnung.schnittstelle = schnittstelleID;
         ZuordnungService.create(newZuordnung)
             .then(() => {
                 closeDialog();
                 resetZuordnung();
                 emit("zuordnung-saved");
-                snackbarStore.showMessage({
-                    message: "Aufgabe erfolgreich hinzugefügt!",
-                    level: Levels.INFO,
-                    show: true,
-                });
-            })
-            .catch((statusCode) => {
-                //console.log("problem");
-                snackbarStore.showMessage({
-                    message: statusCode,
-                    level: Levels.ERROR,
-                    show: true,
-                });
             })
             .finally(() => {
                 form.value?.resetValidation();

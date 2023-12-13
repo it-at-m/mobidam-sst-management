@@ -67,7 +67,6 @@
 
 <script setup lang="ts">
 import HealthService from "@/api/HealthService";
-import HealthState from "@/types/HealthState";
 import AddPersonDialog from "@/components/AddPersonDialog.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { onMounted, ref } from "vue";
@@ -78,7 +77,6 @@ import { Levels } from "@/api/error";
 import YesNoDialog from "@/components/common/YesNoDialog.vue";
 
 const snackbarStore = useSnackbarStore();
-const status = ref("DOWN");
 let schnittstelleID = useRouter().currentRoute.params.id;
 const showAddPersonDialog = ref(false);
 const zuordnungen = ref<Zuordnung[]>([]);
@@ -87,11 +85,9 @@ const showYesNoDialog = ref(false);
 let zuordnungToDeleteId: string | undefined = undefined;
 
 onMounted(() => {
-    HealthService.checkHealth()
-        .then((content: HealthState) => (status.value = content.status))
-        .catch((error) => {
-            snackbarStore.showMessage(error);
-        });
+    HealthService.checkHealth().catch((error) => {
+        snackbarStore.showMessage(error);
+    });
     refreshTasks();
 });
 
@@ -102,17 +98,7 @@ function tryToDeleteZuordnung(zuordnung: Zuordnung) {
 function deleteZuordnung() {
     ZuordnungService.delete(zuordnungToDeleteId)
         .then(() => {
-            useSnackbarStore().showMessage({
-                message: "Zuordnung wurde erfolgreich gelöscht.",
-                level: Levels.INFO,
-            });
             refreshTasks();
-        })
-        .catch(() => {
-            useSnackbarStore().showMessage({
-                message: "Es gab einen Fehler beim Löschen der Zuordnung.",
-                level: Levels.ERROR,
-            });
         })
         .finally(() => {
             showYesNoDialog.value = false;
@@ -120,16 +106,11 @@ function deleteZuordnung() {
 }
 
 function refreshTasks() {
-    ZuordnungService.getZuordnungenByID(schnittstelleID)
-        .then((fetchedZuordnungen) => {
+    ZuordnungService.getZuordnungenByID(schnittstelleID).then(
+        (fetchedZuordnungen) => {
             zuordnungen.value = [...fetchedZuordnungen];
-        })
-        .catch(() => {
-            useSnackbarStore().showMessage({
-                message: "Es gab einen Fehler beim Laden der Zuordnungen!",
-                level: Levels.ERROR,
-            });
-        });
+        }
+    );
 }
 </script>
 
