@@ -143,7 +143,7 @@ export default class FetchUtils {
      */
     static getHeaders(): Headers {
         const headers = new Headers({
-            "Content-Type": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
         });
         const csrfCookie = this._getXSRFToken();
         if (csrfCookie !== "") {
