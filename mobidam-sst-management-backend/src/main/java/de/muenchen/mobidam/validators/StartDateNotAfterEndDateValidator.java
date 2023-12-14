@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 /**
  * Validation of a binary date correlation
- *  The start date must not be after the end date
+ * The start date must not be after the end date
  */
 public class StartDateNotAfterEndDateValidator implements ConstraintValidator<StartDateNotAfterEndDate, Object> {
     private String startDateFieldName;
