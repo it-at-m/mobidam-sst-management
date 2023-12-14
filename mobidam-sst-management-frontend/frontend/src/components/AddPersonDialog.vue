@@ -112,11 +112,9 @@
 </template>
 
 <script setup lang="ts">
-import { useSnackbarStore } from "@/stores/snackbar";
 import Zuordnung from "@/types/Zuordnung";
 import { ref, reactive } from "vue";
 import ZuordnungService from "@/api/ZuordnungService";
-import { Levels } from "@/api/error";
 import { useRouter } from "vue-router/composables";
 import { useRules } from "@/composables/rules";
 
