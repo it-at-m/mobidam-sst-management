@@ -26,7 +26,7 @@ spring:
         - id: backend
           uri: ${app.gateway.routing.backend.uri}
           predicates:
-            - Path=/api/backend-service/**
+            - Path=/api/**
           filters:
             - RewritePath=/api/backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
