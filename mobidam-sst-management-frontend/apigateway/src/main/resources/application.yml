@@ -16,6 +16,23 @@ spring:
     sleuth:
       reactor:
         instrumentation-type: decorate_on_each  # https://github.com/spring-cloud/spring-cloud-gateway/pull/2106
+  # spring cloud gateway config
+  cloud:
+    gateway:
+      routes:
+        - id: sso
+          uri: ${app.gateway.routing.sso.uri}
+          predicates:
+            - Path=/api/sso/userinfo
+          filters:
+            - RewritePath=/api/sso/userinfo, /auth/realms/${app.gateway.security.keycloak.realm}/protocol/openid-connect/userinfo
+        - id: backend
+          uri: ${app.gateway.routing.backend.uri}
+          predicates:
+            - Path=/api/backend-service/**
+          filters:
+            - RewritePath=/api/backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
 
 server:
   port: 8082
