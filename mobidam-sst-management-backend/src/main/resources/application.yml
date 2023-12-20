@@ -1,15 +1,7 @@
 spring:
   application.name: @project.artifactId@
   banner.location: banner.txt
-  datasource:
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    database: postgresql
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+
 server:
   shutdown: "graceful"
   port: 39146
