@@ -174,11 +174,8 @@ function closeDialog() {
 }
 </script>
 
-<style scoped>
-.divider {
-    background-color: #395b64;
-}
-.title-content {
-    margin-right: 8%;
-}
+<style>
+
+@import "@/style/AddDialog.css";
+
 </style>
