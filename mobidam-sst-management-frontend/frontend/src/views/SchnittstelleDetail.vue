@@ -73,7 +73,6 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router/composables";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
-import { Levels } from "@/api/error";
 import YesNoDialog from "@/components/common/YesNoDialog.vue";
 
 const snackbarStore = useSnackbarStore();

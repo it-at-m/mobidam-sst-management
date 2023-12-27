@@ -14,7 +14,7 @@
                 <v-form ref="form">
                     <v-text-field
                         ref="person"
-                        v-model="newZuordnung.userID"
+                        v-model="zuordnung.userID"
                         label="Person angeben"
                         hint="Welche Person soll der
                     Schnittstelle zugewiesen werden?"
@@ -23,7 +23,7 @@
                     </v-text-field>
                     <v-text-field
                         ref="department"
-                        v-model="newZuordnung.department"
+                        v-model="zuordnung.department"
                         label="Fachbereich"
                         hint="Welchem Fachbereich ist die betreffende Person zugeordnet?"
                         :counter="textMaxLength"
@@ -33,7 +33,7 @@
                     ></v-text-field>
                     <v-text-field
                         ref="address"
-                        v-model="newZuordnung.functionAddress"
+                        v-model="zuordnung.functionAddress"
                         label="Funktionsadresse"
                         hint="Welchem Gruppenpostfach gehört diese Person an?"
                         :counter="textMaxLength"
@@ -49,7 +49,7 @@
                             >
                                 <template #activator="{ on }">
                                     <v-text-field
-                                        v-model="newZuordnung.validFrom"
+                                        v-model="zuordnung.validFrom"
                                         label="Gültig ab"
                                         readonly
                                         :rules="textInputRules"
@@ -57,7 +57,7 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                    v-model="newZuordnung.validFrom"
+                                    v-model="zuordnung.validFrom"
                                     color="primary"
                                     header-color="primary"
                                     :first-day-of-week="1"
@@ -72,7 +72,7 @@
                             >
                                 <template #activator="{ on }">
                                     <v-text-field
-                                        v-model="newZuordnung.validUntil"
+                                        v-model="zuordnung.validUntil"
                                         label="Gültig bis"
                                         readonly
                                         :rules="textInputRules"
@@ -80,7 +80,7 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                    v-model="newZuordnung.validUntil"
+                                    v-model="zuordnung.validUntil"
                                     color="primary"
                                     header-color="primary"
                                     :first-day-of-week="1"
@@ -113,7 +113,7 @@
 
 <script setup lang="ts">
 import Zuordnung from "@/types/Zuordnung";
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import ZuordnungService from "@/api/ZuordnungService";
 import { useRouter } from "vue-router/composables";
 import { useRules } from "@/composables/rules";
@@ -138,14 +138,7 @@ const props = withDefaults(defineProps<Props>(), {
     showDialog: false,
 });
 
-const newZuordnung: Zuordnung = reactive({
-    schnittstelle: "",
-    userID: "",
-    department: "",
-    functionAddress: "",
-    validFrom: "",
-    validUntil: "",
-});
+const zuordnung = ref<Zuordnung>(new Zuordnung("", "", "", "", "", ""));
 
 const emit = defineEmits<{
     (e: "update:showDialog", b: boolean): void;
@@ -157,8 +150,8 @@ let schnittstelleID = useRouter().currentRoute.params.id;
 
 function saveTask(): void {
     if (form.value?.validate()) {
-        newZuordnung.schnittstelle = schnittstelleID;
-        ZuordnungService.create(newZuordnung)
+        zuordnung.value.schnittstelle = schnittstelleID;
+        ZuordnungService.create(zuordnung.value)
             .then(() => {
                 closeDialog();
                 resetZuordnung();
@@ -171,12 +164,8 @@ function saveTask(): void {
 }
 
 function resetZuordnung(): void {
-    newZuordnung.schnittstelle = "";
-    newZuordnung.userID = "";
-    newZuordnung.department = "";
-    newZuordnung.functionAddress = "";
-    newZuordnung.validFrom = "";
-    newZuordnung.validUntil = "";
+  zuordnung.value = new Zuordnung("", "", "", "", "", "");
+  form.value?.resetValidation();
 }
 
 function closeDialog() {
