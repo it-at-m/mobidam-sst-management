@@ -73,9 +73,3 @@ info.application.version: @project.version@
 info.appswitcher.url: https://appswitcher.muenchen.de
 
 config.map5xxto400: false
-
-app:
-  gateway:
-    routing:
-      backend:
-        uri: http://localhost:39146/
