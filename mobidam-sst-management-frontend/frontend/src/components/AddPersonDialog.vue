@@ -26,9 +26,9 @@
                         v-model="newZuordnung.department"
                         label="Fachbereich"
                         hint="Welchem Fachbereich ist die betreffende Person zugeordnet?"
-                        counter="255"
-                        maxlength="255"
-                        minlength="1"
+                        :counter="textMaxLength"
+                        :maxlength="textMaxLength"
+                        :minlength="textMinLength"
                         :rules="textInputRules"
                     ></v-text-field>
                     <v-text-field
@@ -36,9 +36,9 @@
                         v-model="newZuordnung.functionAddress"
                         label="Funktionsadresse"
                         hint="Welchem Gruppenpostfach gehört diese Person an?"
-                        counter="255"
-                        maxlength="255"
-                        minlength="1"
+                        :counter="textMaxLength"
+                        :maxlength="textMaxLength"
+                        :minlength="textMinLength"
                         :rules="textInputRules"
                     ></v-text-field>
                     <v-row>
@@ -61,7 +61,7 @@
                                     color="primary"
                                     header-color="primary"
                                     :first-day-of-week="1"
-                                    :min="new Date().toISOString()"
+                                    :min="today"
                                 ></v-date-picker>
                             </v-menu>
                         </v-col>
@@ -84,7 +84,7 @@
                                     color="primary"
                                     header-color="primary"
                                     :first-day-of-week="1"
-                                    :min="new Date().toISOString()"
+                                    :min="today"
                                 ></v-date-picker>
                             </v-menu>
                         </v-col>
@@ -118,13 +118,15 @@ import ZuordnungService from "@/api/ZuordnungService";
 import { useRouter } from "vue-router/composables";
 import { useRules } from "@/composables/rules";
 
-const maxLength = 255;
+const textMaxLength = ref<number>(255);
+const textMinLength = ref<number>(1);
+const today = ref<string>(new Date().toISOString());
 const validationRules = useRules();
 const textInputRules = [
     validationRules.notEmptyRule("Das Feld darf nicht leer sein."),
     validationRules.maxLengthRule(
-        maxLength,
-        "Die Eingabe darf maximal " + maxLength + " Zeichen lang sein."
+        textMaxLength.value,
+        "Die Eingabe darf maximal " + textMaxLength + " Zeichen lang sein."
     ),
 ];
 
