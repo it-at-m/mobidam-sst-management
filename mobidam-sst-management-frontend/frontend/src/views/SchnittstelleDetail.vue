@@ -53,6 +53,7 @@
         </v-list>
         <add-person-dialog
             :show-dialog.sync="showAddPersonDialog"
+            :schnittstelle-i-d="schnittstelleID"
             @zuordnung-saved="refreshTasks"
         ></add-person-dialog>
         <yes-no-dialog

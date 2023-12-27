@@ -115,7 +115,6 @@
 import Zuordnung from "@/types/Zuordnung";
 import { ref } from "vue";
 import ZuordnungService from "@/api/ZuordnungService";
-import { useRouter } from "vue-router/composables";
 import { useRules } from "@/composables/rules";
 
 const textMaxLength = ref<number>(255);
@@ -132,6 +131,7 @@ const textInputRules = [
 
 interface Props {
     showDialog: boolean;
+    schnittstelleID: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -146,11 +146,10 @@ const emit = defineEmits<{
 }>();
 
 const form = ref<HTMLFormElement>();
-let schnittstelleID = useRouter().currentRoute.params.id;
 
 function saveTask(): void {
     if (form.value?.validate()) {
-        zuordnung.value.schnittstelle = schnittstelleID;
+        zuordnung.value.schnittstelle = props.schnittstelleID;
         ZuordnungService.create(zuordnung.value)
             .then(() => {
                 closeDialog();
