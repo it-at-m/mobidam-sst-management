@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    include:
-      - routing
   application.name: @project.artifactId@
   banner.location: banner.txt
   main:
