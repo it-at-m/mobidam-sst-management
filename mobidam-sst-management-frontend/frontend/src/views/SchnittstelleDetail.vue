@@ -5,9 +5,10 @@
         <v-row>
             <v-col>
                 <h3>
-                    Zugewiesene Personen
+                    Zugewiesene Personen &nbsp;
                     <v-btn
                         small
+                        outlined
                         @click="showAddPersonDialog = true"
                     >
                         <v-icon>mdi-account-plus</v-icon>

@@ -6,6 +6,6 @@ export default class Zuordnung {
         public functionAddress: string,
         public validFrom: string,
         public validUntil: string,
-        public id?: string,
+        public id?: string
     ) {}
 }

@@ -41,6 +41,7 @@
                         :minlength="textMinLength"
                         :rules="textInputRules"
                     ></v-text-field>
+                    &nbsp;
                     <v-row>
                         <v-col>
                             <v-menu
@@ -52,6 +53,7 @@
                                         v-model="zuordnung.validFrom"
                                         label="Gültig ab"
                                         readonly
+                                        outlined
                                         :rules="textInputRules"
                                         v-on="on"
                                     ></v-text-field>
@@ -62,6 +64,7 @@
                                     header-color="primary"
                                     :first-day-of-week="1"
                                     :min="today"
+                                    locale="de"
                                 ></v-date-picker>
                             </v-menu>
                         </v-col>
@@ -75,6 +78,7 @@
                                         v-model="zuordnung.validUntil"
                                         label="Gültig bis"
                                         readonly
+                                        outlined
                                         :rules="textInputRules"
                                         v-on="on"
                                     ></v-text-field>
@@ -85,6 +89,7 @@
                                     header-color="primary"
                                     :first-day-of-week="1"
                                     :min="today"
+                                    locale="de"
                                 ></v-date-picker>
                             </v-menu>
                         </v-col>
@@ -93,11 +98,7 @@
             </v-card-text>
             <v-divider class="divider"></v-divider>
             <v-card-actions>
-                <v-btn
-                    text
-                    @click="closeDialog"
-                    >Schließen</v-btn
-                >
+                <v-btn @click="closeDialog">Schließen</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                     class="white--text"
@@ -163,8 +164,8 @@ function saveTask(): void {
 }
 
 function resetZuordnung(): void {
-  zuordnung.value = new Zuordnung("", "", "", "", "", "");
-  form.value?.resetValidation();
+    zuordnung.value = new Zuordnung("", "", "", "", "", "");
+    form.value?.resetValidation();
 }
 
 function closeDialog() {
@@ -174,7 +175,5 @@ function closeDialog() {
 </script>
 
 <style>
-
 @import "@/style/AddDialog.css";
-
 </style>
