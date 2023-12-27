@@ -31,3 +31,5 @@ app:
     routing:
       backend:
         uri: http://localhost:39146/
+      sso:
+        uri: http://kubernetes.docker.internal:8100/

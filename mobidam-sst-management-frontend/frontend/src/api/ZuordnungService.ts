@@ -35,7 +35,7 @@ export default class ZuordnungService {
             `${this.base}/api/zuordnung/bySchnittstelle/${instanceId}`,
             FetchUtils.getGETConfig()
         ).then((response) => {
-            if (response.status != 502) {
+            if (response.status == 502) {
                 FetchUtils.defaultResponseHandler(
                     response,
                     "Die Zuordnung konnte nicht geladen werden."
