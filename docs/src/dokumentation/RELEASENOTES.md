@@ -12,4 +12,4 @@
 ### Hinzugefügt
 - Frontend auf Mobidam angepasst
 - Dummy-Frontend: Schnittstellen Detail-View
-- Zuordnung und anzeigen von Personen im Frontend
+- Zuordnung (Erstellung), Anzeigen und Löschen von Personen zu Schnittstellen in der UI
