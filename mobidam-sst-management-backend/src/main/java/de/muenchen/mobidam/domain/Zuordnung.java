@@ -1,8 +1,11 @@
 package de.muenchen.mobidam.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.muenchen.mobidam.annotations.StartDateNotAfterEndDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -25,9 +28,12 @@ import lombok.ToString;
 @StartDateNotAfterEndDate(startDate = "getValidFrom", endDate = "getValidUntil", message = "Das Startdatum muss vor dem Enddatum liegen.")
 public class Zuordnung extends BaseEntity {
 
-    @Column(nullable = false)
     @NotEmpty
-    private String schnittstelle;
+    @ManyToOne
+    @JoinColumn(name = "schnittstelle_id")
+    @NotNull
+    @JsonIgnoreProperties({"zuordnungen"})
+    private Schnittstelle schnittstelle;
 
     @Column(nullable = false)
     @NotEmpty
