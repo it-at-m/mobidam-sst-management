@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/api/zuordnung")
+@RequestMapping(value = "/zuordnung")
 public class ZuordnungController {
     private final ZuordnungService zuordnungService;
     private final ZuordnungMapper zuordnungMapper;
