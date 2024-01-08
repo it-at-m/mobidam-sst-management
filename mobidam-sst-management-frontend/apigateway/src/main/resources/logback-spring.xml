@@ -58,7 +58,7 @@
     </springProfile>
 
 
-    <springProfile name="dev,kon,prod">
+    <springProfile name="dev,kon,prod,openshift">
 
         <!-- Log appender -->
         <appender name="JSON_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
