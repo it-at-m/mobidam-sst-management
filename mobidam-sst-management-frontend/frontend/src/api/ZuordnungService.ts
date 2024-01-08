@@ -7,8 +7,9 @@ export default class ZuordnungService {
     private static base: string | undefined = import.meta.env
         .VITE_VUE_APP_API_URL;
     public static create(instance: Zuordnung): Promise<Zuordnung> {
+        console.log("fetch " + this.base + "/api/mobidam-backend-service/zuordnung")
         return fetch(
-            `${this.base}/api/zuordnung`,
+            `${this.base}/api/mobidam-backend-service/zuordnung`,
             FetchUtils.getPOSTConfig(instance)
         )
             .then((response) => {

@@ -26,9 +26,9 @@ spring:
         - id: backend
           uri: ${app.gateway.routing.backend.uri}
           predicates:
-            - Path=/api/**
+            - Path=/api/mobidam-backend-service/**
           filters:
-            - RewritePath=/api/backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RewritePath=/api/mobidam-backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
 server:
