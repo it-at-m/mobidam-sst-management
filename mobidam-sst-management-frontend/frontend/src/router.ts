@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Main from "./views/MainView.vue";
-import GetStarted from "./views/GetStarted.vue";
 import { ROUTER_BASE } from "@/Constants";
+import SchnittstelleDetail from "@/views/SchnittstelleDetail.vue";
 
 Vue.use(Router);
 
@@ -37,9 +37,9 @@ export default new Router({
             meta: {},
         },
         {
-            path: "/getstarted",
-            name: "getstarted",
-            component: GetStarted,
+            path: "/schnittstelleDetailView/:id",
+            name: "schnittstelleDetail",
+            component: SchnittstelleDetail,
         },
         { path: "*", redirect: "/" }, //Fallback 2
     ],
