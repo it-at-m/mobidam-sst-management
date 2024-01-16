@@ -31,7 +31,7 @@ public class Zuordnung extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "schnittstelle_id")
     @NotNull
-    @JsonIgnoreProperties({"zuordnungen"})
+    @JsonIgnoreProperties({ "zuordnungen" })
     private Schnittstelle schnittstelle;
 
     @Column(nullable = false)

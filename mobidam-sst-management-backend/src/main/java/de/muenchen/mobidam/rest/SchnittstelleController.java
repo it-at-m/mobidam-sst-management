@@ -38,7 +38,7 @@ public class SchnittstelleController {
     @Operation(summary = "Updates the schnittstelle")
     @PutMapping("/update")
     public ResponseEntity<?> update(@Valid @RequestBody SchnittstelleDTO schnittstelleDTO) {
-        if(schnittstelleService.exists(schnittstelleDTO))
+        if (schnittstelleService.exists(schnittstelleDTO))
             return new ResponseEntity<>(schnittstelleService.update(schnittstelleDTO), HttpStatus.OK);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schnittstelle doesn't exist");
     }

@@ -7,7 +7,6 @@ import de.muenchen.mobidam.domain.dtos.ZuordnungDTO;
 import de.muenchen.mobidam.domain.mappers.ZuordnungMapper;
 import de.muenchen.mobidam.repository.SchnittstelleRepository;
 import de.muenchen.mobidam.repository.ZuordnungRepository;
-
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
