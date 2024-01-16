@@ -4,7 +4,9 @@
  */
 package de.muenchen.mobidam.rest;
 
+import de.muenchen.mobidam.domain.Schnittstelle;
 import de.muenchen.mobidam.domain.Zuordnung;
+import de.muenchen.mobidam.domain.enums.SchnittstellenStatus;
 import de.muenchen.mobidam.repository.ZuordnungRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,12 @@ class ZuordnungRepositoryTest {
 
         // initialize
         Zuordnung original = new Zuordnung();
-        original.setSchnittstelle("test");
+        Schnittstelle schnittstelle = new Schnittstelle();
+        schnittstelle.setName("test");
+        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
+        schnittstelle.setId(UUID.randomUUID());
+        original.setSchnittstelle(schnittstelle);
         original.setUserID(UUID.randomUUID().toString());
         original.setDepartment("dep");
         original.setFunctionAddress("adr");

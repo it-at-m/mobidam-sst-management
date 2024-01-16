@@ -22,6 +22,10 @@ public class SchnittstelleService {
         return schnittstelleMapper.toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntity(schnittstelleCreateDTO)));
     }
 
+    public boolean exists(SchnittstelleDTO schnittstelleDTO){
+        return schnittstelleRepository.existsById(schnittstelleDTO.getId());
+    }
+
     public Iterable<SchnittstelleDTO> getAll(){
         List<SchnittstelleDTO> dtos = new ArrayList<>();
         schnittstelleRepository.findAll().forEach(schnittstelle -> dtos.add(schnittstelleMapper.toDTO(schnittstelle)));

@@ -20,7 +20,7 @@ public class ZuordnungDTO {
     @NotNull
     private UUID id;
     @NotNull
-    private String schnittstelle;
+    private UUID schnittstelle;
     @NotNull
     private String userID;
     @NotNull

@@ -3,6 +3,8 @@ package de.muenchen.mobidam.domain.dtos;
 import de.muenchen.mobidam.annotations.StartDateNotAfterEndDate;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.UUID;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +22,7 @@ import lombok.ToString;
 public class ZuordnungCreateDTO {
 
     @NotNull
-    private String schnittstelle;
+    private UUID schnittstelle;
     @NotNull
     private String userID;
     @NotNull

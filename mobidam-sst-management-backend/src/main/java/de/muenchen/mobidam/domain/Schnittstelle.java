@@ -4,6 +4,7 @@ import de.muenchen.mobidam.domain.enums.SchnittstellenStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ public class Schnittstelle extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    @NotEmpty
+    @NotNull
     @FutureOrPresent
     private LocalDate creationDate;
 
@@ -32,7 +33,7 @@ public class Schnittstelle extends BaseEntity {
     private LocalDate editDate;
 
     @Column(nullable = false)
-    @NotEmpty
+    @NotNull
     @Enumerated(EnumType.STRING)
     private SchnittstellenStatus status;
 

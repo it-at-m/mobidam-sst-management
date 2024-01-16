@@ -28,7 +28,6 @@ import lombok.ToString;
 @StartDateNotAfterEndDate(startDate = "getValidFrom", endDate = "getValidUntil", message = "Das Startdatum muss vor dem Enddatum liegen.")
 public class Zuordnung extends BaseEntity {
 
-    @NotEmpty
     @ManyToOne
     @JoinColumn(name = "schnittstelle_id")
     @NotNull

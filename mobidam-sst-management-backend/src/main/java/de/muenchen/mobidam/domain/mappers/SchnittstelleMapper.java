@@ -12,9 +12,10 @@ public interface SchnittstelleMapper {
     SchnittstelleDTO toDTO(Schnittstelle schnittstelle);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "status", source = "status.text")
+    @Mapping(target = "zuordnungen", ignore = true)
     Schnittstelle toEntity(SchnittstelleCreateDTO schnittstelleCreateDTO);
 
+    @Mapping(target = "zuordnungen", ignore = true)
     Schnittstelle toEntityWithId(SchnittstelleDTO schnittstelleDTO);
 
 }
