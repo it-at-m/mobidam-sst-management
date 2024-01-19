@@ -9,10 +9,17 @@ import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller of operations on zuordnungen
@@ -26,8 +33,11 @@ public class ZuordnungController {
 
     @Operation(summary = "Generates a zuordnung")
     @PostMapping
-    public ResponseEntity<ZuordnungDTO> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
-        return new ResponseEntity<>(zuordnungService.create(zuordnungCreateDTO), HttpStatus.OK);
+    public ResponseEntity<?> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
+        Optional<ZuordnungDTO> zuordnungDTO = zuordnungService.create(zuordnungCreateDTO);
+        if (zuordnungDTO.isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given Schnittstelle for this Zuordnung doesn't exist.");
+        return new ResponseEntity<>(zuordnungDTO.get(), HttpStatus.OK);
     }
 
     @Operation(summary = "Returns the list of all zuordnungen of a schnittstelle")
