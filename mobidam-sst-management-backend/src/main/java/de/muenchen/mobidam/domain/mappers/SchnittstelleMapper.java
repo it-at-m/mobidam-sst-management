@@ -3,6 +3,7 @@ package de.muenchen.mobidam.domain.mappers;
 import de.muenchen.mobidam.domain.Schnittstelle;
 import de.muenchen.mobidam.domain.dtos.SchnittstelleCreateDTO;
 import de.muenchen.mobidam.domain.dtos.SchnittstelleDTO;
+import java.time.LocalDate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -13,7 +14,9 @@ public interface SchnittstelleMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "zuordnungen", ignore = true)
-    Schnittstelle toEntity(SchnittstelleCreateDTO schnittstelleCreateDTO);
+    @Mapping(target = "creationDate", source = "creationDate")
+    @Mapping(target = "editDate", ignore = true)
+    Schnittstelle toEntity(SchnittstelleCreateDTO schnittstelleCreateDTO, LocalDate creationDate);
 
     @Mapping(target = "zuordnungen", ignore = true)
     Schnittstelle toEntityWithId(SchnittstelleDTO schnittstelleDTO);

@@ -5,6 +5,7 @@ import de.muenchen.mobidam.domain.dtos.SchnittstelleDTO;
 import de.muenchen.mobidam.service.SchnittstelleService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class SchnittstelleController {
 
     private final SchnittstelleService schnittstelleService;
 
-    @Operation(summary = "Generates schnittstelle")
+    @Operation(summary = "Creates schnittstelle")
     @PostMapping
     public ResponseEntity<SchnittstelleDTO> create(@Valid @RequestBody SchnittstelleCreateDTO schnittstelleCreateDTO) {
         return new ResponseEntity<>(schnittstelleService.create(schnittstelleCreateDTO), HttpStatus.OK);
@@ -38,8 +39,9 @@ public class SchnittstelleController {
     @Operation(summary = "Updates the schnittstelle")
     @PutMapping("/update")
     public ResponseEntity<?> update(@Valid @RequestBody SchnittstelleDTO schnittstelleDTO) {
-        if (schnittstelleService.exists(schnittstelleDTO))
-            return new ResponseEntity<>(schnittstelleService.update(schnittstelleDTO), HttpStatus.OK);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schnittstelle doesn't exist");
+        Optional<SchnittstelleDTO> updatedSchnittstelleDTO = schnittstelleService.update(schnittstelleDTO);
+        if (updatedSchnittstelleDTO.isPresent())
+            return new ResponseEntity<>(updatedSchnittstelleDTO.get(), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
