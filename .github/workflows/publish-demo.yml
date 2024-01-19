@@ -25,7 +25,7 @@ jobs:
       - name: Get number of weeks passed
         id: get-number-of-weeks
         run: | # 604800 is 1 week in seconds
-          num_weeks_mod_sprint=$(((${{ steps.calculate-time-passed.outputs.time_passed }}%${{ env.SPRINT_LENGTH_IN_WEEKS }})/604800))
+          num_weeks_mod_sprint=$(((${{ steps.calculate-time-passed.outputs.time_passed }}/604800)%${{ env.SPRINT_LENGTH_IN_WEEKS }}))
           echo "::set-output name=num_weeks_mod_sprint::$num_weeks_mod_sprint"
 
       - name: Check if job should be run # the automatically triggered actions should only be executed at the end of a sprint
@@ -84,7 +84,7 @@ jobs:
       - name: Get number of weeks passed
         id: get-number-of-weeks
         run: | # 604800 is 1 week in seconds
-          num_weeks_mod_sprint=$(((${{ steps.calculate-time-passed.outputs.time_passed }}%${{ env.SPRINT_LENGTH_IN_WEEKS }})/604800))
+          num_weeks_mod_sprint=$(((${{ steps.calculate-time-passed.outputs.time_passed }}/604800)%${{ env.SPRINT_LENGTH_IN_WEEKS }}))
           echo "::set-output name=num_weeks_mod_sprint::$num_weeks_mod_sprint"
 
       - name: Check if job should be run # the automatically triggered actions should only be executed at the end of a sprint
