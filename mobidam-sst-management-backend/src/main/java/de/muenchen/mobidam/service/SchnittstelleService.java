@@ -23,7 +23,7 @@ public class SchnittstelleService {
         return schnittstelleMapper.toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntity(schnittstelleCreateDTO, LocalDate.now())));
     }
 
-    public boolean exists(SchnittstelleDTO schnittstelleDTO) {
+    private boolean exists(SchnittstelleDTO schnittstelleDTO) {
         return schnittstelleRepository.existsById(schnittstelleDTO.getId());
     }
 
@@ -45,8 +45,10 @@ public class SchnittstelleService {
     }
 
     public Optional<SchnittstelleDTO> update(SchnittstelleDTO schnittstelleDTO) {
-        if (this.exists(schnittstelleDTO))
+        if (this.exists(schnittstelleDTO)) {
+            schnittstelleDTO.setEditDate(LocalDate.now());
             return Optional.of(schnittstelleMapper.toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntityWithId(schnittstelleDTO))));
+        }
         return Optional.empty();
     }
 
