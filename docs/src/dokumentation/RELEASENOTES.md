@@ -1,6 +1,8 @@
 # Release-Notes
 
-## Version 1.0 - 21.11.23
+## Sprint 5 (09.01.2024 - 23.01.2024)
+
+## Sprint 4 (12.12.2023 - 09.01.2024)
 
 ### Hinzugefügt
 - Tabelle Zuordnung mit `Put`, `Delete`, `GetAll(schnittstellenID)`
@@ -8,7 +10,7 @@
 
 ### Verbessert
 
-## Version 2.0 - 14.12.23
+## Sprint 3 (21.11.2023 - 12.12.2023)
 ### Hinzugefügt
 - Frontend auf Mobidam angepasst
 - Dummy-Frontend: Schnittstellen Detail-View
