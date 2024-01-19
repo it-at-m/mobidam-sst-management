@@ -8,27 +8,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * Data Transfare Object for zuordnungen
- */
 @Getter
 @Setter
 @ToString(callSuper = true)
 @NoArgsConstructor
-public class ZuordnungDTO {
+public class SchnittstelleDTO {
 
     @NotNull
     private UUID id;
+
     @NotNull
-    private UUID schnittstelle;
+    private String name;
+
     @NotNull
-    private String userID;
-    @NotNull
-    private String department;
-    @NotNull
-    private String functionAddress;
-    @NotNull
-    private LocalDate validFrom;
-    @NotNull
-    private LocalDate validUntil;
+    private LocalDate creationDate;
+
+    private LocalDate editDate;
+
+    private String status;
+    private String explanation;
+
 }
