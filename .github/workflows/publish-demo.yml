@@ -5,6 +5,9 @@ on:
   schedule: # it's important that the hour in the cron-job is after the hour of project_start_date in step calculate-time-passed
     - cron: '0 13 * * 6' # execute automatically every Saturday at 13:00, change!! day of week if needed
 
+env:
+  SPRINT_LENGTH_IN_WEEKS: 3
+
 jobs:
   backend-build-and-docker-push:
     runs-on: ubuntu-latest
@@ -22,11 +25,11 @@ jobs:
       - name: Get number of weeks passed
         id: get-number-of-weeks
         run: | # 604800 is 1 week in seconds
-          number_of_weeks=$(((${{ steps.calculate-time-passed.outputs.time_passed }}%3)/604800)) # replace the 3 with the length of one sprint or the desired period duration
-          echo "::set-output name=number_of_weeks::$number_of_weeks"
+          num_weeks_mod_sprint=$(((${{ steps.calculate-time-passed.outputs.time_passed }}%${{ env.SPRINT_LENGTH_IN_WEEKS }})/604800))
+          echo "::set-output name=num_weeks_mod_sprint::$num_weeks_mod_sprint"
 
-      - name: Check if job should be run # the automatically triggered actions should only be executed every third week
-        if: github.event_name != 'workflow_dispatch' && steps.get-number-of-weeks.outputs.number_of_weeks != 0
+      - name: Check if job should be run # the automatically triggered actions should only be executed at the end of a sprint
+        if: github.event_name != 'workflow_dispatch' && steps.get-number-of-weeks.outputs.num_weeks_mod_sprint != 0
         run: | # canceling the job if the conditions weren't met, https://stackoverflow.com/a/75809743
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
@@ -81,11 +84,11 @@ jobs:
       - name: Get number of weeks passed
         id: get-number-of-weeks
         run: | # 604800 is 1 week in seconds
-          number_of_weeks=$((${{ steps.calculate-time-passed.outputs.time_passed }}/604800))
-          echo "::set-output name=number_of_weeks::$number_of_weeks"
+          num_weeks_mod_sprint=$(((${{ steps.calculate-time-passed.outputs.time_passed }}%${{ env.SPRINT_LENGTH_IN_WEEKS }})/604800))
+          echo "::set-output name=num_weeks_mod_sprint::$num_weeks_mod_sprint"
 
-      - name: Check if job should be run # the automatically triggered actions should only be executed every third week
-        if: github.event_name != 'workflow_dispatch' && steps.get-number-of-weeks.outputs.number_of_weeks != 3 # change!! the period duration by changing the number of weeks to pass
+      - name: Check if job should be run # the automatically triggered actions should only be executed at the end of a sprint
+        if: github.event_name != 'workflow_dispatch' && steps.get-number-of-weeks.outputs.num_weeks_mod_sprint != 0
         run: | # canceling the job if the conditions weren't met, https://stackoverflow.com/a/75809743
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
