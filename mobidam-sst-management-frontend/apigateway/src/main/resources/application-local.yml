@@ -1,0 +1,19 @@
+server:
+  port: 8082
+spring:
+  # spring cloud gateway config
+  cloud:
+    gateway:
+      actuator:
+        verbose:
+          enabled: false
+  mvc:
+    log-request-details: on
+
+app:
+  gateway:
+    routing:
+      backend:
+        uri: http://localhost:39146/
+      sso:
+        uri: http://kubernetes.docker.internal:8100/

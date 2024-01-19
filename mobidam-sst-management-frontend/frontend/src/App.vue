@@ -7,39 +7,29 @@
             dark
             color="primary"
         >
+            <v-col
+                cols="4"
+                class="d-flex align-center justify-start"
+            >
+                <v-toolbar-title class="font-weight-bold">
+                    <span class="white--text">MobidaM</span>
+                </v-toolbar-title>
+            </v-col>
             <v-row align="center">
-                <v-col
-                    cols="3"
-                    class="d-flex align-center justify-start"
-                >
-                    <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-                    <router-link to="/">
-                        <v-toolbar-title class="font-weight-bold">
-                            <span class="white--text">RefArch-</span>
-                            <span class="secondary--text">Kick</span>
-                            <span class="white--text">Starter</span>
-                        </v-toolbar-title>
-                    </router-link>
-                </v-col>
                 <v-col
                     cols="6"
                     class="d-flex align-center justify-center"
                 >
-                    <v-text-field
-                        id="suchfeld"
-                        v-model="query"
-                        flat
-                        solo-inverted
-                        hide-details
-                        label="Suche"
-                        clearable
-                        prepend-inner-icon="mdi-magnify"
-                        color="black"
-                        @keyup.enter="search"
-                    />
+                    <v-img
+                        class="my-3"
+                        :src="require('./assets/logo.png')"
+                        max-height="60"
+                        max-width="100"
+                        contain
+                    ></v-img>
                 </v-col>
                 <v-col
-                    cols="3"
+                    cols="6"
                     class="d-flex align-center justify-end"
                 >
                     <v-btn
@@ -53,19 +43,6 @@
                 </v-col>
             </v-row>
         </v-app-bar>
-        <v-navigation-drawer
-            v-model="drawer"
-            app
-            clipped
-        >
-            <v-list>
-                <v-list-item :to="{ path: '/getstarted' }">
-                    <v-list-item-content>
-                        <v-list-item-title>Get started</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
         <v-main>
             <v-container fluid>
                 <v-fade-transition mode="out-in">
@@ -81,10 +58,9 @@ import InfoService from "@/api/InfoService";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router/composables";
 import { useSnackbarStore } from "@/stores/snackbar";
+import TheSnackbar from "@/components/TheSnackbar.vue";
 
-const drawer = ref(true);
 const query = ref("");
-const appswitcherBaseUrl = ref<string | null>(null);
 
 const route = useRoute();
 const snackbarStore = useSnackbarStore();
@@ -92,13 +68,9 @@ const snackbarStore = useSnackbarStore();
 onMounted(() => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     query.value = route.params.query;
-    InfoService.getInfo()
-        .then((content: any) => {
-            appswitcherBaseUrl.value = content.appswitcher.url;
-        })
-        .catch((error) => {
-            snackbarStore.showMessage(error);
-        });
+    InfoService.getInfo().catch((error) => {
+        snackbarStore.showMessage(error);
+    });
     /* eslint-enable  @typescript-eslint/no-explicit-any */
 });
 
@@ -110,15 +82,6 @@ watch(
         }
     }
 );
-
-//Navigiert zur Seite mit den Suchergebnissen und sendet ein Event zum Auslösen weiterer Suchen.
-async function search(): Promise<void> {
-    if (query.value !== "" && query.value !== null) {
-        snackbarStore.showMessage({
-            message: "Sie haben nach " + query.value + " gesucht. ;)",
-        });
-    }
-}
 </script>
 
 <style>

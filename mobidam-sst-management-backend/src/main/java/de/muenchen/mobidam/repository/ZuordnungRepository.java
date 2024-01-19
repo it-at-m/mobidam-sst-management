@@ -16,5 +16,5 @@ public interface ZuordnungRepository extends CrudRepository<Zuordnung, UUID> {
      * @param schnittstelle Identifier of the specific schnittstelle
      * @return list of zuordnungen
      */
-    List<Zuordnung> findZuordnungsBySchnittstelle(String schnittstelle);
+    List<Zuordnung> findZuordnungsBySchnittstelleId(UUID schnittstelle);
 }

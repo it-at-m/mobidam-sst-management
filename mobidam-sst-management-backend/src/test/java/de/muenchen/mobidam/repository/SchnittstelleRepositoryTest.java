@@ -2,10 +2,10 @@
  * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
  * der Landeshauptstadt München, 2023
  */
-package de.muenchen.mobidam.rest;
+package de.muenchen.mobidam.repository;
 
-import de.muenchen.mobidam.domain.Zuordnung;
-import de.muenchen.mobidam.repository.ZuordnungRepository;
+import de.muenchen.mobidam.domain.Schnittstelle;
+import de.muenchen.mobidam.domain.enums.SchnittstellenStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,31 +31,29 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
         }
 )
 @ActiveProfiles(profiles = { SPRING_TEST_PROFILE, SPRING_NO_SECURITY_PROFILE })
-class ZuordnungRepositoryTest {
+class SchnittstelleRepositoryTest {
 
     @Autowired
-    private ZuordnungRepository repository;
+    private SchnittstelleRepository repository;
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
     void testSave() {
 
         // initialize
-        Zuordnung original = new Zuordnung();
-        original.setSchnittstelle("test");
-        original.setUserID(UUID.randomUUID().toString());
-        original.setDepartment("dep");
-        original.setFunctionAddress("adr");
-        original.setValidFrom(LocalDate.now());
-        original.setValidUntil(LocalDate.now());
+        Schnittstelle schnittstelle = new Schnittstelle();
+        schnittstelle.setName("test");
+        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
+        schnittstelle.setId(UUID.randomUUID());
 
         // persist
-        original = repository.save(original);
+        schnittstelle = repository.save(schnittstelle);
 
         // check
-        Zuordnung persisted = repository.findById(original.getId()).orElse(null);
+        Schnittstelle persisted = repository.findById(schnittstelle.getId()).orElse(null);
         assertNotNull(persisted);
-        assertEquals(original, persisted);
+        assertEquals(schnittstelle, persisted);
     }
 
 }
