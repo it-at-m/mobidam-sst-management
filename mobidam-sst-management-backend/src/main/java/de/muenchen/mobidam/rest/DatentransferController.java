@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/datentransfer")
@@ -20,7 +22,10 @@ public class DatentransferController {
 
     @Operation(summary = "Get all Datentransfer LOGs for Schnittstelle")
     @GetMapping("/{schnittstelleId}")
-    public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelle(@PathVariable String schnittstelleId) {
-        return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId), HttpStatus.OK);
+    public ResponseEntity<?> getBySchnittstelle(@PathVariable String schnittstelleId) {
+        Optional<Iterable<DatentransferDTO>> datentransferDTOS = datentransferService.getBySchnittstelle(schnittstelleId);
+        if(datentransferDTOS.isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return new ResponseEntity<>(datentransferDTOS.get(), HttpStatus.OK);
     }
 }
