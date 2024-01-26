@@ -3,6 +3,7 @@
 ## Sprint 6 (23.01.2024 - 13.02.2024)
 ### Hinzugefügt
 - Tabelle LOG_Datentransfer erstellt
+- API zum Lesen aller Datentransfer-LOGs für die gegebene Schnittstelle
 
 ## Sprint 5 (09.01.2024 - 23.01.2024)
 ### Hinzugefügt

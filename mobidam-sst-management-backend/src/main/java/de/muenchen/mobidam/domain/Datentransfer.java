@@ -25,7 +25,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Table(name = "Management_Schnittstelle_Datentransfer_Tab")
-public class Datenstransfer extends BaseEntity {
+public class Datentransfer extends BaseEntity {
 
     @Column
     @NotEmpty
@@ -41,12 +41,11 @@ public class Datenstransfer extends BaseEntity {
     private EreignisTyp ereignis;
 
     @Column
-    @NotEmpty
     private String info;
 
     @ManyToOne
     @JoinColumn(name = "schnittstelle_id")
     @NotNull
-    @JsonIgnoreProperties({ "datentransferLogs" })
+    @JsonIgnoreProperties({ "datentransfers" })
     private Schnittstelle schnittstelle;
 }

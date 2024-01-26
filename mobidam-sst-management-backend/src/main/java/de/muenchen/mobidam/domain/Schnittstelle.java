@@ -23,7 +23,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true, exclude = { "zuordnungen", "datentransferLogs" })
+@EqualsAndHashCode(callSuper = true, exclude = { "zuordnungen", "datentransfers" })
 @NoArgsConstructor
 @Table(name = "Management_Schnittstelle_Schnittstelle_Tab")
 public class Schnittstelle extends BaseEntity {
@@ -55,6 +55,6 @@ public class Schnittstelle extends BaseEntity {
 
     @OneToMany(orphanRemoval = true, mappedBy = "schnittstelle")
     @ToString.Exclude
-    private Set<Datenstransfer> datentransferLogs = new HashSet<>();
+    private Set<Datentransfer> datentransfers = new HashSet<>();
 
 }
