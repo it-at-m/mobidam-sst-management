@@ -24,7 +24,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "SST_Datentransfer")
+@Table(name = "Management_Schnittstelle_Datentransfer_Tab")
 public class Datenstransfer extends BaseEntity {
 
     @Column

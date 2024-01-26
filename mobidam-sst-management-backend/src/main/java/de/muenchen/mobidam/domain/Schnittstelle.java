@@ -25,7 +25,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true, exclude = { "zuordnungen", "datentransferLogs" })
 @NoArgsConstructor
-@Table(name = "SST_Schnittstelle")
+@Table(name = "Management_Schnittstelle_Schnittstelle_Tab")
 public class Schnittstelle extends BaseEntity {
 
     @Column(nullable = false)

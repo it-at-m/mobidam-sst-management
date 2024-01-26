@@ -26,7 +26,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "SST_Zuordnung")
+@Table(name = "Management_Schnittstelle_Zuordnung_Tab")
 @StartDateNotAfterEndDate(startDate = "getValidFrom", endDate = "getValidUntil", message = "Das Startdatum muss vor dem Enddatum liegen.")
 public class Zuordnung extends BaseEntity {
 
