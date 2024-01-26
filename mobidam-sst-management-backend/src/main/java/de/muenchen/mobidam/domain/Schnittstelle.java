@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +25,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true, exclude = { "zuordnungen", "datentransfers" })
 @NoArgsConstructor
+@Table(name = "Management_Schnittstelle_Schnittstelle_Tab")
 public class Schnittstelle extends BaseEntity {
 
     @Column(nullable = false)
