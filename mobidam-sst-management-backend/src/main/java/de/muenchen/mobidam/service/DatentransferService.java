@@ -24,13 +24,14 @@ public class DatentransferService {
     public Optional<Iterable<DatentransferDTO>> getBySchnittstelle(String schnittstelleId, int page) {
         List<DatentransferDTO> dtos = new ArrayList<>();
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        UUID schnittstelleUUID;
         try {
-            UUID schnittstelleUUID = UUID.fromString(schnittstelleId);
-            datentransferRepository.findDatenstransfersBySchnittstelleId(schnittstelleUUID, pageable)
-                    .forEach(datenstransfer -> dtos.add(datentransferMapper.toDTO(datenstransfer)));
+            schnittstelleUUID = UUID.fromString(schnittstelleId);
         } catch (IllegalArgumentException ex) {
             return Optional.empty();
         }
+        datentransferRepository.findDatenstransfersBySchnittstelleId(schnittstelleUUID, pageable)
+                .forEach(datentransfer -> dtos.add(datentransferMapper.toDTO(datentransfer)));
 
         return Optional.of(dtos);
     }
