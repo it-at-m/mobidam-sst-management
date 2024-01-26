@@ -7,12 +7,15 @@ package de.muenchen.mobidam.rest;
 import de.muenchen.mobidam.MicroServiceApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.MediaType;
 
 import java.util.UUID;
 
@@ -20,7 +23,8 @@ import static de.muenchen.mobidam.TestConstants.SPRING_NO_SECURITY_PROFILE;
 import static de.muenchen.mobidam.TestConstants.SPRING_TEST_PROFILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(
         classes = { MicroServiceApplication.class },
@@ -30,7 +34,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
         }
 )
 @ActiveProfiles(profiles = { SPRING_TEST_PROFILE, SPRING_NO_SECURITY_PROFILE })
+@AutoConfigureMockMvc
 class DatentransferControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     private DatentransferController datentransferController;
@@ -47,11 +54,11 @@ class DatentransferControllerTest {
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testException() {
+    void testException() throws Exception {
 
-        ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle("1", 0);
+        mockMvc.perform(get("/api/datentransfer/1/0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
 
-        assertEquals(HttpStatus.BAD_REQUEST, datentransferDTOs.getStatusCode());
-        assertNull(datentransferDTOs.getBody());
     }
 }
