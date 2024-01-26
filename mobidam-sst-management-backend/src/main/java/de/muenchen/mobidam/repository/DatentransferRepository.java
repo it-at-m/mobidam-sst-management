@@ -1,11 +1,12 @@
 package de.muenchen.mobidam.repository;
 
-import de.muenchen.mobidam.domain.Datenstransfer;
+import de.muenchen.mobidam.domain.Datentransfer;
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.data.repository.CrudRepository;
 
-public interface DatentransferRepository extends CrudRepository<Datenstransfer, UUID> {
+public interface DatentransferRepository extends CrudRepository<Datentransfer, UUID> {
 
-    List<Datenstransfer> findDatenstransfersBySchnittstelleId(UUID id);
+    List<Datentransfer> findDatenstransfersBySchnittstelleId(UUID id);
 }

@@ -5,7 +5,7 @@
 package de.muenchen.mobidam.repository;
 
 import de.muenchen.mobidam.MicroServiceApplication;
-import de.muenchen.mobidam.domain.Datenstransfer;
+import de.muenchen.mobidam.domain.Datentransfer;
 import de.muenchen.mobidam.domain.Schnittstelle;
 import de.muenchen.mobidam.domain.enums.EreignisTyp;
 import de.muenchen.mobidam.domain.enums.SchnittstellenStatus;
@@ -46,7 +46,7 @@ class DatentransferRepositoryTest {
     void testSave() {
 
         // initialize
-        Datenstransfer original = new Datenstransfer();
+        Datentransfer original = new Datentransfer();
         Schnittstelle schnittstelle = new Schnittstelle();
         schnittstelle.setName("test");
         schnittstelle.setCreationDate(LocalDate.now());
@@ -62,11 +62,11 @@ class DatentransferRepositoryTest {
         original = datentransferRepository.save(original);
 
         // check
-        Datenstransfer persisted = datentransferRepository.findById(original.getId()).orElse(null);
+        Datentransfer persisted = datentransferRepository.findById(original.getId()).orElse(null);
         assertNotNull(persisted);
         assertEquals(original, persisted);
 
-        List<Datenstransfer> allDatentransfer = datentransferRepository.findDatenstransfersBySchnittstelleId(schnittstelle.getId());
+        List<Datentransfer> allDatentransfer = datentransferRepository.findDatenstransfersBySchnittstelleId(schnittstelle.getId());
         assertEquals(1, allDatentransfer.size());
         assertEquals("Test", allDatentransfer.get(0).getInfo());
     }

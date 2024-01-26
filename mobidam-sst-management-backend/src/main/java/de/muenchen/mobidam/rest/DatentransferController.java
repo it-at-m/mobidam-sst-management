@@ -19,7 +19,7 @@ public class DatentransferController {
 
     private final DatentransferService datentransferService;
 
-    @Operation(summary = "Get all Datentransfer LOGs for Schnittstelle")
+    @Operation(summary = "Get all Datentransfers for Schnittstelle")
     @GetMapping("/{schnittstelleId}")
     public ResponseEntity<?> getBySchnittstelle(@PathVariable String schnittstelleId) {
         Optional<Iterable<DatentransferDTO>> datentransferDTOS = datentransferService.getBySchnittstelle(schnittstelleId);

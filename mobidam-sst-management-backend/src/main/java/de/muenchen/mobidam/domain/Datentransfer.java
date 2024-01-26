@@ -23,7 +23,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class Datenstransfer extends BaseEntity {
+public class Datentransfer extends BaseEntity {
 
     @Column
     @NotEmpty
@@ -39,12 +39,11 @@ public class Datenstransfer extends BaseEntity {
     private EreignisTyp ereignis;
 
     @Column
-    @NotEmpty
     private String info;
 
     @ManyToOne
     @JoinColumn(name = "schnittstelle_id")
     @NotNull
-    @JsonIgnoreProperties({ "datentransferLogs" })
+    @JsonIgnoreProperties({ "datentransfers" })
     private Schnittstelle schnittstelle;
 }

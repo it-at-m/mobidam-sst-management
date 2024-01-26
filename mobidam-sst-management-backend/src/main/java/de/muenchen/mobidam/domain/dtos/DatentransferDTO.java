@@ -27,7 +27,6 @@ public class DatentransferDTO {
     @NotEmpty
     private String ereignis;
 
-    @NotEmpty
     private String info;
 
     @NotNull
