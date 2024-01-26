@@ -1,5 +1,6 @@
 package de.muenchen.mobidam.rest;
 
+import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
 import de.muenchen.mobidam.service.DatentransferService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class DatentransferController {
 
     @Operation(summary = "Get all Datentransfers for Schnittstelle")
     @GetMapping("/{schnittstelleId}/{page}")
-    public ResponseEntity<?> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
+    public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
 }
