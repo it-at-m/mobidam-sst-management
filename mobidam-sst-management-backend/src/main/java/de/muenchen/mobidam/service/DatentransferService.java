@@ -5,7 +5,6 @@ import de.muenchen.mobidam.domain.mappers.DatentransferMapper;
 import de.muenchen.mobidam.repository.DatentransferRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -21,18 +20,14 @@ public class DatentransferService {
     private final DatentransferRepository datentransferRepository;
     private final DatentransferMapper datentransferMapper;
 
-    public Optional<Iterable<DatentransferDTO>> getBySchnittstelle(String schnittstelleId, int page) {
+    public Iterable<DatentransferDTO> getBySchnittstelle(String schnittstelleId, int page) {
         List<DatentransferDTO> dtos = new ArrayList<>();
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        UUID schnittstelleUUID;
-        try {
-            schnittstelleUUID = UUID.fromString(schnittstelleId);
-        } catch (IllegalArgumentException ex) {
-            return Optional.empty();
-        }
+        UUID schnittstelleUUID = UUID.fromString(schnittstelleId);
+
         datentransferRepository.findDatenstransfersBySchnittstelleId(schnittstelleUUID, pageable)
                 .forEach(datentransfer -> dtos.add(datentransferMapper.toDTO(datentransfer)));
 
-        return Optional.of(dtos);
+        return dtos;
     }
 }

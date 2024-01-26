@@ -1,9 +1,7 @@
 package de.muenchen.mobidam.rest;
 
-import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
 import de.muenchen.mobidam.service.DatentransferService;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +20,6 @@ public class DatentransferController {
     @Operation(summary = "Get all Datentransfers for Schnittstelle")
     @GetMapping("/{schnittstelleId}/{page}")
     public ResponseEntity<?> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
-        Optional<Iterable<DatentransferDTO>> datentransferDTOS = datentransferService.getBySchnittstelle(schnittstelleId, page);
-        if (datentransferDTOS.isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        return new ResponseEntity<>(datentransferDTOS.get(), HttpStatus.OK);
+        return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
 }
