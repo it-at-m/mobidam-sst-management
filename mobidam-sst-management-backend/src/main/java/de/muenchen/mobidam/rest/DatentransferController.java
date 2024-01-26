@@ -20,9 +20,9 @@ public class DatentransferController {
     private final DatentransferService datentransferService;
 
     @Operation(summary = "Get all Datentransfers for Schnittstelle")
-    @GetMapping("/{schnittstelleId}")
-    public ResponseEntity<?> getBySchnittstelle(@PathVariable String schnittstelleId) {
-        Optional<Iterable<DatentransferDTO>> datentransferDTOS = datentransferService.getBySchnittstelle(schnittstelleId);
+    @GetMapping("/{schnittstelleId}/{page}")
+    public ResponseEntity<?> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
+        Optional<Iterable<DatentransferDTO>> datentransferDTOS = datentransferService.getBySchnittstelle(schnittstelleId, page);
         if (datentransferDTOS.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         return new ResponseEntity<>(datentransferDTOS.get(), HttpStatus.OK);

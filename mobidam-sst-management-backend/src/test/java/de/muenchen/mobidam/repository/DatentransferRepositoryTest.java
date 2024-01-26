@@ -12,6 +12,7 @@ import de.muenchen.mobidam.domain.enums.SchnittstellenStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +67,7 @@ class DatentransferRepositoryTest {
         assertNotNull(persisted);
         assertEquals(original, persisted);
 
-        List<Datentransfer> allDatentransfer = datentransferRepository.findDatenstransfersBySchnittstelleId(schnittstelle.getId());
+        List<Datentransfer> allDatentransfer = datentransferRepository.findDatenstransfersBySchnittstelleId(schnittstelle.getId(), Pageable.ofSize(10));
         assertEquals(1, allDatentransfer.size());
         assertEquals("Test", allDatentransfer.get(0).getInfo());
     }

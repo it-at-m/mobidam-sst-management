@@ -39,7 +39,7 @@ class DatentransferControllerTest {
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
     void testSuccess() {
 
-        ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle(UUID.randomUUID().toString());
+        ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle(UUID.randomUUID().toString(), 0);
 
         assertEquals(HttpStatus.OK, datentransferDTOs.getStatusCode());
         assertNotNull(datentransferDTOs.getBody());
@@ -49,7 +49,7 @@ class DatentransferControllerTest {
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
     void testException() {
 
-        ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle("1");
+        ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle("1", 0);
 
         assertEquals(HttpStatus.BAD_REQUEST, datentransferDTOs.getStatusCode());
         assertNull(datentransferDTOs.getBody());

@@ -1,6 +1,11 @@
 spring:
   application.name: @project.artifactId@
   banner.location: banner.txt
+  data:
+    rest:
+      # Definition of page size for PagingAndSortingRepository
+      max-page-size: 0x7fffffff
+      default-page-size: 0x7fffffff
 
 server:
   shutdown: "graceful"
