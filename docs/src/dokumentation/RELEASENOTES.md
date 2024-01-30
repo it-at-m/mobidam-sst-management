@@ -1,5 +1,9 @@
 # Release-Notes
 
+## Sprint 6 (23.01.2024 - 14.02.2024)
+### Hinzugefügt
+- License-Headers hinzugefügt
+
 ## Sprint 5 (09.01.2024 - 23.01.2024)
 ### Hinzugefügt
 - Tabelle Schnittstelle mit `Create`, `Update`, `GetAll`, `Delete`
