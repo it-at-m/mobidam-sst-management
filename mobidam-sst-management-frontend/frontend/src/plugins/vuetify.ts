@@ -1,3 +1,8 @@
+///
+/// Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
+/// der Landeshauptstadt München, 2024
+///
+
 import "@mdi/font/css/materialdesignicons.css";
 import "@fontsource/roboto";
 import Vue from "vue";

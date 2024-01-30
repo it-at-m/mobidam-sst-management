@@ -1,3 +1,8 @@
+///
+/// Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
+/// der Landeshauptstadt München, 2024
+///
+
 import Vue from "vue";
 import Router from "vue-router";
 import Main from "./views/MainView.vue";

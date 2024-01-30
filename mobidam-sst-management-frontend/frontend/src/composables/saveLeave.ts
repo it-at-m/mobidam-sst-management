@@ -1,3 +1,8 @@
+///
+/// Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
+/// der Landeshauptstadt München, 2024
+///
+
 /**
  * Mit dem SaveLeaveComposable kann ein Datenverlust durch ungewolltest Navigieren verhindert werden.
  *

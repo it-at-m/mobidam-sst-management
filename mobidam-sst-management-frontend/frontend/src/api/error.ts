@@ -1,3 +1,8 @@
+///
+/// Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
+/// der Landeshauptstadt München, 2024
+///
+
 export const enum Levels {
     INFO = "info",
     WARNING = "warning",

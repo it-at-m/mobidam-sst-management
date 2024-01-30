@@ -1,3 +1,8 @@
+///
+/// Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
+/// der Landeshauptstadt München, 2024
+///
+
 import Zuordnung from "@/types/Zuordnung";
 import FetchUtils from "@/api/FetchUtils";
 import { Levels } from "@/api/error";

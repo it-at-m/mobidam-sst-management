@@ -1,3 +1,8 @@
+///
+/// Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
+/// der Landeshauptstadt München, 2024
+///
+
 export function useRules() {
     function maxLengthRule(length: number, message = "error") {
         return (value: string | null | undefined) =>
