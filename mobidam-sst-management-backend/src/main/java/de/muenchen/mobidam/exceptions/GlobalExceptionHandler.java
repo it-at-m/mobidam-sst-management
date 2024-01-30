@@ -49,4 +49,11 @@ public class GlobalExceptionHandler {
     public String dataAccessException(DataAccessException ex) {
         return ex.getMessage();
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public String illegalArgumentException(IllegalArgumentException ex) {
+        return ex.getMessage();
+    }
 }

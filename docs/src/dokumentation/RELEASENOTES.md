@@ -1,8 +1,10 @@
 # Release-Notes
 
-## Sprint 6 (23.01.2024 - 14.02.2024)
+## Sprint 6 (23.01.2024 - 13.02.2024)
 ### Hinzugefügt
 - License-Headers hinzugefügt
+- Tabelle LOG_Datentransfer erstellt
+- API zum Lesen aller Datentransfer-LOGs für die gegebene Schnittstelle
 
 ## Sprint 5 (09.01.2024 - 23.01.2024)
 ### Hinzugefügt
