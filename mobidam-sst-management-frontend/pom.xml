@@ -38,6 +38,37 @@
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>${sonar.scanner.version}</version>
 			</plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>4.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <header>header.txt</header>
+                    <failIfMissing>true</failIfMissing>
+                    <useDefaultExcludes>true</useDefaultExcludes>
+                    <aggregate>true</aggregate>
+                    <excludes>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>**/*.txt</exclude>
+                        <exclude>**/*.json</exclude>
+                        <exclude>**/*.yml</exclude>
+                    </excludes>
+                    <includes>
+                        <include>frontend/src/**/*</include>
+                    </includes>
+                    <mapping>
+                        <vue>XML_STYLE</vue>
+                    </mapping>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

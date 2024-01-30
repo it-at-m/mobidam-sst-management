@@ -2,6 +2,7 @@
 
 ## Sprint 6 (23.01.2024 - 13.02.2024)
 ### Hinzugefügt
+- License-Headers hinzugefügt
 - Tabelle LOG_Datentransfer erstellt
 - API zum Lesen aller Datentransfer-LOGs für die gegebene Schnittstelle
 
