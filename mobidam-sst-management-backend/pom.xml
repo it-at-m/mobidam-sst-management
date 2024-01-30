@@ -468,6 +468,7 @@
                 <configuration>
                     <header>header.txt</header>
                     <failIfMissing>true</failIfMissing>
+                    <useDefaultExcludes>true</useDefaultExcludes>
                     <excludes>
                         <exclude>**/*.xml</exclude>
                         <exclude>**/*.txt</exclude>
