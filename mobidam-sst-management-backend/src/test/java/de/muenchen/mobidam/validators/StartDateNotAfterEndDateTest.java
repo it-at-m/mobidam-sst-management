@@ -1,3 +1,7 @@
+/*
+ * Copyright (c): it@M - Dienstleister für Informations- und Telekommunikationstechnik
+ * der Landeshauptstadt München, 2024
+ */
 package de.muenchen.mobidam.validators;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
