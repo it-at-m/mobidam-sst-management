@@ -471,6 +471,8 @@
                     <excludes>
                         <exclude>**/*.xml</exclude>
                         <exclude>**/*.txt</exclude>
+                        <exclude>**/*.json</exclude>
+                        <exclude>**/*.yml</exclude>
                     </excludes>
                 </configuration>
             </plugin>
