@@ -22,12 +22,14 @@
  */
 package de.muenchen.mobidam.service;
 
+import de.muenchen.mobidam.domain.Datentransfer;
 import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
 import de.muenchen.mobidam.domain.enums.EreignisTyp;
 import de.muenchen.mobidam.domain.mappers.DatentransferMapper;
 import de.muenchen.mobidam.repository.DatentransferRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -54,17 +56,9 @@ public class DatentransferService {
         return dtos;
     }
 
-    public Iterable<DatentransferDTO> getBySchnittstelleWithoutBeginnOrEnde(String schnittstelleId, int page) {
-        List<DatentransferDTO> dtos = new ArrayList<>();
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        UUID schnittstelleUUID = UUID.fromString(schnittstelleId);
-
-        while (dtos.isEmpty()) {
-            datentransferRepository.findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(schnittstelleUUID, pageable).stream()
-                    .filter(datentransfer -> datentransfer.getEreignis() != EreignisTyp.BEGINN && datentransfer.getEreignis() != EreignisTyp.ENDE)
-                    .forEach(datentransfer -> dtos.add(datentransferMapper.toDTO(datentransfer)));
-        }
-
-        return dtos;
+    public Optional<DatentransferDTO> getFirstBySchnittstelleWithoutBeginnOrEnde(String schnittstelleId) {
+        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotAndEreignisIsNotOrderByZeitstempelDesc(
+                UUID.fromString(schnittstelleId), EreignisTyp.BEGINN, EreignisTyp.ENDE);
+        return datentransfer.map(datentransferMapper::toDTO);
     }
 }

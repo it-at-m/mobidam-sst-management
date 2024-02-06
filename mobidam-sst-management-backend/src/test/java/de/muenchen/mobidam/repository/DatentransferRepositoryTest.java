@@ -38,11 +38,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static de.muenchen.mobidam.TestConstants.SPRING_NO_SECURITY_PROFILE;
 import static de.muenchen.mobidam.TestConstants.SPRING_TEST_PROFILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(
         classes = { MicroServiceApplication.class },
@@ -89,6 +91,82 @@ class DatentransferRepositoryTest {
                 Pageable.ofSize(10));
         assertEquals(1, allDatentransfer.size());
         assertEquals("Test", allDatentransfer.get(0).getInfo());
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
+    void testFilter() {
+
+        // initialize
+        Datentransfer originalBeginn = new Datentransfer();
+        Schnittstelle schnittstelle = new Schnittstelle();
+        schnittstelle.setName("test");
+        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
+        schnittstelle = schnittstelleRepository.save(schnittstelle);
+        originalBeginn.setSchnittstelle(schnittstelle);
+        originalBeginn.setEreignis(EreignisTyp.BEGINN);
+        originalBeginn.setInfo("Test");
+        originalBeginn.setZeitstempel(LocalDateTime.now());
+        originalBeginn.setProzessId("process-id");
+
+        // persist
+        datentransferRepository.save(originalBeginn);
+
+        Datentransfer originalFehler = new Datentransfer();
+        originalFehler.setSchnittstelle(schnittstelle);
+        originalFehler.setEreignis(EreignisTyp.FEHLER);
+        originalFehler.setInfo("Test");
+        originalFehler.setZeitstempel(LocalDateTime.now());
+        originalFehler.setProzessId("process-id");
+
+        // persist
+        datentransferRepository.save(originalFehler);
+
+        // check
+        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotAndEreignisIsNotOrderByZeitstempelDesc(
+                schnittstelle.getId(),
+                EreignisTyp.BEGINN, EreignisTyp.ENDE);
+        assertTrue(datentransfer.isPresent());
+        assertEquals(EreignisTyp.FEHLER, datentransfer.get().getEreignis());
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
+    void testFindFirst() {
+
+        // initialize
+        Datentransfer originalWarnung = new Datentransfer();
+        Schnittstelle schnittstelle = new Schnittstelle();
+        schnittstelle.setName("test");
+        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
+        schnittstelle = schnittstelleRepository.save(schnittstelle);
+        originalWarnung.setSchnittstelle(schnittstelle);
+        originalWarnung.setEreignis(EreignisTyp.WARNUNGEN);
+        originalWarnung.setInfo("Test");
+        originalWarnung.setZeitstempel(LocalDateTime.now());
+        originalWarnung.setProzessId("process-id");
+
+        // persist
+        datentransferRepository.save(originalWarnung);
+
+        Datentransfer originalFehler = new Datentransfer();
+        originalFehler.setSchnittstelle(schnittstelle);
+        originalFehler.setEreignis(EreignisTyp.FEHLER);
+        originalFehler.setInfo("Test");
+        originalFehler.setZeitstempel(LocalDateTime.now().minusHours(10));
+        originalFehler.setProzessId("process-id");
+
+        // persist
+        datentransferRepository.save(originalFehler);
+
+        // check
+        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotAndEreignisIsNotOrderByZeitstempelDesc(
+                schnittstelle.getId(),
+                EreignisTyp.BEGINN, EreignisTyp.ENDE);
+        assertTrue(datentransfer.isPresent());
+        assertEquals(EreignisTyp.WARNUNGEN, datentransfer.get().getEreignis());
     }
 
 }

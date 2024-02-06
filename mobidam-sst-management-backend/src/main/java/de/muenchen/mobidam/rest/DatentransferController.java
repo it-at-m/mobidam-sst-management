@@ -25,6 +25,7 @@ package de.muenchen.mobidam.rest;
 import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
 import de.muenchen.mobidam.service.DatentransferService;
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,9 +47,12 @@ public class DatentransferController {
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all Datentransfers for Schnittstelle, where type is not BEGINN or ENDE")
-    @GetMapping("/notBeginnEnde/{schnittstelleId}/{page}")
-    public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelleWithoutBeginnAndEnde(@PathVariable String schnittstelleId, @PathVariable int page) {
-        return new ResponseEntity<>(datentransferService.getBySchnittstelleWithoutBeginnOrEnde(schnittstelleId, page), HttpStatus.OK);
+    @Operation(summary = "Get first Datentransfer for Schnittstelle, where type is not BEGINN or ENDE")
+    @GetMapping("/notBeginnEnde/{schnittstelleId}")
+    public ResponseEntity<?> getBySchnittstelleWithoutBeginnAndEnde(@PathVariable String schnittstelleId) {
+        Optional<DatentransferDTO> datentransferDTO = datentransferService.getFirstBySchnittstelleWithoutBeginnOrEnde(schnittstelleId);
+        if (datentransferDTO.isPresent())
+            return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);
+        return ResponseEntity.notFound().build();
     }
 }
