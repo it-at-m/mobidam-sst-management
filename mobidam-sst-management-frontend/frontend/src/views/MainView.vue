@@ -63,7 +63,7 @@
                     {{ schnittstelle.status }}</v-col
                 >
                 <v-col v-else>
-                    <v-icon v-else>mdi-window-close</v-icon>
+                    <v-icon>mdi-window-close</v-icon>
                     -
                 </v-col>
             </v-list-item>
