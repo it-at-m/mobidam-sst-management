@@ -34,27 +34,40 @@
         <v-row>
             <h2>Schnittstellen</h2>
         </v-row>
-        <v-row>
-            <v-col>
-                <v-list lines="two">
-                    <v-list-item
-                        v-for="schnittstelle in schnittstellen"
-                        :key="schnittstelle.id"
-                        @click="
-                            $router.push({
-                                name: 'schnittstelleDetail',
-                                params: {
-                                    id: schnittstelle.id,
-                                    schnittstelleName: schnittstelle.name,
-                                },
-                            })
-                        "
+        <v-list lines="two">
+            <v-list-item
+                v-for="schnittstelle in schnittstellen"
+                :key="schnittstelle.id"
+                @click="
+                    $router.push({
+                        name: 'schnittstelleDetail',
+                        params: {
+                            id: schnittstelle.id,
+                            schnittstelleName: schnittstelle.name,
+                        },
+                    })
+                "
+            >
+                <v-col>
+                    {{ schnittstelle.name }}
+                </v-col>
+                <v-col>
+                    <v-icon>mdi-pencil</v-icon>
+                    {{ schnittstelle.editDate }}</v-col
+                >
+                <v-col v-if="schnittstelle.status !== undefined">
+                    <v-icon v-if="schnittstelle.status == 'AKTIVIERT'"
+                        >mdi-check</v-icon
                     >
-                        {{ schnittstelle.name }}
-                    </v-list-item>
-                </v-list>
-            </v-col>
-        </v-row>
+                    <v-icon v-else>mdi-window-close</v-icon>
+                    {{ schnittstelle.status }}</v-col
+                >
+                <v-col v-else>
+                    <v-icon v-else>mdi-window-close</v-icon>
+                    -
+                </v-col>
+            </v-list-item>
+        </v-list>
     </v-container>
 </template>
 

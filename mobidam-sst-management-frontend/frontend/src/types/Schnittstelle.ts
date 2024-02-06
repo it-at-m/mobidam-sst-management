@@ -25,9 +25,9 @@ export default class Schnittstelle {
     constructor(
         public name: string,
         public creationDate: string,
-        public editDate: string,
-        public status: string,
-        public explanation: string,
+        public editDate?: string,
+        public status?: string,
+        public explanation?: string,
         public id: string
     ) {}
 }
