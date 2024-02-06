@@ -51,11 +51,15 @@
                 <v-col>
                     {{ schnittstelle.name }}
                 </v-col>
-                <v-col>
-                    <v-icon>mdi-pencil</v-icon>
+                <v-col v-if="schnittstelle.editDate">
+                    <v-icon>mdi-calendar-edit</v-icon>
                     {{ schnittstelle.editDate }}</v-col
                 >
-                <v-col v-if="schnittstelle.status !== undefined">
+                <v-col v-else>
+                    <v-icon>mdi-calendar-edit</v-icon>
+                    -
+                </v-col>
+                <v-col v-if="schnittstelle.status">
                     <v-icon v-if="schnittstelle.status == 'AKTIVIERT'"
                         >mdi-check</v-icon
                     >
@@ -65,6 +69,13 @@
                 <v-col v-else>
                     <v-icon>mdi-window-close</v-icon>
                     -
+                </v-col>
+                <v-col>
+                    <v-icon>mdi-google-analytics</v-icon>
+                    {{ schnittstelle.datentransfer.ereignis }}
+                </v-col>
+                <v-col v-if="schnittstelle.datentransfer.zeitstempel !== '-'">
+                    {{ schnittstelle.datentransfer.zeitstempel }}
                 </v-col>
             </v-list-item>
         </v-list>
@@ -76,12 +87,14 @@ import HealthService from "@/api/HealthService";
 import HealthState from "@/types/HealthState";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { onMounted, ref } from "vue";
-import Schnittstelle from "@/types/Schnittstelle";
 import SchnittstelleService from "@/api/SchnittstelleService";
+import Datentransfer from "@/types/Datentransfer";
+import DatentransferService from "@/api/DatentransferService";
+import SchnittstelleWithDatentransfer from "@/types/SchnittstelleWithDatentransfer";
 
 const snackbarStore = useSnackbarStore();
 const status = ref("DOWN");
-const schnittstellen = ref<Schnittstelle[]>([]);
+const schnittstellen = ref<SchnittstelleWithDatentransfer[]>([]);
 
 onMounted(() => {
     HealthService.checkHealth()
@@ -94,7 +107,30 @@ onMounted(() => {
 
 function getSchnittstellen() {
     SchnittstelleService.getAllSchnittstelle().then((fetchedSchnittstellen) => {
-        schnittstellen.value = [...fetchedSchnittstellen];
+        let datentransfer: Datentransfer = new Datentransfer(
+            "-",
+            "-",
+            "-",
+            "-"
+        );
+        for (const fetchedSchnittstelle of fetchedSchnittstellen) {
+            DatentransferService.getFirstForSchnittstelleWithTypeNotBeginnOrEnde(
+                fetchedSchnittstelle.id
+            ).then((fetchedDatentransfer) => {
+                if (fetchedDatentransfer) datentransfer = fetchedDatentransfer;
+                const schnittstelle: SchnittstelleWithDatentransfer =
+                    new SchnittstelleWithDatentransfer(
+                        fetchedSchnittstelle.name,
+                        fetchedSchnittstelle.creationDate,
+                        fetchedSchnittstelle.id,
+                        datentransfer,
+                        fetchedSchnittstelle.editDate,
+                        fetchedSchnittstelle.status,
+                        fetchedSchnittstelle.explanation
+                    );
+                schnittstellen.value.push(schnittstelle);
+            });
+        }
     });
 }
 </script>
