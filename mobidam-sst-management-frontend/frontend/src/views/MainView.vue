@@ -38,11 +38,15 @@
             <v-col>
                 <v-list lines="two">
                     <v-list-item
-                        v-for="n in 5"
-                        :key="n"
-                        @click="$router.push(`/schnittstelleDetailView/${n}`)"
+                        v-for="schnittstelle in schnittstellen"
+                        :key="schnittstelle.id"
+                        @click="
+                            $router.push(
+                                `/schnittstelleDetailView/${schnittstelle.id}`
+                            )
+                        "
                     >
-                        Schnittstelle {{ n }}
+                        {{ schnittstelle.name }}
                     </v-list-item>
                 </v-list>
             </v-col>
@@ -55,9 +59,12 @@ import HealthService from "@/api/HealthService";
 import HealthState from "@/types/HealthState";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { onMounted, ref } from "vue";
+import Schnittstelle from "@/types/Schnittstelle";
+import SchnittstelleService from "@/api/SchnittstelleService";
 
 const snackbarStore = useSnackbarStore();
 const status = ref("DOWN");
+const schnittstellen = ref<Schnittstelle[]>([]);
 
 onMounted(() => {
     HealthService.checkHealth()
@@ -65,15 +72,13 @@ onMounted(() => {
         .catch((error) => {
             snackbarStore.showMessage(error);
         });
+    getSchnittstellen();
 });
+
+function getSchnittstellen() {
+    SchnittstelleService.getAllSchnittstelle().then((fetchedSchnittstellen) => {
+        schnittstellen.value = [...fetchedSchnittstellen];
+    });
+}
 </script>
 
-<style scoped>
-.UP {
-    color: limegreen;
-}
-
-.DOWN {
-    color: lightcoral;
-}
-</style>
