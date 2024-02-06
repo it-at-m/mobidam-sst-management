@@ -47,7 +47,7 @@ public class DatentransferService {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         UUID schnittstelleUUID = UUID.fromString(schnittstelleId);
 
-        datentransferRepository.findDatenstransfersBySchnittstelleId(schnittstelleUUID, pageable)
+        datentransferRepository.findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(schnittstelleUUID, pageable)
                 .forEach(datentransfer -> dtos.add(datentransferMapper.toDTO(datentransfer)));
 
         return dtos;
