@@ -45,4 +45,10 @@ public class DatentransferController {
     public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
+
+    @Operation(summary = "Get all Datentransfers for Schnittstelle, where type is not BEGINN or ENDE")
+    @GetMapping("/notBeginnEnde/{schnittstelleId}/{page}")
+    public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelleWithoutBeginnAndEnde(@PathVariable String schnittstelleId, @PathVariable int page) {
+        return new ResponseEntity<>(datentransferService.getBySchnittstelleWithoutBeginnOrEnde(schnittstelleId, page), HttpStatus.OK);
+    }
 }
