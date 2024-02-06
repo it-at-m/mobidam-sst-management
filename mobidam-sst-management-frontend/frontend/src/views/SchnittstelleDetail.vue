@@ -24,8 +24,7 @@
 -->
 <template>
     <v-container>
-        <h1>Schnittstelle {{ schnittstelleID }}</h1>
-        Hier findet man später weitere Informationen zur Schnittstelle.
+        <h1>Schnittstelle {{ props.schnittstelleName }}</h1>
         <v-row>
             <v-col>
                 <h3>
@@ -108,6 +107,14 @@ const zuordnungen = ref<Zuordnung[]>([]);
 const showYesNoDialog = ref(false);
 
 let zuordnungToDeleteId: string | undefined = undefined;
+
+interface Props {
+    schnittstelleName: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    schnittstelleName: "-",
+});
 
 onMounted(() => {
     HealthService.checkHealth().catch((error) => {

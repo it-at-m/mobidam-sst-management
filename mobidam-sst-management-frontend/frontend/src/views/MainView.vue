@@ -41,9 +41,13 @@
                         v-for="schnittstelle in schnittstellen"
                         :key="schnittstelle.id"
                         @click="
-                            $router.push(
-                                `/schnittstelleDetailView/${schnittstelle.id}`
-                            )
+                            $router.push({
+                                name: 'schnittstelleDetail',
+                                params: {
+                                    id: schnittstelle.id,
+                                    schnittstelleName: schnittstelle.name,
+                                },
+                            })
                         "
                     >
                         {{ schnittstelle.name }}

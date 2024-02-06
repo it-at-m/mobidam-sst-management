@@ -63,6 +63,7 @@ export default new Router({
             path: "/schnittstelleDetailView/:id",
             name: "schnittstelleDetail",
             component: SchnittstelleDetail,
+            props: true,
         },
         { path: "*", redirect: "/" }, //Fallback 2
     ],
