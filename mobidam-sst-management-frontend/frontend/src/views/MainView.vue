@@ -34,6 +34,7 @@
         <v-row>
             <h2>Schnittstellen</h2>
         </v-row>
+        &nbsp;
         <v-list lines="two">
             <v-list-item
                 v-for="schnittstelle in schnittstellen"
@@ -48,35 +49,80 @@
                     })
                 "
             >
-                <v-col>
-                    {{ schnittstelle.name }}
-                </v-col>
-                <v-col v-if="schnittstelle.editDate">
-                    <v-icon>mdi-calendar-edit</v-icon>
-                    {{ schnittstelle.editDate }}</v-col
-                >
-                <v-col v-else>
-                    <v-icon>mdi-calendar-edit</v-icon>
-                    -
-                </v-col>
-                <v-col v-if="schnittstelle.status">
-                    <v-icon v-if="schnittstelle.status == 'AKTIVIERT'"
-                        >mdi-check</v-icon
-                    >
-                    <v-icon v-else>mdi-window-close</v-icon>
-                    {{ schnittstelle.status }}</v-col
-                >
-                <v-col v-else>
-                    <v-icon>mdi-window-close</v-icon>
-                    -
-                </v-col>
-                <v-col>
-                    <v-icon>mdi-google-analytics</v-icon>
-                    {{ schnittstelle.datentransfer.ereignis }}
-                </v-col>
-                <v-col v-if="schnittstelle.datentransfer.zeitstempel !== '-'">
-                    {{ schnittstelle.datentransfer.zeitstempel }}
-                </v-col>
+                <v-tooltip top>
+                    <template #activator="{ on }">
+                        <v-col v-on="on">
+                            {{ schnittstelle.name }}
+                        </v-col>
+                    </template>
+                    Name der Schnittstelle
+                </v-tooltip>
+                <v-tooltip top>
+                    <template #activator="{ on }">
+                        <v-col
+                            v-if="schnittstelle.editDate"
+                            v-on="on"
+                        >
+                            <v-icon>mdi-calendar-edit</v-icon>
+                            {{ schnittstelle.editDate }}
+                        </v-col>
+                        <v-col
+                            v-else
+                            v-on="on"
+                        >
+                            <v-icon>mdi-calendar-edit</v-icon>
+                            -
+                        </v-col>
+                    </template>
+                    Änderungsdatum
+                </v-tooltip>
+
+                <v-tooltip top>
+                    <template #activator="{ on }">
+                        <v-col
+                            v-if="schnittstelle.status"
+                            v-on="on"
+                        >
+                            <v-icon v-if="schnittstelle.status == 'AKTIVIERT'"
+                                >mdi-check</v-icon
+                            >
+                            <v-icon v-else>mdi-window-close</v-icon>
+                            {{ schnittstelle.status }}
+                        </v-col>
+                        <v-col
+                            v-else
+                            v-on="on"
+                        >
+                            <v-icon>mdi-window-close</v-icon>
+                            -
+                        </v-col>
+                    </template>
+                    Status
+                </v-tooltip>
+
+                <v-tooltip left>
+                    <template #activator="{ on }">
+                        <v-col v-on="on">
+                            <v-icon>mdi-google-analytics</v-icon>
+                            {{ schnittstelle.datentransfer.ereignis }}
+                        </v-col>
+                    </template>
+                    Letzter Datentransfer
+                </v-tooltip>
+
+                <v-tooltip left>
+                    <template #activator="{ on }">
+                        <v-col
+                            v-if="
+                                schnittstelle.datentransfer.zeitstempel !== '-'
+                            "
+                            v-on="on"
+                        >
+                            {{ schnittstelle.datentransfer.zeitstempel }}
+                        </v-col>
+                    </template>
+                    Zeitstempel des letzten Datentransfers
+                </v-tooltip>
             </v-list-item>
         </v-list>
     </v-container>
@@ -115,20 +161,21 @@ function getSchnittstellen() {
             "-"
         );
         for (const fetchedSchnittstelle of fetchedSchnittstellen) {
+            const schnittstelle: SchnittstelleWithDatentransfer =
+                new SchnittstelleWithDatentransfer(
+                    fetchedSchnittstelle.name,
+                    fetchedSchnittstelle.creationDate,
+                    fetchedSchnittstelle.id,
+                    datentransfer,
+                    fetchedSchnittstelle.editDate,
+                    fetchedSchnittstelle.status,
+                    fetchedSchnittstelle.explanation
+                );
             DatentransferService.getFirstForSchnittstelleWithTypeNotBeginnOrEnde(
                 fetchedSchnittstelle.id
             ).then((fetchedDatentransfer) => {
-                if (fetchedDatentransfer) datentransfer = fetchedDatentransfer;
-                const schnittstelle: SchnittstelleWithDatentransfer =
-                    new SchnittstelleWithDatentransfer(
-                        fetchedSchnittstelle.name,
-                        fetchedSchnittstelle.creationDate,
-                        fetchedSchnittstelle.id,
-                        datentransfer,
-                        fetchedSchnittstelle.editDate,
-                        fetchedSchnittstelle.status,
-                        fetchedSchnittstelle.explanation
-                    );
+                if (fetchedDatentransfer)
+                    schnittstelle.datentransfer = fetchedDatentransfer;
                 schnittstellen.value.push(schnittstelle);
             });
         }

@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     VCardText: typeof import('vuetify/lib')['VCardText']
     VCardTitle: typeof import('vuetify/lib')['VCardTitle']
     VCol: typeof import('vuetify/lib')['VCol']
+    VColumn: typeof import('vuetify/lib')['VColumn']
     VContainer: typeof import('vuetify/lib')['VContainer']
     VDatePicker: typeof import('vuetify/lib')['VDatePicker']
     VDialog: typeof import('vuetify/lib')['VDialog']
@@ -33,6 +34,7 @@ declare module '@vue/runtime-core' {
     VList: typeof import('vuetify/lib')['VList']
     VListItem: typeof import('vuetify/lib')['VListItem']
     VListItemContent: typeof import('vuetify/lib')['VListItemContent']
+    VListItemSubtitle: typeof import('vuetify/lib')['VListItemSubtitle']
     VListItemTitle: typeof import('vuetify/lib')['VListItemTitle']
     VMain: typeof import('vuetify/lib')['VMain']
     VMenu: typeof import('vuetify/lib')['VMenu']
@@ -42,6 +44,7 @@ declare module '@vue/runtime-core' {
     VSpacer: typeof import('vuetify/lib')['VSpacer']
     VTextField: typeof import('vuetify/lib')['VTextField']
     VToolbarTitle: typeof import('vuetify/lib')['VToolbarTitle']
+    VTooltip: typeof import('vuetify/lib')['VTooltip']
     YesNoDialog: typeof import('./src/components/common/YesNoDialog.vue')['default']
   }
 }
