@@ -111,6 +111,7 @@ function getSchnittstellen() {
             "-",
             "-",
             "-",
+            "-",
             "-"
         );
         for (const fetchedSchnittstelle of fetchedSchnittstellen) {
