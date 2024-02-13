@@ -83,18 +83,17 @@
                             v-if="schnittstelle.status"
                             v-on="on"
                         >
-                            <v-icon v-if="schnittstelle.status == 'AKTIVIERT'"
+                            <v-icon
+                                v-if="schnittstelle.status == 'AKTIVIERT'"
+                                color="green"
                                 >mdi-check</v-icon
                             >
-                            <v-icon v-else>mdi-window-close</v-icon>
+                            <v-icon
+                                v-else
+                                color="red"
+                                >mdi-window-close</v-icon
+                            >
                             {{ schnittstelle.status }}
-                        </v-col>
-                        <v-col
-                            v-else
-                            v-on="on"
-                        >
-                            <v-icon>mdi-window-close</v-icon>
-                            -
                         </v-col>
                     </template>
                     Status
