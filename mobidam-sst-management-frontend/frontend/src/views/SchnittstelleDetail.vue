@@ -25,6 +25,7 @@
 <template>
     <v-container>
         <h1>Schnittstelle {{ props.schnittstelleName }}</h1>
+        <br />
         <v-row>
             <v-col>
                 <h3>
