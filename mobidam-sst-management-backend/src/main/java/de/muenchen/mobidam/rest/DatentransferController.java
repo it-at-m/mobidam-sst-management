@@ -47,10 +47,10 @@ public class DatentransferController {
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get first Datentransfer for Schnittstelle, where type is not BEGINN or ENDE")
-    @GetMapping("/notBeginnEnde/{schnittstelleId}")
-    public ResponseEntity<?> getBySchnittstelleWithoutBeginnAndEnde(@PathVariable String schnittstelleId) {
-        Optional<DatentransferDTO> datentransferDTO = datentransferService.getFirstBySchnittstelleWithoutBeginnOrEnde(schnittstelleId);
+    @Operation(summary = "Get first Datentransfer result state for Schnittstelle")
+    @GetMapping("/latestResultState/{schnittstelleId}")
+    public ResponseEntity<?> getLatestResultStateBySchnittstelle(@PathVariable String schnittstelleId) {
+        Optional<DatentransferDTO> datentransferDTO = datentransferService.getLatestResultStateBySchnittstelle(schnittstelleId);
         if (datentransferDTO.isPresent())
             return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);
         return ResponseEntity.notFound().build();

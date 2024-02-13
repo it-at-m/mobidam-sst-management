@@ -32,7 +32,7 @@ export default class DatentransferService {
         instanceId: string | undefined
     ): Promise<Datentransfer | void> {
         return fetch(
-            `${this.base}/api/datentransfer/notBeginnEnde/${instanceId}`,
+            `${this.base}/api/datentransfer/latestResultState/${instanceId}`,
             FetchUtils.getGETConfig()
         ).then((response) => {
             if (response.status == 404) return Promise.resolve();

@@ -56,7 +56,7 @@ public class DatentransferService {
         return dtos;
     }
 
-    public Optional<DatentransferDTO> getFirstBySchnittstelleWithoutBeginnOrEnde(String schnittstelleId) {
+    public Optional<DatentransferDTO> getLatestResultStateBySchnittstelle(String schnittstelleId) {
         List<EreignisTyp> notResultStateEreignisTypes = List.of(EreignisTyp.BEGINN, EreignisTyp.ENDE);
         Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(
                 UUID.fromString(schnittstelleId), notResultStateEreignisTypes);
