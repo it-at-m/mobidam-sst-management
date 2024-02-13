@@ -57,8 +57,9 @@ public class DatentransferService {
     }
 
     public Optional<DatentransferDTO> getFirstBySchnittstelleWithoutBeginnOrEnde(String schnittstelleId) {
-        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotAndEreignisIsNotOrderByZeitstempelDesc(
-                UUID.fromString(schnittstelleId), EreignisTyp.BEGINN, EreignisTyp.ENDE);
+        List<EreignisTyp> notResultStateEreignisTypes = List.of(EreignisTyp.BEGINN, EreignisTyp.ENDE);
+        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(
+                UUID.fromString(schnittstelleId), notResultStateEreignisTypes);
         return datentransfer.map(datentransferMapper::toDTO);
     }
 }

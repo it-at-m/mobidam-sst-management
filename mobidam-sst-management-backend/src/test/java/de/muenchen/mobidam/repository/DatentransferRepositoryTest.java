@@ -124,9 +124,9 @@ class DatentransferRepositoryTest {
         datentransferRepository.save(originalFehler);
 
         // check
-        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotAndEreignisIsNotOrderByZeitstempelDesc(
+        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(
                 schnittstelle.getId(),
-                EreignisTyp.BEGINN, EreignisTyp.ENDE);
+                List.of(EreignisTyp.BEGINN, EreignisTyp.ENDE));
         assertTrue(datentransfer.isPresent());
         assertEquals(EreignisTyp.FEHLER, datentransfer.get().getEreignis());
     }
@@ -162,9 +162,9 @@ class DatentransferRepositoryTest {
         datentransferRepository.save(originalFehler);
 
         // check
-        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotAndEreignisIsNotOrderByZeitstempelDesc(
+        Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(
                 schnittstelle.getId(),
-                EreignisTyp.BEGINN, EreignisTyp.ENDE);
+                List.of(EreignisTyp.BEGINN, EreignisTyp.ENDE));
         assertTrue(datentransfer.isPresent());
         assertEquals(EreignisTyp.WARNUNGEN, datentransfer.get().getEreignis());
     }
