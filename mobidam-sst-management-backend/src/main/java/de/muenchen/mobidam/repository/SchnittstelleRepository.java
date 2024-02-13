@@ -30,6 +30,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface SchnittstelleRepository extends CrudRepository<Schnittstelle, UUID>, PagingAndSortingRepository<Schnittstelle, UUID> {
 
-    List<Schnittstelle> findAllByOrderByNameAsc();
+    List<Schnittstelle> findAllByOrderByNameDesc();
 
 }
