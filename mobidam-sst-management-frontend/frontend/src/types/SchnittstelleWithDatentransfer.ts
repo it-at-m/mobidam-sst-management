@@ -28,7 +28,7 @@ export default class SchnittstelleWithDatentransfer {
         public name: string,
         public creationDate: string,
         public id: string,
-        public datentransfer: Datentransfer,
+        public datentransfer?: Datentransfer,
         public editDate?: string,
         public status?: string,
         public explanation?: string

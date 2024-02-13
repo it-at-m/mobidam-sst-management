@@ -103,7 +103,7 @@
                     <template #activator="{ on }">
                         <v-col v-on="on">
                             <v-icon>mdi-google-analytics</v-icon>
-                            {{ schnittstelle.datentransfer.ereignis }}
+                            {{ getDatentransferEreignis(schnittstelle) }}
                         </v-col>
                     </template>
                     Letzter Datentransfer
@@ -111,18 +111,9 @@
 
                 <v-tooltip left>
                     <template #activator="{ on }">
-                        <v-col
-                            v-if="
-                                schnittstelle.datentransfer.zeitstempel !== '-'
-                            "
-                            v-on="on"
-                        >
-                            {{ schnittstelle.datentransfer.zeitstempel }}
+                        <v-col v-on="on">
+                            {{ getDatentransferZeitstempel(schnittstelle) }}
                         </v-col>
-                        <v-col
-                            v-else
-                            v-on="on"
-                        />
                     </template>
                     Zeitstempel des letzten Datentransfers
                 </v-tooltip>
@@ -156,13 +147,7 @@ onMounted(() => {
 
 function getSchnittstellen() {
     SchnittstelleService.getAllSchnittstelle().then((fetchedSchnittstellen) => {
-        let datentransfer: Datentransfer = new Datentransfer(
-            "-",
-            "-",
-            "-",
-            "-",
-            "-"
-        );
+        let datentransfer: Datentransfer | undefined = undefined;
         for (const fetchedSchnittstelle of fetchedSchnittstellen) {
             const schnittstelle: SchnittstelleWithDatentransfer =
                 new SchnittstelleWithDatentransfer(
@@ -183,6 +168,22 @@ function getSchnittstellen() {
             });
         }
     });
+}
+
+function getDatentransferEreignis(
+    schnittstelle: SchnittstelleWithDatentransfer
+): string {
+    if (schnittstelle.datentransfer)
+        return schnittstelle.datentransfer.ereignis;
+    return "-";
+}
+
+function getDatentransferZeitstempel(
+    schnittstelle: SchnittstelleWithDatentransfer
+): string {
+    if (schnittstelle.datentransfer)
+        return schnittstelle.datentransfer.zeitstempel;
+    return "";
 }
 </script>
 
