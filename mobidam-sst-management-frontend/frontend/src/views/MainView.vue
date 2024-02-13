@@ -34,7 +34,7 @@
         <v-row>
             <h2>Schnittstellen</h2>
         </v-row>
-        &nbsp;
+        <br />
         <v-list lines="two">
             <v-list-item
                 v-for="schnittstelle in schnittstellen"
