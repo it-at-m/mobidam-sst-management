@@ -175,7 +175,7 @@ function getSchnittstellen() {
                     fetchedSchnittstelle.status,
                     fetchedSchnittstelle.explanation
                 );
-            DatentransferService.getFirstForSchnittstelleWithTypeNotBeginnOrEnde(
+            DatentransferService.getLatestResultStateBySchnittstelle(
                 fetchedSchnittstelle.id
             ).then((fetchedDatentransfer) => {
                 if (fetchedDatentransfer)

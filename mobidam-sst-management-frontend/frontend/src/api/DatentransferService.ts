@@ -28,11 +28,11 @@ export default class DatentransferService {
     private static base: string | undefined = import.meta.env
         .VITE_VUE_APP_API_URL;
 
-    public static getFirstForSchnittstelleWithTypeNotBeginnOrEnde(
-        instanceId: string | undefined
+    public static getLatestResultStateBySchnittstelle(
+        schnittstelleId: string | undefined
     ): Promise<Datentransfer | void> {
         return fetch(
-            `${this.base}/api/datentransfer/latestResultState/${instanceId}`,
+            `${this.base}/api/datentransfer/latestResultState/${schnittstelleId}`,
             FetchUtils.getGETConfig()
         ).then((response) => {
             if (response.status == 404) return Promise.resolve();
