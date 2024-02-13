@@ -95,7 +95,7 @@ class DatentransferRepositoryTest {
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testFilter() {
+    void test_findFirstBySchnittstelleIdWithSingleResultState() {
 
         // initialize
         Datentransfer originalBeginn = new Datentransfer();
@@ -133,7 +133,7 @@ class DatentransferRepositoryTest {
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testFindFirst() {
+    void test_findFirstBySchnittstelleIdWithMultipleResultStates() {
 
         // initialize
         Datentransfer originalWarnung = new Datentransfer();
