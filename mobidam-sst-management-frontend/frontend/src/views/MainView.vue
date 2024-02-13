@@ -120,6 +120,10 @@
                         >
                             {{ schnittstelle.datentransfer.zeitstempel }}
                         </v-col>
+                        <v-col
+                            v-else
+                            v-on="on"
+                        />
                     </template>
                     Zeitstempel des letzten Datentransfers
                 </v-tooltip>
