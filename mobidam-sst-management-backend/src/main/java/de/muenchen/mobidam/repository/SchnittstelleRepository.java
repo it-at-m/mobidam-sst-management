@@ -23,9 +23,14 @@
 package de.muenchen.mobidam.repository;
 
 import de.muenchen.mobidam.domain.Schnittstelle;
+
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface SchnittstelleRepository extends CrudRepository<Schnittstelle, UUID> {
+public interface SchnittstelleRepository extends CrudRepository<Schnittstelle, UUID>, PagingAndSortingRepository<Schnittstelle, UUID> {
+
+    List<Schnittstelle> findAllByOrderByNameAsc();
 
 }
