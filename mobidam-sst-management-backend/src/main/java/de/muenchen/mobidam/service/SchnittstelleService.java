@@ -51,7 +51,7 @@ public class SchnittstelleService {
 
     public Iterable<SchnittstelleDTO> getAll() {
         List<SchnittstelleDTO> dtos = new ArrayList<>();
-        schnittstelleRepository.findAllByOrderByNameDesc().forEach(schnittstelle -> dtos.add(schnittstelleMapper.toDTO(schnittstelle)));
+        schnittstelleRepository.findAll().forEach(schnittstelle -> dtos.add(schnittstelleMapper.toDTO(schnittstelle)));
 
         return dtos;
     }

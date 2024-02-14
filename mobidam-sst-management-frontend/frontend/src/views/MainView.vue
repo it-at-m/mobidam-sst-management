@@ -37,7 +37,7 @@
         <br />
         <v-list lines="two">
             <v-list-item
-                v-for="schnittstelle in schnittstellen"
+                v-for="schnittstelle in sortedSchnittstellen"
                 :key="schnittstelle.id"
                 @click="
                     $router.push({
@@ -124,24 +124,31 @@
 
 <script setup lang="ts">
 import HealthService from "@/api/HealthService";
-import HealthState from "@/types/HealthState";
 import { useSnackbarStore } from "@/stores/snackbar";
-import { onMounted, ref } from "vue";
+import { onMounted, computed, ref } from "vue";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Datentransfer from "@/types/Datentransfer";
 import DatentransferService from "@/api/DatentransferService";
 import SchnittstelleWithDatentransfer from "@/types/SchnittstelleWithDatentransfer";
 
 const snackbarStore = useSnackbarStore();
-const status = ref("DOWN");
 const schnittstellen = ref<SchnittstelleWithDatentransfer[]>([]);
+const sortedSchnittstellen = computed(() => {
+    let sorted = ref<SchnittstelleWithDatentransfer[]>([]);
+    schnittstellen.value.forEach((schnittstelle) =>
+        sorted.value.push(Object.assign({}, schnittstelle))
+    );
+    return sorted.value.sort((schnittstelle1, schnittstelle2) =>
+        schnittstelle1.name.toLowerCase() < schnittstelle2.name.toLowerCase()
+            ? -1
+            : 1
+    );
+});
 
 onMounted(() => {
-    HealthService.checkHealth()
-        .then((content: HealthState) => (status.value = content.status))
-        .catch((error) => {
-            snackbarStore.showMessage(error);
-        });
+    HealthService.checkHealth().catch((error) => {
+        snackbarStore.showMessage(error);
+    });
     getSchnittstellen();
 });
 
