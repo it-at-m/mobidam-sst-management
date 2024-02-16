@@ -5,6 +5,7 @@
 - License-Headers hinzugefügt
 - Tabelle LOG_Datentransfer erstellt
 - API zum Lesen aller Datentransfer-LOGs für die gegebene Schnittstelle
+- Listenübersicht der Schnittstellen mit den entsprechenden Informationen erstellt
 
 ## Sprint 5 (09.01.2024 - 23.01.2024)
 ### Hinzugefügt
