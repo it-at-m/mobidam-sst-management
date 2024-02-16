@@ -35,7 +35,7 @@
             <h2>Schnittstellen</h2>
         </v-row>
         <br />
-        <v-list lines="two">
+        <v-list>
             <v-list-item
                 v-for="schnittstelle in sortedSchnittstellen"
                 :key="schnittstelle.id"
