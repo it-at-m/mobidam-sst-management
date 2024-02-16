@@ -34,46 +34,163 @@
         <v-row>
             <h2>Schnittstellen</h2>
         </v-row>
-        <v-row>
-            <v-col>
-                <v-list lines="two">
-                    <v-list-item
-                        v-for="n in 5"
-                        :key="n"
-                        @click="$router.push(`/schnittstelleDetailView/${n}`)"
-                    >
-                        Schnittstelle {{ n }}
-                    </v-list-item>
-                </v-list>
-            </v-col>
-        </v-row>
+        <br />
+        <v-list>
+            <v-list-item
+                v-for="schnittstelle in sortedSchnittstellen"
+                :key="schnittstelle.id"
+                @click="
+                    $router.push({
+                        name: 'schnittstelleDetail',
+                        params: {
+                            id: schnittstelle.id,
+                            schnittstelleName: schnittstelle.name,
+                        },
+                    })
+                "
+            >
+                <v-tooltip top>
+                    <template #activator="{ on }">
+                        <v-col v-on="on">
+                            {{ schnittstelle.name }}
+                        </v-col>
+                    </template>
+                    Name der Schnittstelle
+                </v-tooltip>
+                <v-tooltip top>
+                    <template #activator="{ on }">
+                        <v-col
+                            v-if="schnittstelle.editDate"
+                            v-on="on"
+                        >
+                            <v-icon>mdi-calendar-edit</v-icon>
+                            {{ schnittstelle.editDate }}
+                        </v-col>
+                        <v-col
+                            v-else
+                            v-on="on"
+                        >
+                            <v-icon>mdi-calendar-edit</v-icon>
+                            -
+                        </v-col>
+                    </template>
+                    Änderungsdatum
+                </v-tooltip>
+
+                <v-tooltip top>
+                    <template #activator="{ on }">
+                        <v-col
+                            v-if="schnittstelle.status"
+                            v-on="on"
+                        >
+                            <v-icon
+                                v-if="schnittstelle.status == 'AKTIVIERT'"
+                                color="green"
+                                >mdi-check</v-icon
+                            >
+                            <v-icon
+                                v-else
+                                color="red"
+                                >mdi-window-close</v-icon
+                            >
+                            {{ schnittstelle.status }}
+                        </v-col>
+                    </template>
+                    Status
+                </v-tooltip>
+
+                <v-tooltip left>
+                    <template #activator="{ on }">
+                        <v-col v-on="on">
+                            <v-icon>mdi-google-analytics</v-icon>
+                            {{ getDatentransferEreignis(schnittstelle) }}
+                        </v-col>
+                    </template>
+                    Letzter Datentransfer
+                </v-tooltip>
+
+                <v-tooltip left>
+                    <template #activator="{ on }">
+                        <v-col v-on="on">
+                            {{ getDatentransferZeitstempel(schnittstelle) }}
+                        </v-col>
+                    </template>
+                    Zeitstempel des letzten Datentransfers
+                </v-tooltip>
+            </v-list-item>
+        </v-list>
     </v-container>
 </template>
 
 <script setup lang="ts">
 import HealthService from "@/api/HealthService";
-import HealthState from "@/types/HealthState";
 import { useSnackbarStore } from "@/stores/snackbar";
-import { onMounted, ref } from "vue";
+import { onMounted, computed, ref } from "vue";
+import SchnittstelleService from "@/api/SchnittstelleService";
+import Datentransfer from "@/types/Datentransfer";
+import DatentransferService from "@/api/DatentransferService";
+import SchnittstelleWithDatentransfer from "@/types/SchnittstelleWithDatentransfer";
 
 const snackbarStore = useSnackbarStore();
-const status = ref("DOWN");
+const schnittstellen = ref<SchnittstelleWithDatentransfer[]>([]);
+const sortedSchnittstellen = computed(() => {
+    let sorted = ref<SchnittstelleWithDatentransfer[]>([]);
+    schnittstellen.value.forEach((schnittstelle) =>
+        sorted.value.push(Object.assign({}, schnittstelle))
+    );
+    return sorted.value.sort((schnittstelle1, schnittstelle2) =>
+        schnittstelle1.name.toLowerCase() < schnittstelle2.name.toLowerCase()
+            ? -1
+            : 1
+    );
+});
 
 onMounted(() => {
-    HealthService.checkHealth()
-        .then((content: HealthState) => (status.value = content.status))
-        .catch((error) => {
-            snackbarStore.showMessage(error);
-        });
+    HealthService.checkHealth().catch((error) => {
+        snackbarStore.showMessage(error);
+    });
+    getSchnittstellen();
 });
+
+function getSchnittstellen() {
+    SchnittstelleService.getAllSchnittstelle().then((fetchedSchnittstellen) => {
+        let datentransfer: Datentransfer | undefined = undefined;
+        for (const fetchedSchnittstelle of fetchedSchnittstellen) {
+            const schnittstelle: SchnittstelleWithDatentransfer =
+                new SchnittstelleWithDatentransfer(
+                    fetchedSchnittstelle.name,
+                    fetchedSchnittstelle.creationDate,
+                    fetchedSchnittstelle.id,
+                    datentransfer,
+                    fetchedSchnittstelle.editDate,
+                    fetchedSchnittstelle.status,
+                    fetchedSchnittstelle.explanation
+                );
+            DatentransferService.getLatestResultStateBySchnittstelle(
+                fetchedSchnittstelle.id
+            ).then((fetchedDatentransfer) => {
+                if (fetchedDatentransfer)
+                    schnittstelle.datentransfer = fetchedDatentransfer;
+                schnittstellen.value.push(schnittstelle);
+            });
+        }
+    });
+}
+
+function getDatentransferEreignis(
+    schnittstelle: SchnittstelleWithDatentransfer
+): string {
+    if (schnittstelle.datentransfer)
+        return schnittstelle.datentransfer.ereignis;
+    return "-";
+}
+
+function getDatentransferZeitstempel(
+    schnittstelle: SchnittstelleWithDatentransfer
+): string {
+    if (schnittstelle.datentransfer)
+        return schnittstelle.datentransfer.zeitstempel;
+    return "";
+}
 </script>
 
-<style scoped>
-.UP {
-    color: limegreen;
-}
-
-.DOWN {
-    color: lightcoral;
-}
-</style>

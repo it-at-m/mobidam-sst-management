@@ -23,7 +23,9 @@
 package de.muenchen.mobidam.repository;
 
 import de.muenchen.mobidam.domain.Datentransfer;
+import de.muenchen.mobidam.domain.enums.EreignisTyp;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -31,5 +33,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface DatentransferRepository extends CrudRepository<Datentransfer, UUID>, PagingAndSortingRepository<Datentransfer, UUID> {
 
-    List<Datentransfer> findDatenstransfersBySchnittstelleId(UUID id, Pageable pageable);
+    List<Datentransfer> findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(UUID id, Pageable pageable);
+
+    Optional<Datentransfer> findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(UUID id, List<EreignisTyp> unwantedEreignisTypes);
 }
