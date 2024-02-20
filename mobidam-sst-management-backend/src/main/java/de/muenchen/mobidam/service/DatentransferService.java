@@ -23,10 +23,13 @@
 package de.muenchen.mobidam.service;
 
 import de.muenchen.mobidam.domain.Datentransfer;
+import de.muenchen.mobidam.domain.Schnittstelle;
+import de.muenchen.mobidam.domain.dtos.DatentransferCreateDTO;
 import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
 import de.muenchen.mobidam.domain.enums.EreignisTyp;
 import de.muenchen.mobidam.domain.mappers.DatentransferMapper;
 import de.muenchen.mobidam.repository.DatentransferRepository;
+import de.muenchen.mobidam.repository.SchnittstelleRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +46,7 @@ public class DatentransferService {
     private static final int PAGE_SIZE = 10;
 
     private final DatentransferRepository datentransferRepository;
+    private final SchnittstelleRepository schnittstelleRepository;
     private final DatentransferMapper datentransferMapper;
 
     public Iterable<DatentransferDTO> getBySchnittstelle(String schnittstelleId, int page) {
@@ -61,5 +65,18 @@ public class DatentransferService {
         Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(
                 UUID.fromString(schnittstelleId), notResultStateEreignisTypes);
         return datentransfer.map(datentransferMapper::toDTO);
+    }
+
+    public Optional<DatentransferDTO> createDatentransfer(DatentransferCreateDTO datentransferDTO){
+        Optional<Schnittstelle> schnittstelle = schnittstelleRepository.findById(datentransferDTO.getSchnittstelle());
+        if(schnittstelle.isEmpty())
+            return Optional.empty();
+        try {
+            Datentransfer datentransfer = datentransferMapper.toEntity(datentransferDTO, EreignisTyp.valueOf(datentransferDTO.getEreignis()));
+            return Optional.of(datentransferMapper.toDTO(datentransferRepository.save(datentransfer)));
+
+        } catch (IllegalArgumentException exp){
+            return Optional.empty();
+        }
     }
 }

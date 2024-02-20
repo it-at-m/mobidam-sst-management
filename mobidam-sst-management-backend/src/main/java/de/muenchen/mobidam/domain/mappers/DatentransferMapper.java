@@ -23,7 +23,9 @@
 package de.muenchen.mobidam.domain.mappers;
 
 import de.muenchen.mobidam.domain.Datentransfer;
+import de.muenchen.mobidam.domain.dtos.DatentransferCreateDTO;
 import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
+import de.muenchen.mobidam.domain.enums.EreignisTyp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -32,5 +34,9 @@ public interface DatentransferMapper {
 
     @Mapping(target = "schnittstelle", source = "schnittstelle.id")
     DatentransferDTO toDTO(Datentransfer datentransfer);
+
+    @Mapping(target = "schnittstelle.id", source = "schnittstelle")
+    @Mapping(target = "ereignis", source = "ereignis")
+    Datentransfer toEntity(DatentransferCreateDTO datentransferCreateDTO, EreignisTyp ereignis);
 
 }
