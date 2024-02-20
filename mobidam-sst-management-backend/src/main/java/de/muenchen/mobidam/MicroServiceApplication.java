@@ -60,7 +60,7 @@ public class MicroServiceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Property: "+System.getProperty("SPRING_DATASOURCE_USERNAME"));
-        System.out.println("Env: "+System.getenv("SPRING_DATASOURCE_USERNAME"));
+        System.out.println("Property: " + System.getProperty("SPRING_DATASOURCE_USERNAME"));
+        System.out.println("Env: " + System.getenv("SPRING_DATASOURCE_USERNAME"));
     }
 }
