@@ -124,18 +124,18 @@ class DatentransferControllerTest {
         datentransferCreateDTO.setProzessId("process");
         datentransferCreateDTO.setSchnittstelle(UUID.randomUUID());
 
-        Map<String,Object> body = new HashMap<>();
-        body.put("ereignis","wrong-type");
-        body.put("info","test");
-        body.put("zeitstempel","2024-02-20T16:02:26.706Z");
-        body.put("prozess","test");
-        body.put("schnittstelle","1");
+        Map<String, Object> body = new HashMap<>();
+        body.put("ereignis", "wrong-type");
+        body.put("info", "test");
+        body.put("zeitstempel", "2024-02-20T16:02:26.706Z");
+        body.put("prozess", "test");
+        body.put("schnittstelle", "1");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         mockMvc.perform(post("/api/datentransfer")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(body)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
 
     }
