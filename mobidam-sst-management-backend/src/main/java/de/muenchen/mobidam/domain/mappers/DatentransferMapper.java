@@ -35,8 +35,9 @@ public interface DatentransferMapper {
     @Mapping(target = "schnittstelle", source = "schnittstelle.id")
     DatentransferDTO toDTO(Datentransfer datentransfer);
 
-    @Mapping(target = "schnittstelle.id", source = "schnittstelle")
+    @Mapping(target = "schnittstelle.id", source = "datentransferCreateDTO.schnittstelle")
     @Mapping(target = "ereignis", source = "ereignis")
+    @Mapping(ignore = true, target = "id")
     Datentransfer toEntity(DatentransferCreateDTO datentransferCreateDTO, EreignisTyp ereignis);
 
 }
