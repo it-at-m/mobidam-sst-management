@@ -26,9 +26,8 @@ import de.muenchen.mobidam.domain.dtos.DatentransferCreateDTO;
 import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
 import de.muenchen.mobidam.service.DatentransferService;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.Optional;
-
 import jakarta.validation.Valid;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +64,7 @@ public class DatentransferController {
     @PostMapping
     public ResponseEntity<?> createDatentransfer(@Valid @RequestBody DatentransferCreateDTO datentransferCreateDTO) {
         Optional<DatentransferDTO> datentransferDTO = datentransferService.createDatentransfer(datentransferCreateDTO);
-        if(datentransferDTO.isPresent())
+        if (datentransferDTO.isPresent())
             return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);
         return ResponseEntity.badRequest().build();
     }
