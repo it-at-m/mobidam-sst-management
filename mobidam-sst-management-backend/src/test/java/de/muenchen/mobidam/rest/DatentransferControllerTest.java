@@ -22,7 +22,12 @@
  */
 package de.muenchen.mobidam.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.muenchen.mobidam.MicroServiceApplication;
+import de.muenchen.mobidam.domain.Schnittstelle;
+import de.muenchen.mobidam.domain.dtos.DatentransferCreateDTO;
+import de.muenchen.mobidam.domain.enums.SchnittstellenStatus;
+import de.muenchen.mobidam.repository.SchnittstelleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,6 +40,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.MediaType;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static de.muenchen.mobidam.TestConstants.SPRING_NO_SECURITY_PROFILE;
@@ -60,9 +69,12 @@ class DatentransferControllerTest {
     @Autowired
     private DatentransferController datentransferController;
 
+    @Autowired
+    private SchnittstelleRepository schnittstelleRepository;
+
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testSuccess() {
+    void testGetSuccess() {
 
         ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle(UUID.randomUUID().toString(), 0);
 
@@ -72,10 +84,58 @@ class DatentransferControllerTest {
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testException() throws Exception {
+    void testPostSuccess() {
+
+        Schnittstelle schnittstelle = new Schnittstelle();
+        schnittstelle.setName("test");
+        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
+        schnittstelle = schnittstelleRepository.save(schnittstelle);
+
+        DatentransferCreateDTO datentransferCreateDTO = new DatentransferCreateDTO();
+        datentransferCreateDTO.setEreignis("FEHLER");
+        datentransferCreateDTO.setInfo("test");
+        datentransferCreateDTO.setZeitstempel(LocalDateTime.now());
+        datentransferCreateDTO.setProzessId("process");
+        datentransferCreateDTO.setSchnittstelle(schnittstelle.getId());
+        ResponseEntity<?> datentransferDTO = datentransferController.createDatentransfer(datentransferCreateDTO);
+
+        assertEquals(HttpStatus.OK, datentransferDTO.getStatusCode());
+        assertNotNull(datentransferDTO.getBody());
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
+    void testGetException() throws Exception {
 
         mockMvc.perform(get("/api/datentransfer/1/0")
                 .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
+    void testPostException() throws Exception {
+        DatentransferCreateDTO datentransferCreateDTO = new DatentransferCreateDTO();
+        datentransferCreateDTO.setEreignis("wrong-type");
+        datentransferCreateDTO.setInfo("test");
+        datentransferCreateDTO.setZeitstempel(LocalDateTime.now());
+        datentransferCreateDTO.setProzessId("process");
+        datentransferCreateDTO.setSchnittstelle(UUID.randomUUID());
+
+        Map<String,Object> body = new HashMap<>();
+        body.put("ereignis","wrong-type");
+        body.put("info","test");
+        body.put("zeitstempel","2024-02-20T16:02:26.706Z");
+        body.put("prozess","test");
+        body.put("schnittstelle","1");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        mockMvc.perform(post("/api/datentransfer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
 
     }

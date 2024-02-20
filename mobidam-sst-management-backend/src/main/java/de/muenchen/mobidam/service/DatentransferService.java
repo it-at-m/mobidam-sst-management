@@ -72,15 +72,7 @@ public class DatentransferService {
         if (schnittstelle.isEmpty())
             return Optional.empty();
 
-        EreignisTyp ereignis;
-        try {
-            ereignis = EreignisTyp.valueOf(datentransferDTO.getEreignis());
-
-        } catch (IllegalArgumentException exp) {
-            return Optional.empty();
-        }
-
-        Datentransfer datentransfer = datentransferMapper.toEntity(datentransferDTO, ereignis);
+        Datentransfer datentransfer = datentransferMapper.toEntity(datentransferDTO, EreignisTyp.valueOf(datentransferDTO.getEreignis()));
         return Optional.of(datentransferMapper.toDTO(datentransferRepository.save(datentransfer)));
     }
 }
