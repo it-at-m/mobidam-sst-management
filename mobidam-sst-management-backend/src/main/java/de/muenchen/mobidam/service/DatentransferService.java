@@ -71,12 +71,16 @@ public class DatentransferService {
         Optional<Schnittstelle> schnittstelle = schnittstelleRepository.findById(datentransferDTO.getSchnittstelle());
         if(schnittstelle.isEmpty())
             return Optional.empty();
+
+        EreignisTyp ereignis;
         try {
-            Datentransfer datentransfer = datentransferMapper.toEntity(datentransferDTO, EreignisTyp.valueOf(datentransferDTO.getEreignis()));
-            return Optional.of(datentransferMapper.toDTO(datentransferRepository.save(datentransfer)));
+            ereignis = EreignisTyp.valueOf(datentransferDTO.getEreignis());
 
         } catch (IllegalArgumentException exp){
             return Optional.empty();
         }
+
+        Datentransfer datentransfer = datentransferMapper.toEntity(datentransferDTO, ereignis);
+        return Optional.of(datentransferMapper.toDTO(datentransferRepository.save(datentransfer)));
     }
 }
