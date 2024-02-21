@@ -1,5 +1,9 @@
 # Release-Notes
 
+## Sprint 7 (13.02.2024 - 05.03.2024)
+### Hinzugefügt
+- POST Schnittstelle fürs Erstellen von Datentransferen
+
 ## Sprint 6 (23.01.2024 - 13.02.2024)
 ### Hinzugefügt
 - License-Headers hinzugefügt

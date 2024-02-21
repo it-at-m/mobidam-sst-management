@@ -22,15 +22,19 @@
  */
 package de.muenchen.mobidam.rest;
 
+import de.muenchen.mobidam.domain.dtos.DatentransferCreateDTO;
 import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
 import de.muenchen.mobidam.service.DatentransferService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,4 +59,14 @@ public class DatentransferController {
             return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);
         return ResponseEntity.notFound().build();
     }
+
+    @Operation(summary = "Creating a Datentransfer for an existing Schnittstelle")
+    @PostMapping
+    public ResponseEntity<?> createDatentransfer(@Valid @RequestBody DatentransferCreateDTO datentransferCreateDTO) {
+        Optional<DatentransferDTO> datentransferDTO = datentransferService.createDatentransfer(datentransferCreateDTO);
+        if (datentransferDTO.isPresent())
+            return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);
+        return ResponseEntity.badRequest().build();
+    }
+
 }

@@ -20,24 +20,34 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package de.muenchen.mobidam.domain.mappers;
+package de.muenchen.mobidam.domain.dtos;
 
-import de.muenchen.mobidam.domain.Datentransfer;
-import de.muenchen.mobidam.domain.dtos.DatentransferCreateDTO;
-import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
-import de.muenchen.mobidam.domain.enums.EreignisTyp;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Mapper
-public interface DatentransferMapper {
+@Getter
+@Setter
+@ToString(callSuper = true)
+@NoArgsConstructor
+public class DatentransferCreateDTO {
 
-    @Mapping(target = "schnittstelle", source = "schnittstelle.id")
-    DatentransferDTO toDTO(Datentransfer datentransfer);
+    @NotEmpty
+    private String prozessId;
 
-    @Mapping(target = "schnittstelle.id", source = "datentransferCreateDTO.schnittstelle")
-    @Mapping(target = "ereignis", source = "ereignis")
-    @Mapping(ignore = true, target = "id")
-    Datentransfer toEntity(DatentransferCreateDTO datentransferCreateDTO, EreignisTyp ereignis);
+    @NotNull
+    private LocalDateTime zeitstempel;
 
+    @NotEmpty
+    private String ereignis;
+
+    private String info;
+
+    @NotNull
+    private UUID schnittstelle;
 }
