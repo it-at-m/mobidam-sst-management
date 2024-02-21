@@ -74,7 +74,7 @@ class DatentransferControllerTest {
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testGetSuccess() {
+    void test_getBySchnittstelle() {
 
         ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle(UUID.randomUUID().toString(), 0);
 
@@ -84,7 +84,7 @@ class DatentransferControllerTest {
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testPostSuccess() {
+    void test_createDatentransfer() {
 
         Schnittstelle schnittstelle = new Schnittstelle();
         schnittstelle.setName("test");
@@ -106,7 +106,7 @@ class DatentransferControllerTest {
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testGetException() throws Exception {
+    void test_getBySchnittstelle_isBadRequest() throws Exception {
 
         mockMvc.perform(get("/api/datentransfer/1/0")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -116,7 +116,7 @@ class DatentransferControllerTest {
 
     @Test
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
-    void testPostException() throws Exception {
+    void test_createDatentransfer_isBadRequest() throws Exception {
         DatentransferCreateDTO datentransferCreateDTO = new DatentransferCreateDTO();
         datentransferCreateDTO.setEreignis("wrong-type");
         datentransferCreateDTO.setInfo("test");
