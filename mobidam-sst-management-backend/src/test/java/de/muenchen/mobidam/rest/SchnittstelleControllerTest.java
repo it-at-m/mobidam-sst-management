@@ -24,6 +24,7 @@ package de.muenchen.mobidam.rest;
 
 import de.muenchen.mobidam.domain.dtos.SchnittstelleCreateDTO;
 import de.muenchen.mobidam.domain.dtos.SchnittstelleDTO;
+import de.muenchen.mobidam.domain.dtos.SchnittstelleGetStatusDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -122,6 +123,27 @@ class SchnittstelleControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, updatedSchnittstelleDTO.getStatusCode());
         assertNull(updatedSchnittstelleDTO.getBody());
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
+    void testGetStatusSuccess() {
+
+        SchnittstelleCreateDTO schnittstelleCreateDTO = new SchnittstelleCreateDTO();
+        schnittstelleCreateDTO.setExplanation("Created test.");
+        schnittstelleCreateDTO.setStatus("AKTIVIERT");
+        schnittstelleCreateDTO.setName("test");
+
+        ResponseEntity<SchnittstelleDTO> schnittstelleDTO = schnittstelleController.create(schnittstelleCreateDTO);
+
+        assertEquals(HttpStatus.OK, schnittstelleDTO.getStatusCode());
+        assertNotNull(schnittstelleDTO.getBody());
+
+        ResponseEntity<?> result = schnittstelleController.getStatus(schnittstelleDTO.getBody().getId().toString());
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertNotNull(result.getBody());
+        assertEquals(schnittstelleCreateDTO.getStatus(), ((SchnittstelleGetStatusDTO) result.getBody()).getStatus());
     }
 
 }
