@@ -83,7 +83,6 @@ public class SchnittstelleService {
         } catch (IllegalArgumentException ex) {
             return Optional.empty();
         }
-        Optional<Schnittstelle> sst = schnittstelleRepository.findById(uuid);
-        return sst.map(schnittstelle -> new SchnittstelleGetStatusDTO(schnittstelle.getStatus().name()));
+        return  schnittstelleRepository.findById(uuid).map(schnittstelle -> new SchnittstelleGetStatusDTO(schnittstelle.getStatus().name()));
     }
 }
