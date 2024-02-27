@@ -130,7 +130,7 @@
         </v-list>
         <add-schnittstelle-dialog
             :show-dialog.sync="showAddSchnittstelleDialog"
-            @zuordnung-saved="getSchnittstellen"
+            @schnittstelle-saved="refreshList"
         ></add-schnittstelle-dialog>
     </v-container>
 </template>
@@ -208,6 +208,11 @@ function getDatentransferZeitstempel(
     if (schnittstelle.datentransfer)
         return schnittstelle.datentransfer.zeitstempel;
     return "";
+}
+
+function refreshList(): void {
+    schnittstellen.value = [];
+    getSchnittstellen();
 }
 </script>
 
