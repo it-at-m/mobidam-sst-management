@@ -23,6 +23,8 @@
 
 import FetchUtils from "@/api/FetchUtils";
 import Schnittstelle from "@/types/Schnittstelle";
+import { useSnackbarStore } from "@/stores/snackbar";
+import { Levels } from "@/api/error";
 
 export default class SchnittstelleService {
     private static base: string | undefined = import.meta.env
@@ -41,5 +43,27 @@ export default class SchnittstelleService {
             }
             return response.json();
         });
+    }
+
+    public static create(instance: Schnittstelle): Promise<Schnittstelle> {
+        return fetch(
+            `${this.base}/api/schnittstelle`,
+            FetchUtils.getPOSTConfig(instance)
+        )
+            .then((response) => {
+                useSnackbarStore().showMessage({
+                    message: "Speichern erfolgreich.",
+                    level: Levels.SUCCESS,
+                });
+                FetchUtils.defaultResponseHandler(response);
+                return response.json();
+            })
+            .catch((err) => {
+                useSnackbarStore().showMessage({
+                    message: "Speichern der Schnittstelle fehlgeschlagen.",
+                    level: Levels.ERROR,
+                });
+                FetchUtils.defaultResponseHandler(err);
+            });
     }
 }
