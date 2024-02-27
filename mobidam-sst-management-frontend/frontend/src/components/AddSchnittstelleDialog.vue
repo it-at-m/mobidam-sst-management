@@ -35,7 +35,7 @@
 
             <v-divider class="divider"></v-divider>
             <v-card-text>
-                <v-form ref="formSchnittstelle">
+                <v-form ref="form">
                     <v-text-field
                         ref="name"
                         v-model="schnittstelle.name"
@@ -162,10 +162,10 @@ const emit = defineEmits<{
     (e: "schnittstelle-saved"): void;
 }>();
 
-const formSchnittstelle = ref<HTMLFormElement>();
+const form = ref<HTMLFormElement>();
 
 function saveSchnittstelle(): void {
-    if (formSchnittstelle.value?.validate()) {
+    if (form.value?.validate()) {
         SchnittstelleService.create(schnittstelle.value)
             .then((schnittstelle) => {
                 saveZuordnungen(schnittstelle);
@@ -174,7 +174,7 @@ function saveSchnittstelle(): void {
                 emit("schnittstelle-saved");
                 resetSchnittstelle();
                 closeDialog();
-                formSchnittstelle.value?.resetValidation();
+                form.value?.resetValidation();
             });
     }
 }
@@ -202,7 +202,7 @@ function resetSchnittstelle(): void {
         "DEAKTIVIERT"
     );
     zuordnungen.value = [];
-    formSchnittstelle.value?.resetValidation();
+    form.value?.resetValidation();
 }
 
 function closeDialog() {
