@@ -35,7 +35,7 @@
 
             <v-divider class="divider"></v-divider>
             <v-card-text>
-                <v-form ref="form">
+                <v-form ref="formSchnittstelle">
                     <v-text-field
                         ref="name"
                         v-model="schnittstelle.name"
@@ -49,14 +49,6 @@
                         label="Anlagedatum"
                         hint="Als Anlagedatum wird automatisch der heutige Tag gesetzt."
                         readonly
-                    ></v-text-field>
-                    <v-text-field
-                        ref="address"
-                        v-model="schnittstelle.editDate"
-                        label="Änderungsdatum"
-                        hint="Wird beim Bearbeiten automatisch gesetzt."
-                        readonly
-                        :disabled="true"
                     ></v-text-field>
                     &nbsp;
                     <v-row>
@@ -75,9 +67,37 @@
                                 ref="explanantion"
                                 v-model="schnittstelle.explanation"
                                 label="Begründung der Statussetzung"
-                                :rules="textMaxLength"
                                 outlined
                             ></v-textarea>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="3">
+                            <v-tooltip right>
+                                <template #activator="{ on }">
+                                    <v-btn
+                                        small
+                                        outlined
+                                        @click="showAddPersonDialog = true"
+                                        v-on="on"
+                                    >
+                                        <v-icon>mdi-account-plus</v-icon>
+                                    </v-btn>
+                                </template>
+                                Fachverantwortliche hinzufügen
+                            </v-tooltip>
+                        </v-col>
+                        <v-col>
+                            <v-chip
+                                v-for="zuordnung in zuordnungen"
+                                :key="zuordnung"
+                                close
+                                style="margin-right: 1%"
+                                @click:close="removeZuordnung(zuordnung)"
+                            >
+                                {{ zuordnung.userID }}
+                            </v-chip>
+                            <br />
                         </v-col>
                     </v-row>
                 </v-form>
@@ -89,12 +109,17 @@
                 <v-btn
                     class="white--text"
                     color="success"
-                    @click="saveTask"
+                    @click="saveSchnittstelle"
                 >
                     Speichern
                 </v-btn>
             </v-card-actions>
         </v-card>
+        <add-person-dialog
+            :show-dialog.sync="showAddPersonDialog"
+            confirm-button="Übernehmen"
+            @zuordnung-saved="confirmZuordnung"
+        ></add-person-dialog>
     </v-dialog>
 </template>
 
@@ -103,6 +128,9 @@ import { ref } from "vue";
 import { useRules } from "@/composables/rules";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
+import AddPersonDialog from "@/components/AddPersonDialog.vue";
+import Zuordnung from "@/types/Zuordnung";
+import ZuordnungService from "@/api/ZuordnungService";
 
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
@@ -114,6 +142,8 @@ const textInputRules = [
     ),
 ];
 const today = ref<Date>(new Date());
+const showAddPersonDialog = ref(false);
+const zuordnungen = ref<Zuordnung[]>([]);
 
 interface Props {
     showDialog: boolean;
@@ -132,20 +162,37 @@ const emit = defineEmits<{
     (e: "schnittstelle-saved"): void;
 }>();
 
-const form = ref<HTMLFormElement>();
+const formSchnittstelle = ref<HTMLFormElement>();
 
-function saveTask(): void {
-    if (form.value?.validate()) {
+function saveSchnittstelle(): void {
+    if (formSchnittstelle.value?.validate()) {
         SchnittstelleService.create(schnittstelle.value)
-            .then(() => {
-                closeDialog();
-                resetSchnittstelle();
-                emit("schnittstelle-saved");
+            .then((schnittstelle) => {
+                saveZuordnungen(schnittstelle);
             })
             .finally(() => {
-                form.value?.resetValidation();
+                emit("schnittstelle-saved");
+                resetSchnittstelle();
+                closeDialog();
+                formSchnittstelle.value?.resetValidation();
             });
     }
+}
+
+function confirmZuordnung(zuordnung: Zuordnung): void {
+    zuordnungen.value.push(zuordnung);
+}
+
+function saveZuordnungen(schnittstelle: Schnittstelle) {
+    for (const zuordnung of zuordnungen.value) {
+        if (schnittstelle.id !== undefined)
+            zuordnung.schnittstelle = schnittstelle.id;
+        ZuordnungService.create(zuordnung);
+    }
+}
+
+function removeZuordnung(zuordnung: Zuordnung): void {
+    zuordnungen.value.splice(zuordnungen.value.indexOf(zuordnung), 1);
 }
 
 function resetSchnittstelle(): void {
@@ -154,7 +201,8 @@ function resetSchnittstelle(): void {
         today.value.toISOString(),
         "DEAKTIVIERT"
     );
-    form.value?.resetValidation();
+    zuordnungen.value = [];
+    formSchnittstelle.value?.resetValidation();
 }
 
 function closeDialog() {
