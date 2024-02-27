@@ -68,6 +68,7 @@
                                 v-model="schnittstelle.explanation"
                                 label="Begründung der Statussetzung"
                                 outlined
+                                :maxlength="255"
                             ></v-textarea>
                         </v-col>
                     </v-row>
