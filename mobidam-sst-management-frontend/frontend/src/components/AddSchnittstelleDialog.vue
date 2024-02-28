@@ -38,7 +38,7 @@
                 <v-form ref="form">
                     <v-text-field
                         ref="name"
-                        v-model="schnittstelle.name"
+                        v-model="schnittstelleRequest.name"
                         label="Name der Schnittstelle"
                         :rules="textInputRules"
                     >
@@ -55,8 +55,8 @@
                         <v-col cols="3">
                             <v-switch
                                 ref="status"
-                                v-model="schnittstelle.status"
-                                :label="`Status der Schnittstelle: ${schnittstelle.status}`"
+                                v-model="schnittstelleRequest.status"
+                                :label="`Status der Schnittstelle: ${schnittstelleRequest.status}`"
                                 true-value="AKTIVIERT"
                                 false-value="DEAKTIVIERT"
                                 color="success"
@@ -65,7 +65,7 @@
                         <v-col>
                             <v-textarea
                                 ref="explanantion"
-                                v-model="schnittstelle.explanation"
+                                v-model="schnittstelleRequest.explanation"
                                 label="Begründung der Statussetzung"
                                 outlined
                                 :maxlength="255"
@@ -132,6 +132,7 @@ import Schnittstelle from "@/types/Schnittstelle";
 import AddPersonDialog from "@/components/AddPersonDialog.vue";
 import Zuordnung from "@/types/Zuordnung";
 import ZuordnungService from "@/api/ZuordnungService";
+import SchnittstelleRequest from "@/types/SchnittstelleRequest";
 
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
@@ -154,8 +155,8 @@ const props = withDefaults(defineProps<Props>(), {
     showDialog: false,
 });
 
-const schnittstelle = ref<Schnittstelle>(
-    new Schnittstelle("", today.value.toISOString(), "DEAKTIVIERT")
+const schnittstelleRequest = ref<SchnittstelleRequest>(
+    new SchnittstelleRequest("", today.value.toISOString(), "DEAKTIVIERT")
 );
 
 const emit = defineEmits<{
@@ -167,7 +168,7 @@ const form = ref<HTMLFormElement>();
 
 function saveSchnittstelle(): void {
     if (form.value?.validate()) {
-        SchnittstelleService.create(schnittstelle.value)
+        SchnittstelleService.create(schnittstelleRequest.value)
             .then((schnittstelle) => {
                 saveZuordnungen(schnittstelle);
             })
@@ -197,7 +198,7 @@ function removeZuordnung(zuordnung: Zuordnung): void {
 }
 
 function resetSchnittstelle(): void {
-    schnittstelle.value = new Schnittstelle(
+    schnittstelleRequest.value = new SchnittstelleRequest(
         "",
         today.value.toISOString(),
         "DEAKTIVIERT"

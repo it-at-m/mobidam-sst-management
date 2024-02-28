@@ -175,14 +175,12 @@ function getSchnittstellen() {
                 new SchnittstelleWithDatentransfer(
                     fetchedSchnittstelle.name,
                     fetchedSchnittstelle.creationDate,
-                    "",
+                    fetchedSchnittstelle.id,
                     datentransfer,
                     fetchedSchnittstelle.editDate,
                     fetchedSchnittstelle.status,
                     fetchedSchnittstelle.explanation
                 );
-            if (fetchedSchnittstelle.id !== undefined)
-                schnittstelle.id = fetchedSchnittstelle.id;
             DatentransferService.getLatestResultStateBySchnittstelle(
                 fetchedSchnittstelle.id
             ).then((fetchedDatentransfer) => {

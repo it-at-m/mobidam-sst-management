@@ -25,6 +25,7 @@ import FetchUtils from "@/api/FetchUtils";
 import Schnittstelle from "@/types/Schnittstelle";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { Levels } from "@/api/error";
+import SchnittstelleRequest from "@/types/SchnittstelleRequest";
 
 export default class SchnittstelleService {
     private static base: string | undefined = import.meta.env
@@ -45,7 +46,9 @@ export default class SchnittstelleService {
         });
     }
 
-    public static create(instance: Schnittstelle): Promise<Schnittstelle> {
+    public static create(
+        instance: SchnittstelleRequest
+    ): Promise<Schnittstelle> {
         return fetch(
             `${this.base}/api/schnittstelle`,
             FetchUtils.getPOSTConfig(instance)

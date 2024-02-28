@@ -21,11 +21,10 @@
 ///  THE SOFTWARE.
 ///
 
-export default class Schnittstelle {
+export default class SchnittstelleRequest {
     constructor(
         public name: string,
         public creationDate: string,
-        public id: string,
         public status?: string,
         public editDate?: string,
         public explanation?: string
