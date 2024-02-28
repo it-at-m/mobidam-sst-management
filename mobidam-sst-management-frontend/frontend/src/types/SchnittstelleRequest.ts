@@ -24,9 +24,7 @@
 export default class SchnittstelleRequest {
     constructor(
         public name: string,
-        public creationDate: string,
         public status?: string,
-        public editDate?: string,
         public explanation?: string
     ) {}
 }

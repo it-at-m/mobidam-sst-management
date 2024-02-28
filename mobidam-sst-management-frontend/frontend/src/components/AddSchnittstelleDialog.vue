@@ -156,7 +156,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const schnittstelleRequest = ref<SchnittstelleRequest>(
-    new SchnittstelleRequest("", today.value.toISOString(), "DEAKTIVIERT")
+    new SchnittstelleRequest("", "DEAKTIVIERT")
 );
 
 const emit = defineEmits<{
@@ -200,7 +200,6 @@ function removeZuordnung(zuordnung: Zuordnung): void {
 function resetSchnittstelle(): void {
     schnittstelleRequest.value = new SchnittstelleRequest(
         "",
-        today.value.toISOString(),
         "DEAKTIVIERT"
     );
     zuordnungen.value = [];
