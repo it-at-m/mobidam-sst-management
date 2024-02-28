@@ -24,6 +24,7 @@ package de.muenchen.mobidam.service;
 
 import de.muenchen.mobidam.domain.dtos.SchnittstelleCreateDTO;
 import de.muenchen.mobidam.domain.dtos.SchnittstelleDTO;
+import de.muenchen.mobidam.domain.dtos.SchnittstelleGetStatusDTO;
 import de.muenchen.mobidam.domain.mappers.SchnittstelleMapper;
 import de.muenchen.mobidam.repository.SchnittstelleRepository;
 import java.time.LocalDate;
@@ -74,4 +75,8 @@ public class SchnittstelleService {
         return Optional.empty();
     }
 
+    public Optional<SchnittstelleGetStatusDTO> getStatus(String id) {
+        UUID uuid = UUID.fromString(id);
+        return schnittstelleRepository.findById(uuid).map(schnittstelle -> new SchnittstelleGetStatusDTO(schnittstelle.getStatus().name()));
+    }
 }

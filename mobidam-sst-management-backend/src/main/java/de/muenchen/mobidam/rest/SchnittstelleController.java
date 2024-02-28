@@ -24,6 +24,7 @@ package de.muenchen.mobidam.rest;
 
 import de.muenchen.mobidam.domain.dtos.SchnittstelleCreateDTO;
 import de.muenchen.mobidam.domain.dtos.SchnittstelleDTO;
+import de.muenchen.mobidam.domain.dtos.SchnittstelleGetStatusDTO;
 import de.muenchen.mobidam.service.SchnittstelleService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -50,6 +51,15 @@ public class SchnittstelleController {
     @GetMapping
     public ResponseEntity<Iterable<SchnittstelleDTO>> getAll() {
         return new ResponseEntity<>(schnittstelleService.getAll(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get status of schnittstelle")
+    @GetMapping("{id}/status")
+    public ResponseEntity<?> getStatus(@PathVariable final String id) {
+        Optional<SchnittstelleGetStatusDTO> schnittstelleDTO = schnittstelleService.getStatus(id);
+        if (schnittstelleDTO.isPresent())
+            return new ResponseEntity<>(schnittstelleDTO.get(), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Operation(summary = "Deletes the schnittstelle with the given ID")
