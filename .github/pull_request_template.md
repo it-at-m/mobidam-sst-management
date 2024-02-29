@@ -1,11 +1,3 @@
----
-name: Pull request template
-about: Create a pull request to contribute to our software
-title: ""
-labels: ""
-assignees: ""
----
-
 ## Pull Request
 
 ### Description
