@@ -13,6 +13,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           TARGET_REPO: it-at-m/mobidam-sst-management
           TARGET_BRANCH: test/vuepress
-          BUILD_SCRIPT: yarn && yarn docs:build
+          BUILD_SCRIPT: cd docs && yarn && yarn docs:build
           BUILD_DIR: docs/.vuepress/dist
           CNAME: https://it-at-m.github.io/mobidam-sst-management/
