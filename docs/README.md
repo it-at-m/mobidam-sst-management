@@ -42,16 +42,16 @@ Die Vorschau der Dokumentation ist über http://localhost:8080/ erreichbar.
 
 ### Hinzufügen neuer Seiten
 
-Neue Seiten im seitlichen Menü müssen in der Datei [src/.vuepress/config.js](.vuepress/config.js) hinzugefügt werden.
+Neue Seiten im seitlichen Menü müssen in der Datei [.vuepress/config.js](.vuepress/config.js) hinzugefügt werden.
 Siehe [vuepress docs](https://v1.vuepress.vuejs.org/theme/default-theme-config.html#sidebar) für weitere Informationen.
 
 <!--
 ## Document new features and bugfixes
 
-You should add new features to [src/features/index.md](src/features/index.md) with a title and a description
+You should add new features to [features/index.md](src/features/index.md) with a title and a description
 that users can see all capabilities of the DigiWF plattform at once.
 
-Additionally, you should add new features, bugfix and every other change to the list in [src/features/changes/index.md](src/features/changes/index.md).
+Additionally, you should add new features, bugfix and every other change to the list in [features/changes/index.md](features/changes/index.md).
 This list may be published as release notes and is the summary of the CHANGELOG.md.
 
 > Note: The CHANGELOG.md keeps track of all changes the DigiWF plattform is undergoing.
@@ -60,7 +60,7 @@ This list may be published as release notes and is the summary of the CHANGELOG.
 
 ### Adding element-templates and examples
 
-You can add element-templates and example processes to [src/.vuepress/public](src/.vuepress/public)
-and list them in the according files under [src/modeling/templates](src/modeling/templates).
+You can add element-templates and example processes to [.vuepress/public](.vuepress/public)
+and list them in the according files under [modeling/templates](modeling/templates).
 
 -->
