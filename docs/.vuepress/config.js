@@ -9,7 +9,6 @@ module.exports = {
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
   description: description,
-  base: '/mobidam-sst-management/',
 
   /**
    * Extra tags to be injected to the page HTML `<head>`
