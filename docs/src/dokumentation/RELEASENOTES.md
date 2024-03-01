@@ -1,5 +1,18 @@
 # Release-Notes
 
+## Sprint 7 (13.02.2024 - 05.03.2024)
+### Hinzugefügt
+- GET Endpoint zur Statusabfrage
+- POST Schnittstelle fürs Erstellen von Datentransferen
+- Ersterfassung von Schnittstellen (mit ggf. Zuordnungen)
+
+## Sprint 6 (23.01.2024 - 13.02.2024)
+### Hinzugefügt
+- License-Headers hinzugefügt
+- Tabelle LOG_Datentransfer erstellt
+- API zum Lesen aller Datentransfer-LOGs für die gegebene Schnittstelle
+- Listenübersicht der Schnittstellen mit den entsprechenden Informationen erstellt
+
 ## Sprint 5 (09.01.2024 - 23.01.2024)
 ### Hinzugefügt
 - Tabelle Schnittstelle mit `Create`, `Update`, `GetAll`, `Delete`

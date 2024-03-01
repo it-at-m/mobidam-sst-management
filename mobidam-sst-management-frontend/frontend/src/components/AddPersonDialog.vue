@@ -1,3 +1,27 @@
+<!--
+
+    The MIT License
+     Copyright © 2023 Landeshauptstadt München | it@M
+
+     Permission is hereby granted, free of charge, to any person obtaining a copy
+     of this software and associated documentation files (the "Software"), to deal
+     in the Software without restriction, including without limitation the rights
+     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     copies of the Software, and to permit persons to whom the Software is
+     furnished to do so, subject to the following conditions:
+
+     The above copyright notice and this permission notice shall be included in
+     all copies or substantial portions of the Software.
+
+     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     THE SOFTWARE.
+
+-->
 <template>
     <v-dialog
         :value="props.showDialog"
@@ -105,7 +129,7 @@
                     color="success"
                     @click="saveTask"
                 >
-                    Speichern
+                    {{ confirmButton }}
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -115,7 +139,6 @@
 <script setup lang="ts">
 import Zuordnung from "@/types/Zuordnung";
 import { ref } from "vue";
-import ZuordnungService from "@/api/ZuordnungService";
 import { useRules } from "@/composables/rules";
 
 const textMaxLength = ref<number>(255);
@@ -132,7 +155,7 @@ const textInputRules = [
 
 interface Props {
     showDialog: boolean;
-    schnittstelleID: string;
+    confirmButton: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -143,23 +166,17 @@ const zuordnung = ref<Zuordnung>(new Zuordnung("", "", "", "", "", ""));
 
 const emit = defineEmits<{
     (e: "update:showDialog", b: boolean): void;
-    (e: "zuordnung-saved"): void;
+    (e: "zuordnung-saved", b: Zuordnung): void;
 }>();
 
 const form = ref<HTMLFormElement>();
 
 function saveTask(): void {
     if (form.value?.validate()) {
-        zuordnung.value.schnittstelle = props.schnittstelleID;
-        ZuordnungService.create(zuordnung.value)
-            .then(() => {
-                closeDialog();
-                resetZuordnung();
-                emit("zuordnung-saved");
-            })
-            .finally(() => {
-                form.value?.resetValidation();
-            });
+        emit("zuordnung-saved", zuordnung.value);
+        closeDialog();
+        resetZuordnung();
+        form.value?.resetValidation();
     }
 }
 
