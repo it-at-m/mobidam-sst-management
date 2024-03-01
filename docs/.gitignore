@@ -25,7 +25,6 @@ buildNumber.properties
 **/nbproject/Package-*.bash
 build/
 nbbuild/
-dist/
 nbdist/
 .nb-gradle/
 
@@ -74,7 +73,6 @@ bld/
 
 .DS_Store
 node_modules
-/dist
 
 # local env files
 .env.local
@@ -162,7 +160,6 @@ typings/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
