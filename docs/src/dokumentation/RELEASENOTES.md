@@ -4,6 +4,7 @@
 ### Hinzugefügt
 - GET Endpoint zur Statusabfrage
 - POST Schnittstelle fürs Erstellen von Datentransferen
+- Ersterfassung von Schnittstellen (mit ggf. Zuordnungen)
 
 ## Sprint 6 (23.01.2024 - 13.02.2024)
 ### Hinzugefügt

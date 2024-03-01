@@ -129,7 +129,7 @@
                     color="success"
                     @click="saveTask"
                 >
-                    Speichern
+                    {{ confirmButton }}
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -139,7 +139,6 @@
 <script setup lang="ts">
 import Zuordnung from "@/types/Zuordnung";
 import { ref } from "vue";
-import ZuordnungService from "@/api/ZuordnungService";
 import { useRules } from "@/composables/rules";
 
 const textMaxLength = ref<number>(255);
@@ -156,7 +155,7 @@ const textInputRules = [
 
 interface Props {
     showDialog: boolean;
-    schnittstelleID: string;
+    confirmButton: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -167,23 +166,17 @@ const zuordnung = ref<Zuordnung>(new Zuordnung("", "", "", "", "", ""));
 
 const emit = defineEmits<{
     (e: "update:showDialog", b: boolean): void;
-    (e: "zuordnung-saved"): void;
+    (e: "zuordnung-saved", b: Zuordnung): void;
 }>();
 
 const form = ref<HTMLFormElement>();
 
 function saveTask(): void {
     if (form.value?.validate()) {
-        zuordnung.value.schnittstelle = props.schnittstelleID;
-        ZuordnungService.create(zuordnung.value)
-            .then(() => {
-                closeDialog();
-                resetZuordnung();
-                emit("zuordnung-saved");
-            })
-            .finally(() => {
-                form.value?.resetValidation();
-            });
+        emit("zuordnung-saved", zuordnung.value);
+        closeDialog();
+        resetZuordnung();
+        form.value?.resetValidation();
     }
 }
 

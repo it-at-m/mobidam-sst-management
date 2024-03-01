@@ -78,8 +78,8 @@
         </v-list>
         <add-person-dialog
             :show-dialog.sync="showAddPersonDialog"
-            :schnittstelle-i-d="schnittstelleID"
-            @zuordnung-saved="refreshTasks"
+            confirm-button="Speichern"
+            @zuordnung-saved="saveZuordnung"
         ></add-person-dialog>
         <yes-no-dialog
             dialogtext="Sicher, dass Du die Zuordnung löschen möchtest?"
@@ -136,6 +136,13 @@ function deleteZuordnung() {
         .finally(() => {
             showYesNoDialog.value = false;
         });
+}
+
+function saveZuordnung(zuordnung: Zuordnung) {
+    zuordnung.schnittstelle = schnittstelleID;
+    ZuordnungService.create(zuordnung).then(() => {
+        refreshTasks();
+    });
 }
 
 function refreshTasks() {
