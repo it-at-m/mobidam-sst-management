@@ -184,3 +184,5 @@ src/.vuepress/dist
 
 # TernJS port file
 .tern-port
+
+.vuepress/dist
