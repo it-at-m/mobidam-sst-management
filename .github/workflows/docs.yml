@@ -31,12 +31,13 @@ jobs:
           # choose node.js version to use
           node-version: 18
           # cache deps for pnpm
-          cache: pnpm
+          cache: npm
           cache-dependency-path: docs/package-lock.json
 
       # run build script
       - name: Build VuePress site
-        run: pnpm docs:build
+        working-directory: ./docs
+        run: npm run build
 
       # please check out the docs of the workflow for more details
       # @see https://github.com/crazy-max/ghaction-github-pages
