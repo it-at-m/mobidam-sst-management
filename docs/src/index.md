@@ -42,7 +42,7 @@ Die Vorschau der Dokumentation ist über http://localhost:8080/ erreichbar.
 
 ### Hinzufügen neuer Seiten
 
-Neue Seiten im seitlichen Menü müssen in der Datei [.vuepress/config.js](src/.vuepress/config.js) hinzugefügt werden.
+Neue Seiten im seitlichen Menü müssen in der Datei [.vuepress/config.js](.vuepress/config.js) hinzugefügt werden.
 Siehe [vuepress docs](https://v1.vuepress.vuejs.org/theme/default-theme-config.html#sidebar) für weitere Informationen.
 
 <!--

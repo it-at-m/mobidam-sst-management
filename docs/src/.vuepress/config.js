@@ -1,4 +1,4 @@
-const { description } = require('../package.json')
+const { description } = require('../../package.json')
 
 module.exports = {
   /**
@@ -10,6 +10,7 @@ module.exports = {
    */
   description: description,
 
+  dest: "dist",
   /**
    * Extra tags to be injected to the page HTML `<head>`
    *
