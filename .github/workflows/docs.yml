@@ -32,6 +32,7 @@ jobs:
           node-version: 18
           # cache deps for pnpm
           cache: pnpm
+          cache-dependency-path: docs/package-lock.json
 
       # run build script
       - name: Build VuePress site
