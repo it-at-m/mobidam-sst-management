@@ -17,12 +17,14 @@ spring:
   cloud:
     gateway:
       routes:
+
         - id: sso
           uri: ${app.gateway.routing.sso.uri}
           predicates:
             - Path=/api/sso/userinfo
           filters:
             - RewritePath=/api/sso/userinfo, /auth/realms/${app.gateway.security.keycloak.realm}/protocol/openid-connect/userinfo
+            - TokenRelay=
         - id: backend
           uri: ${app.gateway.routing.backend.uri}
           predicates:
@@ -30,6 +32,16 @@ spring:
           filters:
             - RewritePath=/api/backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
+            - TokenRelay=
+
+        - id: clients
+          uri: ${app.gateway.routing.backend.uri}
+          predicates:
+            - Path=/clients/backend-service/**
+          filters:
+            - RewritePath=/clients/backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+
       globalcors:
         corsConfigurations:
           # The cors configuration to allow frontend developers cross origin request via this api gateway
@@ -45,7 +57,7 @@ spring:
         - RemoveResponseHeader=Expires
         - RemoveRequestHeader=cookie
         - RemoveRequestHeader=x-xsrf-token
-        - TokenRelay=
+
 server:
   port: 8080
   error:
