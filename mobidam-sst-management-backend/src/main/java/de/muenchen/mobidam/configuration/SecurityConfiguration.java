@@ -34,6 +34,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+
 /**
  * The central class for configuration of all security aspects.
  */
@@ -53,30 +54,30 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-//                .authorizeHttpRequests((requests) -> requests.requestMatchers("/**",
-//                        // allow access to /actuator/info
-//                        "/actuator/info",
-//                        // allow access to /actuator/health for OpenShift Health Check
-//                        "/actuator/health",
-//                        // allow access to /actuator/health/liveness for OpenShift Liveness Check
-//                        "/actuator/health/liveness",
-//                        // allow access to /actuator/health/readiness for OpenShift Readiness Check
-//                        "/actuator/health/readiness",
-//                        // allow access to /actuator/metrics for Prometheus monitoring in OpenShift
-//                        "/actuator/metrics")
-//                        .permitAll())
+                //                .authorizeHttpRequests((requests) -> requests.requestMatchers("/**",
+                //                        // allow access to /actuator/info
+                //                        "/actuator/info",
+                //                        // allow access to /actuator/health for OpenShift Health Check
+                //                        "/actuator/health",
+                //                        // allow access to /actuator/health/liveness for OpenShift Liveness Check
+                //                        "/actuator/health/liveness",
+                //                        // allow access to /actuator/health/readiness for OpenShift Readiness Check
+                //                        "/actuator/health/readiness",
+                //                        // allow access to /actuator/metrics for Prometheus monitoring in OpenShift
+                //                        "/actuator/metrics")
+                //                        .permitAll())
                 .authorizeHttpRequests((requests) -> requests.requestMatchers("/**")
                         .authenticated())
                 .oauth2ResourceServer().jwt()
-//                .jwtAuthenticationConverter(new JwtUserInfoAuthenticationConverter(
-//                        new UserInfoAuthoritiesService(userInfoUri, restTemplateBuilder)))
-                                ;
+        //                .jwtAuthenticationConverter(new JwtUserInfoAuthenticationConverter(
+        //                        new UserInfoAuthoritiesService(userInfoUri, restTemplateBuilder)))
+        ;
 
         return http.build();
     }
 
-//    @Bean
-//    public JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties) {
-//        return JwtDecoders.fromIssuerLocation(properties.getJwt().getIssuerUri());
-//    }
+    //    @Bean
+    //    public JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties) {
+    //        return JwtDecoders.fromIssuerLocation(properties.getJwt().getIssuerUri());
+    //    }
 }
