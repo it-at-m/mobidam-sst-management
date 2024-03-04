@@ -22,8 +22,10 @@
  */
 package de.muenchen.mobidam.rest;
 
+import de.muenchen.mobidam.domain.Datentransfer;
 import de.muenchen.mobidam.domain.dtos.DatentransferCreateDTO;
 import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
+import de.muenchen.mobidam.repository.DatentransferRepository;
 import de.muenchen.mobidam.service.DatentransferService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -31,6 +33,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,11 +47,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class DatentransferController {
 
     private final DatentransferService datentransferService;
+    private final DatentransferRepository repo; // TODO: remove
 
     @Operation(summary = "Get all Datentransfers for Schnittstelle")
     @GetMapping("/{schnittstelleId}/{page}")
     public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
+    }
+
+    // TODO: remove
+    @Operation(summary = "Get all Datentransfers for Schnittstelle")
+    @GetMapping
+    public ResponseEntity<Datentransfer> getFirst() {
+        return new ResponseEntity<>(repo.findAll().iterator().next(), HttpStatus.OK);
     }
 
     @Operation(summary = "Get first Datentransfer result state for Schnittstelle")

@@ -32,11 +32,13 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/schnittstelle")
+@PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).MOBIDAM_SST_MANAGEMENT_BACKEND_ADMIN.name())")
 public class SchnittstelleController {
 
     private final SchnittstelleService schnittstelleService;
