@@ -105,7 +105,7 @@
             </v-card-text>
             <v-divider class="divider"></v-divider>
             <v-card-actions>
-                <v-btn @click="closeDialog">Schließen</v-btn>
+                <v-btn @click="closeDialog">Abbrechen</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                     class="white--text"
@@ -198,10 +198,7 @@ function removeZuordnung(zuordnung: Zuordnung): void {
 }
 
 function resetSchnittstelle(): void {
-    schnittstelleRequest.value = new SchnittstelleRequest(
-        "",
-        "DEAKTIVIERT"
-    );
+    schnittstelleRequest.value = new SchnittstelleRequest("", "DEAKTIVIERT");
     zuordnungen.value = [];
     form.value?.resetValidation();
 }
