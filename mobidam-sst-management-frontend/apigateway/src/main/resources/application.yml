@@ -25,6 +25,7 @@ spring:
           filters:
             - RewritePath=/api/sso/userinfo, /auth/realms/${app.gateway.security.keycloak.realm}/protocol/openid-connect/userinfo
             - TokenRelay=
+
         - id: backend
           uri: ${app.gateway.routing.backend.uri}
           predicates:
@@ -37,9 +38,9 @@ spring:
         - id: clients
           uri: ${app.gateway.routing.backend.uri}
           predicates:
-            - Path=/clients/backend-service/**
+            - Path=/clients/**
           filters:
-            - RewritePath=/clients/backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RewritePath=/clients/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
 
       globalcors:

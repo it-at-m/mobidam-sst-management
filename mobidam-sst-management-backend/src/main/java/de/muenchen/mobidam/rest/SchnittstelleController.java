@@ -38,19 +38,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/schnittstelle")
-@PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).MOBIDAM_SST_MANAGEMENT_BACKEND_ADMIN.name())")
 public class SchnittstelleController {
 
     private final SchnittstelleService schnittstelleService;
 
     @Operation(summary = "Creates schnittstelle")
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_mobidam-sst-management-admin')")
     public ResponseEntity<SchnittstelleDTO> create(@Valid @RequestBody SchnittstelleCreateDTO schnittstelleCreateDTO) {
         return new ResponseEntity<>(schnittstelleService.create(schnittstelleCreateDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Get all schnittstelle")
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_mobidam-sst-management-admin')")
     public ResponseEntity<Iterable<SchnittstelleDTO>> getAll() {
         return new ResponseEntity<>(schnittstelleService.getAll(), HttpStatus.OK);
     }
@@ -66,12 +67,14 @@ public class SchnittstelleController {
 
     @Operation(summary = "Deletes the schnittstelle with the given ID")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_mobidam-sst-management-admin')")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return this.schnittstelleService.deleteById(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Operation(summary = "Updates the schnittstelle")
     @PutMapping("/update")
+    @PreAuthorize("hasRole('ROLE_mobidam-sst-management-admin')")
     public ResponseEntity<?> update(@Valid @RequestBody SchnittstelleDTO schnittstelleDTO) {
         Optional<SchnittstelleDTO> updatedSchnittstelleDTO = schnittstelleService.update(schnittstelleDTO);
         if (updatedSchnittstelleDTO.isPresent())

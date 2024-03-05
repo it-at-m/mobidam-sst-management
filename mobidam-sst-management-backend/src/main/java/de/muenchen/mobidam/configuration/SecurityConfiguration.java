@@ -22,8 +22,11 @@
  */
 package de.muenchen.mobidam.configuration;
 
+import com.nimbusds.jose.proc.SecurityContext;
+import com.nimbusds.jwt.proc.JWTProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -31,8 +34,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.jwt.JwtException;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -41,7 +50,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @Profile("!no-security")
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 @Import(RestTemplateAutoConfiguration.class)
 public class SecurityConfiguration {
 
@@ -69,15 +79,15 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests.requestMatchers("/**")
                         .authenticated())
                 .oauth2ResourceServer().jwt()
-        //                .jwtAuthenticationConverter(new JwtUserInfoAuthenticationConverter(
-        //                        new UserInfoAuthoritiesService(userInfoUri, restTemplateBuilder)))
-        ;
+                .jwtAuthenticationConverter(new JwtUserInfoAuthenticationConverter(
+                        new UserInfoAuthoritiesService(userInfoUri, restTemplateBuilder)));
 
         return http.build();
     }
 
-    //    @Bean
-    //    public JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties) {
-    //        return JwtDecoders.fromIssuerLocation(properties.getJwt().getIssuerUri());
-    //    }
+    @Bean
+    public JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties) {
+        return JwtDecoders.fromIssuerLocation(properties.getJwt().getIssuerUri());
+    }
+
 }

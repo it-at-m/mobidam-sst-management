@@ -31,6 +31,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
  * in the annotation e.g. {@link PreAuthorize}.
  */
 public enum AuthoritiesEnum {
-    MOBIDAM_SST_MANAGEMENT_BACKEND_ADMIN
+    MOBIDAM_SST_MANAGEMENT_ADMIN
 
 }
