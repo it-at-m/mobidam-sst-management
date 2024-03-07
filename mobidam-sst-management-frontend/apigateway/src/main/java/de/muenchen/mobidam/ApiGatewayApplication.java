@@ -22,6 +22,7 @@
  */
 package de.muenchen.mobidam;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -50,10 +51,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *      "https://cloud.spring.io/spring-cloud-gateway/reference/html/">https://cloud.spring.io/spring-cloud-gateway/reference/html/</a>
  */
 @SpringBootApplication(scanBasePackages = { "de.muenchen.mobidam" })
-public class ApiGatewayApplication {
+public class ApiGatewayApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
 
+    @Override
+    public void run(String... args) throws Exception {
+        System.out.println("Branch: test/sso");
+    }
 }

@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/datentransfer")
+@Slf4j
 public class DatentransferController {
 
     private final DatentransferService datentransferService;
@@ -59,6 +61,7 @@ public class DatentransferController {
     @Operation(summary = "Get all Datentransfers for Schnittstelle")
     @GetMapping
     public ResponseEntity<Datentransfer> getFirst() {
+        log.info("getFirst");
         return new ResponseEntity<>(repo.findAll().iterator().next(), HttpStatus.OK);
     }
 
@@ -74,6 +77,7 @@ public class DatentransferController {
     @Operation(summary = "Creating a Datentransfer for an existing Schnittstelle")
     @PostMapping
     public ResponseEntity<?> createDatentransfer(@Valid @RequestBody DatentransferCreateDTO datentransferCreateDTO) {
+        log.info("createDatentransfer");
         Optional<DatentransferDTO> datentransferDTO = datentransferService.createDatentransfer(datentransferCreateDTO);
         if (datentransferDTO.isPresent())
             return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);

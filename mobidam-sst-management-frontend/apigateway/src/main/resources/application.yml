@@ -25,6 +25,7 @@ spring:
           filters:
             - RewritePath=/api/sso/userinfo, /auth/realms/${app.gateway.security.keycloak.realm}/protocol/openid-connect/userinfo
             - TokenRelay=
+            - RemoveRequestHeader=x-xsrf-token
 
         - id: backend
           uri: ${app.gateway.routing.backend.uri}
@@ -34,6 +35,7 @@ spring:
             - RewritePath=/api/backend-service/(?<urlsegments>.*), /$\{urlsegments}
             - RemoveResponseHeader=WWW-Authenticate
             - TokenRelay=
+            - RemoveRequestHeader=x-xsrf-token
 
         - id: clients
           uri: ${app.gateway.routing.backend.uri}
@@ -57,7 +59,6 @@ spring:
       default-filters:
         - RemoveResponseHeader=Expires
         - RemoveRequestHeader=cookie
-        - RemoveRequestHeader=x-xsrf-token
 
 server:
   port: 8080
