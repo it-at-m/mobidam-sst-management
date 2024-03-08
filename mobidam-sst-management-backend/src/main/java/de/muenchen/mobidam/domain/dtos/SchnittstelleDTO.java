@@ -43,7 +43,7 @@ public class SchnittstelleDTO {
     private String name;
 
     @NotNull
-    private LocalDate creationDate;
+    private LocalDate erstellungsdatum;
 
     private LocalDate editDate;
 

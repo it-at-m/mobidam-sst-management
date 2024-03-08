@@ -73,7 +73,7 @@ class SchnittstelleControllerTest {
         assertEquals(HttpStatus.OK, schnittstelleDTO.getStatusCode());
         assertNotNull(schnittstelleDTO.getBody());
         assertNotNull(schnittstelleDTO.getBody().getId());
-        assertEquals(LocalDate.now(), schnittstelleDTO.getBody().getCreationDate());
+        assertEquals(LocalDate.now(), schnittstelleDTO.getBody().getErstellungsdatum());
         assertEquals("test", schnittstelleDTO.getBody().getName());
     }
 
