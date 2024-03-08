@@ -69,7 +69,7 @@ public class SchnittstelleService {
 
     public Optional<SchnittstelleDTO> update(SchnittstelleDTO schnittstelleDTO) {
         if (this.exists(schnittstelleDTO)) {
-            schnittstelleDTO.setEditDate(LocalDate.now());
+            schnittstelleDTO.setAenderungsdatum(LocalDate.now());
             return Optional.of(schnittstelleMapper.toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntityWithId(schnittstelleDTO))));
         }
         return Optional.empty();

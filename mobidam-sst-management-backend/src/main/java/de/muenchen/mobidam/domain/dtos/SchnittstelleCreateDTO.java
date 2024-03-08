@@ -38,6 +38,6 @@ public class SchnittstelleCreateDTO {
     private String name;
 
     private String status;
-    private String explanation;
+    private String begruendung;
 
 }

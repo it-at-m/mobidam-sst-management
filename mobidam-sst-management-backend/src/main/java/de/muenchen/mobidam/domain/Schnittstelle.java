@@ -57,11 +57,11 @@ public class Schnittstelle extends BaseEntity {
     @Column(nullable = false)
     @NotNull
     @FutureOrPresent
-    private LocalDate erstellungsdatum;
+    private LocalDate anlagedatum;
 
     @Column
     @FutureOrPresent
-    private LocalDate editDate;
+    private LocalDate aenderungsdatum;
 
     @Column(nullable = false)
     @NotNull
@@ -69,7 +69,7 @@ public class Schnittstelle extends BaseEntity {
     private SchnittstellenStatus status;
 
     @Column
-    private String explanation;
+    private String begruendung;
 
     @OneToMany(orphanRemoval = true, mappedBy = "schnittstelle")
     @ToString.Exclude

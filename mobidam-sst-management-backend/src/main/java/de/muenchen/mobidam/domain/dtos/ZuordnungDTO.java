@@ -44,13 +44,13 @@ public class ZuordnungDTO {
     @NotNull
     private UUID schnittstelle;
     @NotNull
-    private String userID;
+    private String benutzerkennung;
     @NotNull
-    private String department;
+    private String fachbereich;
     @NotNull
-    private String functionAddress;
+    private String funktionsadresse;
     @NotNull
-    private LocalDate validFrom;
+    private LocalDate gueltigAb;
     @NotNull
-    private LocalDate validUntil;
+    private LocalDate gueltigBis;
 }

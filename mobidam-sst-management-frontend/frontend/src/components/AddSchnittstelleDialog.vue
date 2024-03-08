@@ -65,7 +65,7 @@
                         <v-col>
                             <v-textarea
                                 ref="explanantion"
-                                v-model="schnittstelleRequest.explanation"
+                                v-model="schnittstelleRequest.begruendung"
                                 label="Begründung der Statussetzung"
                                 outlined
                                 :maxlength="255"
@@ -96,7 +96,7 @@
                                 style="margin-right: 1%"
                                 @click:close="removeZuordnung(zuordnung)"
                             >
-                                {{ zuordnung.userID }}
+                                {{ zuordnung.benutzerkennung }}
                             </v-chip>
                             <br />
                         </v-col>

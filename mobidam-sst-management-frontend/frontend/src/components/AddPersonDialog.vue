@@ -38,7 +38,7 @@
                 <v-form ref="form">
                     <v-text-field
                         ref="person"
-                        v-model="zuordnung.userID"
+                        v-model="zuordnung.benutzerkennung"
                         label="Person angeben"
                         hint="Welche Person soll der
                     Schnittstelle zugewiesen werden?"
@@ -46,8 +46,8 @@
                     >
                     </v-text-field>
                     <v-text-field
-                        ref="department"
-                        v-model="zuordnung.department"
+                        ref="fachbereich"
+                        v-model="zuordnung.fachbereich"
                         label="Fachbereich"
                         hint="Welchem Fachbereich ist die betreffende Person zugeordnet?"
                         :counter="textMaxLength"
@@ -57,7 +57,7 @@
                     ></v-text-field>
                     <v-text-field
                         ref="address"
-                        v-model="zuordnung.functionAddress"
+                        v-model="zuordnung.funktionsadresse"
                         label="Funktionsadresse"
                         hint="Welchem Gruppenpostfach gehört diese Person an?"
                         :counter="textMaxLength"
@@ -74,7 +74,7 @@
                             >
                                 <template #activator="{ on }">
                                     <v-text-field
-                                        v-model="zuordnung.validFrom"
+                                        v-model="zuordnung.gueltigAb"
                                         label="Gültig ab"
                                         readonly
                                         outlined
@@ -83,7 +83,7 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                    v-model="zuordnung.validFrom"
+                                    v-model="zuordnung.gueltigAb"
                                     color="primary"
                                     header-color="primary"
                                     :first-day-of-week="1"
@@ -99,7 +99,7 @@
                             >
                                 <template #activator="{ on }">
                                     <v-text-field
-                                        v-model="zuordnung.validUntil"
+                                        v-model="zuordnung.gueltigBis"
                                         label="Gültig bis"
                                         readonly
                                         outlined
@@ -108,7 +108,7 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                    v-model="zuordnung.validUntil"
+                                    v-model="zuordnung.gueltigBis"
                                     color="primary"
                                     header-color="primary"
                                     :first-day-of-week="1"

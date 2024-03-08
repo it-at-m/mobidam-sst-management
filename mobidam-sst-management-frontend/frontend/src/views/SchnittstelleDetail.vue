@@ -46,22 +46,24 @@
                 :key="zuordnung.id"
             >
                 <v-col>
-                    <v-icon>mdi-account</v-icon> {{ zuordnung.userID }}
+                    <v-icon>mdi-account</v-icon>
+                    {{ zuordnung.benutzerkennung }}
                 </v-col>
                 <v-col>
-                    <v-icon>mdi-home</v-icon> {{ zuordnung.department }}</v-col
+                    <v-icon>mdi-home</v-icon>
+                    {{ zuordnung.fachbereich }}</v-col
                 >
                 <v-col>
                     <v-icon>mdi-email</v-icon>
-                    {{ zuordnung.functionAddress }}</v-col
+                    {{ zuordnung.funktionsadresse }}</v-col
                 >
                 <v-col>
                     <v-icon>mdi-calendar-start</v-icon>
-                    {{ zuordnung.validFrom }}
+                    {{ zuordnung.gueltigAb }}
                 </v-col>
                 <v-col>
                     <v-icon>mdi-calendar-end</v-icon>
-                    {{ zuordnung.validUntil }}
+                    {{ zuordnung.gueltigBis }}
                 </v-col>
                 <v-col>
                     <v-btn

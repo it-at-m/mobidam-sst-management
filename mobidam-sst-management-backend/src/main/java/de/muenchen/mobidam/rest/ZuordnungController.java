@@ -68,7 +68,7 @@ public class ZuordnungController {
         List<ZuordnungDTO> personDTOList = new ArrayList<>();
         zuordnungService.getAllById(id)
                 .forEach(task -> personDTOList.add(zuordnungMapper.toDTO(task)));
-        personDTOList.sort(Comparator.comparing(ZuordnungDTO::getValidUntil));
+        personDTOList.sort(Comparator.comparing(ZuordnungDTO::getGueltigBis));
         return new ResponseEntity<>(personDTOList, HttpStatus.OK);
     }
 

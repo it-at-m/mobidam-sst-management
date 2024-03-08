@@ -25,6 +25,6 @@ export default class SchnittstelleRequest {
     constructor(
         public name: string,
         public status?: string,
-        public explanation?: string
+        public begruendung?: string
     ) {}
 }

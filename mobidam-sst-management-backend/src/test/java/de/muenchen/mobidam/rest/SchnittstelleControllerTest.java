@@ -64,7 +64,7 @@ class SchnittstelleControllerTest {
     void testCreate() {
 
         SchnittstelleCreateDTO schnittstelleCreateDTO = new SchnittstelleCreateDTO();
-        schnittstelleCreateDTO.setExplanation("Created test.");
+        schnittstelleCreateDTO.setBegruendung("Created test.");
         schnittstelleCreateDTO.setStatus("AKTIVIERT");
         schnittstelleCreateDTO.setName("test");
 
@@ -73,7 +73,7 @@ class SchnittstelleControllerTest {
         assertEquals(HttpStatus.OK, schnittstelleDTO.getStatusCode());
         assertNotNull(schnittstelleDTO.getBody());
         assertNotNull(schnittstelleDTO.getBody().getId());
-        assertEquals(LocalDate.now(), schnittstelleDTO.getBody().getErstellungsdatum());
+        assertEquals(LocalDate.now(), schnittstelleDTO.getBody().getAnlagedatum());
         assertEquals("test", schnittstelleDTO.getBody().getName());
     }
 
@@ -82,7 +82,7 @@ class SchnittstelleControllerTest {
     void testUpdateSuccess() {
 
         SchnittstelleCreateDTO schnittstelleCreateDTO = new SchnittstelleCreateDTO();
-        schnittstelleCreateDTO.setExplanation("Created test.");
+        schnittstelleCreateDTO.setBegruendung("Created test.");
         schnittstelleCreateDTO.setStatus("AKTIVIERT");
         schnittstelleCreateDTO.setName("test");
 
@@ -91,7 +91,7 @@ class SchnittstelleControllerTest {
         assertEquals(HttpStatus.OK, schnittstelleDTO.getStatusCode());
         assertNotNull(schnittstelleDTO.getBody());
 
-        schnittstelleDTO.getBody().setEditDate(LocalDate.now());
+        schnittstelleDTO.getBody().setAenderungsdatum(LocalDate.now());
 
         ResponseEntity<?> updatedSchnittstelleDTO = schnittstelleController.update(schnittstelleDTO.getBody());
 
@@ -100,7 +100,7 @@ class SchnittstelleControllerTest {
         assertSame(updatedSchnittstelleDTO.getBody().getClass(), SchnittstelleDTO.class);
 
         SchnittstelleDTO updatedSchnittstelleDTOBody = (SchnittstelleDTO) updatedSchnittstelleDTO.getBody();
-        assertEquals(LocalDate.now(), updatedSchnittstelleDTOBody.getEditDate());
+        assertEquals(LocalDate.now(), updatedSchnittstelleDTOBody.getAenderungsdatum());
     }
 
     @Test
@@ -108,7 +108,7 @@ class SchnittstelleControllerTest {
     void testUpdateFail() {
 
         SchnittstelleCreateDTO schnittstelleCreateDTO = new SchnittstelleCreateDTO();
-        schnittstelleCreateDTO.setExplanation("Created test.");
+        schnittstelleCreateDTO.setBegruendung("Created test.");
         schnittstelleCreateDTO.setStatus("AKTIVIERT");
         schnittstelleCreateDTO.setName("test");
 
@@ -130,7 +130,7 @@ class SchnittstelleControllerTest {
     void testGetStatusSuccess() {
 
         SchnittstelleCreateDTO schnittstelleCreateDTO = new SchnittstelleCreateDTO();
-        schnittstelleCreateDTO.setExplanation("Created test.");
+        schnittstelleCreateDTO.setBegruendung("Created test.");
         schnittstelleCreateDTO.setStatus("AKTIVIERT");
         schnittstelleCreateDTO.setName("test");
 

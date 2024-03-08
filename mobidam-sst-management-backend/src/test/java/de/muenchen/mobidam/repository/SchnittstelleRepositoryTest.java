@@ -61,7 +61,7 @@ class SchnittstelleRepositoryTest {
         // initialize
         Schnittstelle schnittstelle = new Schnittstelle();
         schnittstelle.setName("test");
-        schnittstelle.setErstellungsdatum(LocalDate.now());
+        schnittstelle.setAnlagedatum(LocalDate.now());
         schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
         schnittstelle.setId(UUID.randomUUID());
 

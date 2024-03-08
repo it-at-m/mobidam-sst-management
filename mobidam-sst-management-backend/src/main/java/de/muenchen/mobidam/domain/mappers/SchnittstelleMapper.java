@@ -37,8 +37,8 @@ public interface SchnittstelleMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "zuordnungen", ignore = true)
     @Mapping(target = "datentransfers", ignore = true)
-    @Mapping(target = "erstellungsdatum", source = "now")
-    @Mapping(target = "editDate", source = "now")
+    @Mapping(target = "anlagedatum", source = "now")
+    @Mapping(target = "aenderungsdatum", source = "now")
     Schnittstelle toEntity(SchnittstelleCreateDTO schnittstelleCreateDTO, LocalDate now);
 
     @Mapping(target = "zuordnungen", ignore = true)
