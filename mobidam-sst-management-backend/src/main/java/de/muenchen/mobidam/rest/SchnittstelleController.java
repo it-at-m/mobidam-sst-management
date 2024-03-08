@@ -44,14 +44,21 @@ public class SchnittstelleController {
 
     @Operation(summary = "Creates schnittstelle")
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_mobidam-sst-management-admin')")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<SchnittstelleDTO> create(@Valid @RequestBody SchnittstelleCreateDTO schnittstelleCreateDTO) {
         return new ResponseEntity<>(schnittstelleService.create(schnittstelleCreateDTO), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get first schnittstelle") // TODO: remove
+    @GetMapping("1")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
+    public ResponseEntity<SchnittstelleDTO> getFirst() {
+        return new ResponseEntity<>(schnittstelleService.getAll().iterator().next(), HttpStatus.OK);
+    }
+
     @Operation(summary = "Get all schnittstelle")
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_mobidam-sst-management-admin')")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Iterable<SchnittstelleDTO>> getAll() {
         return new ResponseEntity<>(schnittstelleService.getAll(), HttpStatus.OK);
     }
@@ -67,14 +74,14 @@ public class SchnittstelleController {
 
     @Operation(summary = "Deletes the schnittstelle with the given ID")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_mobidam-sst-management-admin')")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return this.schnittstelleService.deleteById(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Operation(summary = "Updates the schnittstelle")
     @PutMapping("/update")
-    @PreAuthorize("hasRole('ROLE_mobidam-sst-management-admin')")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<?> update(@Valid @RequestBody SchnittstelleDTO schnittstelleDTO) {
         Optional<SchnittstelleDTO> updatedSchnittstelleDTO = schnittstelleService.update(schnittstelleDTO);
         if (updatedSchnittstelleDTO.isPresent())
