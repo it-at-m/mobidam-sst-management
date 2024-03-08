@@ -26,11 +26,11 @@ import Datentransfer from "@/types/Datentransfer";
 export default class SchnittstelleWithDatentransfer {
     constructor(
         public name: string,
-        public creationDate: string,
+        public anlagedatum: string,
         public id: string,
         public datentransfer?: Datentransfer,
-        public editDate?: string,
+        public aenderungsdatum?: string,
         public status?: string,
-        public explanation?: string
+        public begruendung?: string
     ) {}
 }

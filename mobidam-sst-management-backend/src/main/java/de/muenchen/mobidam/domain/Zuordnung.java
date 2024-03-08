@@ -49,7 +49,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Table(name = "Management_Schnittstelle_Zuordnung_Tab")
-@StartDateNotAfterEndDate(startDate = "getValidFrom", endDate = "getValidUntil", message = "Das Startdatum muss vor dem Enddatum liegen.")
+@StartDateNotAfterEndDate(startDate = "getGueltigAb", endDate = "getGueltigBis", message = "Das Startdatum muss vor dem Enddatum liegen.")
 public class Zuordnung extends BaseEntity {
 
     @ManyToOne
@@ -60,24 +60,24 @@ public class Zuordnung extends BaseEntity {
 
     @Column(nullable = false)
     @NotEmpty
-    private String userID;
+    private String benutzerkennung;
 
     @Column(nullable = false)
     @NotEmpty
-    private String department;
+    private String fachbereich;
 
     @Column(nullable = false)
     @NotEmpty
-    private String functionAddress;
+    private String funktionsadresse;
 
     @Column(nullable = false)
     @NotNull
     @FutureOrPresent
-    private LocalDate validFrom;
+    private LocalDate gueltigAb;
 
     @Column(nullable = false)
     @NotNull
     @FutureOrPresent
-    private LocalDate validUntil;
+    private LocalDate gueltigBis;
 
 }
