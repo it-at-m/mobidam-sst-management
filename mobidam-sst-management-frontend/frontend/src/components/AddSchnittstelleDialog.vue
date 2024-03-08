@@ -65,7 +65,7 @@
                         <v-col>
                             <v-textarea
                                 ref="explanantion"
-                                v-model="schnittstelleRequest.explanation"
+                                v-model="schnittstelleRequest.begruendung"
                                 label="Begründung der Statussetzung"
                                 outlined
                                 :maxlength="255"
@@ -96,7 +96,7 @@
                                 style="margin-right: 1%"
                                 @click:close="removeZuordnung(zuordnung)"
                             >
-                                {{ zuordnung.userID }}
+                                {{ zuordnung.benutzerkennung }}
                             </v-chip>
                             <br />
                         </v-col>
@@ -105,7 +105,7 @@
             </v-card-text>
             <v-divider class="divider"></v-divider>
             <v-card-actions>
-                <v-btn @click="closeDialog">Schließen</v-btn>
+                <v-btn @click="closeDialog">Abbrechen</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                     class="white--text"
@@ -198,10 +198,7 @@ function removeZuordnung(zuordnung: Zuordnung): void {
 }
 
 function resetSchnittstelle(): void {
-    schnittstelleRequest.value = new SchnittstelleRequest(
-        "",
-        "DEAKTIVIERT"
-    );
+    schnittstelleRequest.value = new SchnittstelleRequest("", "DEAKTIVIERT");
     zuordnungen.value = [];
     form.value?.resetValidation();
 }

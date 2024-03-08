@@ -1,5 +1,9 @@
 # Release-Notes
 
+## Sprint 8 (05.03.2024 - 26.03.2024)
+### Verbessert
+- Tabellen auf deutsch
+
 ## Sprint 7 (13.02.2024 - 05.03.2024)
 ### Hinzugefügt
 - GET Endpoint zur Statusabfrage

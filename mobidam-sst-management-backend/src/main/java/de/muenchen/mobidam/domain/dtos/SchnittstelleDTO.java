@@ -43,11 +43,11 @@ public class SchnittstelleDTO {
     private String name;
 
     @NotNull
-    private LocalDate creationDate;
+    private LocalDate anlagedatum;
 
-    private LocalDate editDate;
+    private LocalDate aenderungsdatum;
 
     private String status;
-    private String explanation;
+    private String begruendung;
 
 }

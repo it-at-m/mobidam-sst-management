@@ -69,11 +69,11 @@
                 <v-tooltip top>
                     <template #activator="{ on }">
                         <v-col
-                            v-if="schnittstelle.editDate"
+                            v-if="schnittstelle.aenderungsdatum"
                             v-on="on"
                         >
                             <v-icon>mdi-calendar-edit</v-icon>
-                            {{ schnittstelle.editDate }}
+                            {{ schnittstelle.aenderungsdatum }}
                         </v-col>
                         <v-col
                             v-else
@@ -174,12 +174,12 @@ function getSchnittstellen() {
             const schnittstelle: SchnittstelleWithDatentransfer =
                 new SchnittstelleWithDatentransfer(
                     fetchedSchnittstelle.name,
-                    fetchedSchnittstelle.creationDate,
+                    fetchedSchnittstelle.anlagedatum,
                     fetchedSchnittstelle.id,
                     datentransfer,
-                    fetchedSchnittstelle.editDate,
+                    fetchedSchnittstelle.aenderungsdatum,
                     fetchedSchnittstelle.status,
-                    fetchedSchnittstelle.explanation
+                    fetchedSchnittstelle.begruendung
                 );
             DatentransferService.getLatestResultStateBySchnittstelle(
                 fetchedSchnittstelle.id

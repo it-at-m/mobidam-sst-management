@@ -70,7 +70,7 @@ class DatentransferRepositoryTest {
         Datentransfer original = new Datentransfer();
         Schnittstelle schnittstelle = new Schnittstelle();
         schnittstelle.setName("test");
-        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setAnlagedatum(LocalDate.now());
         schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
         schnittstelle = schnittstelleRepository.save(schnittstelle);
         original.setSchnittstelle(schnittstelle);
@@ -101,7 +101,7 @@ class DatentransferRepositoryTest {
         Datentransfer originalBeginn = new Datentransfer();
         Schnittstelle schnittstelle = new Schnittstelle();
         schnittstelle.setName("test");
-        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setAnlagedatum(LocalDate.now());
         schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
         schnittstelle = schnittstelleRepository.save(schnittstelle);
         originalBeginn.setSchnittstelle(schnittstelle);
@@ -139,7 +139,7 @@ class DatentransferRepositoryTest {
         Datentransfer originalWarnung = new Datentransfer();
         Schnittstelle schnittstelle = new Schnittstelle();
         schnittstelle.setName("test");
-        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setAnlagedatum(LocalDate.now());
         schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
         schnittstelle = schnittstelleRepository.save(schnittstelle);
         originalWarnung.setSchnittstelle(schnittstelle);

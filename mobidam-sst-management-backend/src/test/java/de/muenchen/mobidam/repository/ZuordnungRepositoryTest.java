@@ -63,15 +63,15 @@ class ZuordnungRepositoryTest {
         Zuordnung original = new Zuordnung();
         Schnittstelle schnittstelle = new Schnittstelle();
         schnittstelle.setName("test");
-        schnittstelle.setCreationDate(LocalDate.now());
+        schnittstelle.setAnlagedatum(LocalDate.now());
         schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
         schnittstelle.setId(UUID.randomUUID());
         original.setSchnittstelle(schnittstelle);
-        original.setUserID(UUID.randomUUID().toString());
-        original.setDepartment("dep");
-        original.setFunctionAddress("adr");
-        original.setValidFrom(LocalDate.now());
-        original.setValidUntil(LocalDate.now());
+        original.setBenutzerkennung(UUID.randomUUID().toString());
+        original.setFachbereich("dep");
+        original.setFunktionsadresse("adr");
+        original.setGueltigAb(LocalDate.now());
+        original.setGueltigBis(LocalDate.now());
 
         // persist
         original = repository.save(original);

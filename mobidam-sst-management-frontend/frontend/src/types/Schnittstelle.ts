@@ -24,10 +24,10 @@
 export default class Schnittstelle {
     constructor(
         public name: string,
-        public creationDate: string,
+        public anlagedatum: string,
         public id: string,
         public status?: string,
-        public editDate?: string,
-        public explanation?: string
+        public aenderungsdatum?: string,
+        public begruendung?: string
     ) {}
 }
