@@ -68,7 +68,7 @@ public class DatentransferController {
     @Operation(summary = "Creating a Datentransfer for an existing Schnittstelle")
     @PostMapping
     public ResponseEntity<?> createDatentransfer(@Valid @RequestBody DatentransferCreateDTO datentransferCreateDTO) {
-        log.info("createDatentransfer");
+        log.info("Creating Datentransfer: {}", datentransferCreateDTO);
         Optional<DatentransferDTO> datentransferDTO = datentransferService.createDatentransfer(datentransferCreateDTO);
         if (datentransferDTO.isPresent())
             return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);

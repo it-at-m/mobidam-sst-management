@@ -19,7 +19,7 @@
 					<con:params/>
 					<con:element>html</con:element>
 				</con:representation>
-				<con:request name="Get Schnittstellen (no auth)" id="58f8bc59-0e29-4452-967d-a7fea46d3acf" mediaType="application/json">
+				<con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Schnittstellen (no auth)" id="58f8bc59-0e29-4452-967d-a7fea46d3acf" mediaType="application/json">
 					<con:settings>
 						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
 					</con:settings>
@@ -66,7 +66,7 @@
 				</con:request>
 			</con:method>
 		</con:resource>
-		<con:resource name="datentransfer" path="/clients/api/datentransfer/854b3f56-59a7-4c32-bbaf-f15967834eb6/0" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
+		<con:resource name="datentransfer" path="/clients/api/datentransfer/502dd918-13b9-4511-863e-ba0eac07e23a/0" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
 			<con:settings/>
 			<con:parameters/>
 			<con:method name="Method 1" id="424a6805-93d8-4e90-8c72-7850d6cfe7d2" method="GET">
@@ -132,7 +132,7 @@
 					<con:params/>
 					<con:element>data</con:element>
 				</con:representation>
-				<con:request name="Get Datentransfers by Schnittstelle (no token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
+				<con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Datentransfers by Schnittstelle (no token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
 					<con:settings>
 						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
 					</con:settings>
@@ -179,7 +179,7 @@
 				</con:request>
 			</con:method>
 		</con:resource>
-		<con:resource name="schnittstelle" path="/clients/api/schnittstelle/854b3f56-59a7-4c32-bbaf-f15967834eb6/status" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
+		<con:resource name="schnittstelle" path="/clients/api/schnittstelle/502dd918-13b9-4511-863e-ba0eac07e23a/status" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
 			<con:settings/>
 			<con:parameters/>
 			<con:method name="Method 1" id="424a6805-93d8-4e90-8c72-7850d6cfe7d2" method="GET">
@@ -203,7 +203,7 @@
 					<con:params/>
 					<con:element xmlns:auth="${#Project#SSOURL}/auth/realms/intrap/protocol/openid-connect/auth">auth:Fault</con:element>
 				</con:representation>
-				<con:request name="Get Schnittstelle Status (no token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
+				<con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Schnittstelle Status (no token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
 					<con:settings>
 						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
 					</con:settings>
@@ -235,89 +235,7 @@
 				</con:request>
 			</con:method>
 		</con:resource>
-		<con:resource name="schnittstelle" path="/clients/api/schnittstelle/854b3f56-59a7-4c32-bbaf-f15967834eb6" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
-			<con:settings/>
-			<con:parameters/>
-			<con:method name="Method 1" id="424a6805-93d8-4e90-8c72-7850d6cfe7d2" method="GET">
-				<con:settings/>
-				<con:parameters/>
-				<con:representation type="RESPONSE">
-					<con:mediaType>text/html;charset=utf-8</con:mediaType>
-					<con:status>200</con:status>
-					<con:params/>
-					<con:element>html</con:element>
-				</con:representation>
-				<con:representation type="RESPONSE">
-					<con:mediaType>application/json</con:mediaType>
-					<con:status>200</con:status>
-					<con:params/>
-					<con:element xmlns:auth="${#Project#SSOURL}/auth/realms/intrap/protocol/openid-connect/auth">auth:Response</con:element>
-				</con:representation>
-				<con:representation type="FAULT">
-					<con:mediaType>application/json</con:mediaType>
-					<con:status>404 405</con:status>
-					<con:params/>
-					<con:element xmlns:auth="${#Project#SSOURL}/auth/realms/intrap/protocol/openid-connect/auth">auth:Fault</con:element>
-				</con:representation>
-				<con:representation type="FAULT">
-					<con:mediaType xsi:nil="true"/>
-					<con:status>403</con:status>
-					<con:params/>
-					<con:element>data</con:element>
-				</con:representation>
-				<con:representation type="FAULT">
-					<con:mediaType xsi:nil="true"/>
-					<con:status>403</con:status>
-					<con:params/>
-					<con:element>data</con:element>
-				</con:representation>
-				<con:request name="Get Schnittstelle by ID (no token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
-					<con:settings>
-						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-					</con:settings>
-					<con:endpoint>${#Project#BASEURL}</con:endpoint>
-					<con:request/>
-					<con:originalUri>${#Project#SSOURL}/auth/realms/intrap/protocol/openid-connect/auth</con:originalUri>
-					<con:credentials>
-						<con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-						<con:authType>No Authorization</con:authType>
-					</con:credentials>
-					<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-					<con:jmsPropertyConfig/>
-					<con:parameters/>
-				</con:request>
-				<con:request name="Get Schnittstelle by ID (client token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
-					<con:settings>
-						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-					</con:settings>
-					<con:endpoint>${#Project#BASEURL}</con:endpoint>
-					<con:request/>
-					<con:originalUri>${#Project#SSOURL}/auth/realms/intrap/protocol/openid-connect/auth</con:originalUri>
-					<con:credentials>
-						<con:selectedAuthProfile>Profile 1</con:selectedAuthProfile>
-						<con:authType>OAuth 2.0</con:authType>
-					</con:credentials>
-					<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-					<con:jmsPropertyConfig/>
-					<con:parameters/>
-				</con:request>
-				<con:request name="Get Schnittstelle by ID (user token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
-					<con:settings>
-						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
-					</con:settings>
-					<con:endpoint>${#Project#BASEURL}</con:endpoint>
-					<con:request/>
-					<con:originalUri>${#Project#SSOURL}/auth/realms/intrap/protocol/openid-connect/auth</con:originalUri>
-					<con:credentials>
-						<con:selectedAuthProfile>Profile 2</con:selectedAuthProfile>
-						<con:authType>OAuth 2.0</con:authType>
-					</con:credentials>
-					<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-					<con:jmsPropertyConfig/>
-					<con:parameters/>
-				</con:request>
-			</con:method>
-		</con:resource>
+		
 		<con:resource name="datentransfer" path="/clients/api/datentransfer" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
 			<con:settings/>
 			<con:parameters/>
@@ -362,7 +280,7 @@
 						"zeitstempel": "2024-02-06T12:00:00",
 						"ereignis": "ERFOLG",
 						"info": "test",
-						"schnittstelle": "854b3f56-59a7-4c32-bbaf-f15967834eb6"
+						"schnittstelle": "502dd918-13b9-4511-863e-ba0eac07e23a"
 						}
 					</con:request>
 					<con:originalUri>${#Project#BASEURL}/clients/api/datentransfer</con:originalUri>
@@ -384,7 +302,7 @@
 						"zeitstempel": "2024-02-06T12:00:00",
 						"ereignis": "ERFOLG",
 						"info": "test",
-						"schnittstelle": "854b3f56-59a7-4c32-bbaf-f15967834eb6"
+						"schnittstelle": "502dd918-13b9-4511-863e-ba0eac07e23a"
 						}
 					</con:request>
 					<con:originalUri>${#Project#BASEURL}/clients/api/datentransfer</con:originalUri>
@@ -402,7 +320,7 @@
 	<con:properties>
 		<con:property>
 			<con:name>BASEURL</con:name>
-			<con:value>https://localhost:8082</con:value>
+			<con:value>http://localhost:8082</con:value>
 		</con:property>
 		<con:property>
 			<con:name>SSOURL</con:name>
@@ -428,9 +346,9 @@
 			<con:accessTokenStatus>RETRIEVED_FROM_SERVER</con:accessTokenStatus>
 			<con:accessTokenStartingStatus>RETRIEVED_FROM_SERVER</con:accessTokenStartingStatus>
 			<con:accessTokenExpirationTime>300</con:accessTokenExpirationTime>
-			<con:accessTokenIssuedTime>1709905832</con:accessTokenIssuedTime>
-			<con:resourceOwnerName></con:resourceOwnerName>
-			<con:resourceOwnerPassword></con:resourceOwnerPassword>
+			<con:accessTokenIssuedTime>1710159171</con:accessTokenIssuedTime>
+			<con:resourceOwnerName/>
+			<con:resourceOwnerPassword/>
 		</con:oAuth2Profile>
 		<con:oAuth2Profile>
 			<con:name>Profile 2</con:name>
@@ -445,7 +363,7 @@
 			<con:accessTokenStatus>RETRIEVED_FROM_SERVER</con:accessTokenStatus>
 			<con:accessTokenStartingStatus>RETRIEVED_FROM_SERVER</con:accessTokenStartingStatus>
 			<con:accessTokenExpirationTime>300</con:accessTokenExpirationTime>
-			<con:accessTokenIssuedTime>1709897162</con:accessTokenIssuedTime>
+			<con:accessTokenIssuedTime>1710159131</con:accessTokenIssuedTime>
 			<con:manualAccessTokenExpirationTimeUnit>SECONDS</con:manualAccessTokenExpirationTimeUnit>
 			<con:resourceOwnerName></con:resourceOwnerName>
 			<con:resourceOwnerPassword></con:resourceOwnerPassword>
