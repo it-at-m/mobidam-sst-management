@@ -22,10 +22,8 @@
  */
 package de.muenchen.mobidam.rest;
 
-import de.muenchen.mobidam.domain.Datentransfer;
 import de.muenchen.mobidam.domain.dtos.DatentransferCreateDTO;
 import de.muenchen.mobidam.domain.dtos.DatentransferDTO;
-import de.muenchen.mobidam.repository.DatentransferRepository;
 import de.muenchen.mobidam.service.DatentransferService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -49,24 +47,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class DatentransferController {
 
     private final DatentransferService datentransferService;
-    private final DatentransferRepository repo; // TODO: remove
 
     @Operation(summary = "Get all Datentransfers for Schnittstelle")
     @GetMapping("/{schnittstelleId}/{page}")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
 
-    // TODO: remove
-    @Operation(summary = "Get all Datentransfers for Schnittstelle")
-    @GetMapping
-    public ResponseEntity<Datentransfer> getFirst() {
-        log.info("getFirst");
-        return new ResponseEntity<>(repo.findAll().iterator().next(), HttpStatus.OK);
-    }
-
     @Operation(summary = "Get first Datentransfer result state for Schnittstelle")
     @GetMapping("/latestResultState/{schnittstelleId}")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<?> getLatestResultStateBySchnittstelle(@PathVariable String schnittstelleId) {
         Optional<DatentransferDTO> datentransferDTO = datentransferService.getLatestResultStateBySchnittstelle(schnittstelleId);
         if (datentransferDTO.isPresent())

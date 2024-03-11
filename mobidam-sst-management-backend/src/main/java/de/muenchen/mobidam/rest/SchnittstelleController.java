@@ -49,13 +49,6 @@ public class SchnittstelleController {
         return new ResponseEntity<>(schnittstelleService.create(schnittstelleCreateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get first schnittstelle") // TODO: remove
-    @GetMapping("1")
-    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
-    public ResponseEntity<SchnittstelleDTO> getFirst() {
-        return new ResponseEntity<>(schnittstelleService.getAll().iterator().next(), HttpStatus.OK);
-    }
-
     @Operation(summary = "Get all schnittstelle")
     @GetMapping
     @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
