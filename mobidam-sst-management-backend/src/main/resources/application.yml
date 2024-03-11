@@ -7,8 +7,6 @@ spring:
       max-page-size: 0x7fffffff
       default-page-size: 0x7fffffff
 
-  jpa.properties.hibernate.jdbc.time_zone: UTC
-
 server:
   shutdown: "graceful"
   port: 39146
