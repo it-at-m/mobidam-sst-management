@@ -408,13 +408,17 @@
 			<con:name>SSOURL</con:name>
 			<con:value>https://localhost:9999</con:value>
 		</con:property>
+		<con:property>
+			<con:name>CLIENTSECRET</con:name>
+			<con:value></con:value>
+		</con:property>
 	</con:properties>
 	<con:wssContainer/>
 	<con:oAuth2ProfileContainer>
 		<con:oAuth2Profile>
 			<con:name>Profile 1</con:name>
 			<con:clientID>mobidam-sst-management</con:clientID>
-			<con:clientSecret>4t5LRitOoNxk7OqyDiTYKyYNPtNcv8Ma</con:clientSecret>
+			<con:clientSecret>${#Project#CLIENTSECRET}</con:clientSecret>
 			<con:accessTokenURI>${#Project#SSOURL}/auth/realms/mobidam/protocol/openid-connect/token</con:accessTokenURI>
 			<con:accessToken></con:accessToken>
 			<con:accessTokenPosition>HEADER</con:accessTokenPosition>
@@ -431,7 +435,7 @@
 		<con:oAuth2Profile>
 			<con:name>Profile 2</con:name>
 			<con:clientID>mobidam-sst-management</con:clientID>
-			<con:clientSecret>4t5LRitOoNxk7OqyDiTYKyYNPtNcv8Ma</con:clientSecret>
+			<con:clientSecret>${#Project#CLIENTSECRET}</con:clientSecret>
 			<con:accessTokenURI>${#Project#SSOURL}/auth/realms/mobidam/protocol/openid-connect/token</con:accessTokenURI>
 			<con:accessToken></con:accessToken>
 			<con:accessTokenPosition>HEADER</con:accessTokenPosition>
