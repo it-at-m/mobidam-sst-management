@@ -28,7 +28,6 @@ export default class FetchUtils {
      * Liefert eine default GET-Config für fetch
      */
     static getGETConfig(): RequestInit {
-        console.log(import.meta.env.MODE);
         return {
             headers: this.getHeaders(),
             mode: "cors",
