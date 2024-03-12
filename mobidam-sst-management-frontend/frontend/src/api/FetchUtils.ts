@@ -188,8 +188,7 @@ export default class FetchUtils {
      * wenn der Zugriff auf den selben Host erfolgt (Request.credentials = "same-origin").
      */
     private static getCredentials(): RequestCredentials {
-        return import.meta.env.MODE === "developmentSecurity" ||
-            import.meta.env.MODE === "development"
+        return import.meta.env.MODE === "development"
             ? "include"
             : "same-origin";
     }
