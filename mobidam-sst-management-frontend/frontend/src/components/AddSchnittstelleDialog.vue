@@ -44,7 +44,7 @@
                     >
                     </v-text-field>
                     <v-text-field
-                        ref="creationDate"
+                        ref="anlagedatum"
                         :value="today.toLocaleDateString()"
                         label="Anlagedatum"
                         hint="Als Anlagedatum wird automatisch der heutige Tag gesetzt."
@@ -64,7 +64,7 @@
                         </v-col>
                         <v-col>
                             <v-textarea
-                                ref="explanantion"
+                                ref="begruendung"
                                 v-model="schnittstelleRequest.begruendung"
                                 label="Begründung der Statussetzung"
                                 outlined
