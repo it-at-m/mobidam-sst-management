@@ -1,6 +1,9 @@
 # Release-Notes
 
 ## Sprint 8 (05.03.2024 - 26.03.2024)
+### Hinzugefügt
+- SSO aktiviert und Backend abgesichert
+
 ### Verbessert
 - Tabellen auf deutsch
 

@@ -29,3 +29,4 @@ dist/
 nbdist/
 .nb-gradle/
 
+**/application-local.yml
