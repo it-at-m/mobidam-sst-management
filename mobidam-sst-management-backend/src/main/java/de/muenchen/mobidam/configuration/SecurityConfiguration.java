@@ -40,7 +40,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @Profile("!no-security")
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableMethodSecurity(securedEnabled = true)
 @Import(RestTemplateAutoConfiguration.class)
 public class SecurityConfiguration {

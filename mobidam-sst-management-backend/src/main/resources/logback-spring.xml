@@ -126,6 +126,18 @@
             <appender-ref ref="JSON_STDOUT" />
         </logger>
 
+        <logger name="org.springframework.security"
+                level="debug"
+                additivity="false">
+            <appender-ref ref="JSON_STDOUT" />
+        </logger>
+
+        <logger name="org.springframework.security.web.FilterChainProxy"
+                level="debug"
+                additivity="false">
+            <appender-ref ref="JSON_STDOUT" />
+        </logger>
+
         <!-- Logger usage -->
         <root level="info">
             <appender-ref ref="JSON_STDOUT" />
