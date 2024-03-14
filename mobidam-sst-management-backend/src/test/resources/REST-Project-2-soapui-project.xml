@@ -19,7 +19,7 @@
 					<con:params/>
 					<con:element>html</con:element>
 				</con:representation>
-				<con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Schnittstellen (no auth)" id="58f8bc59-0e29-4452-967d-a7fea46d3acf" mediaType="application/json">
+				<con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>403</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Schnittstellen (no auth)" id="58f8bc59-0e29-4452-967d-a7fea46d3acf" mediaType="application/json">
 					<con:settings>
 						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
 					</con:settings>
@@ -66,7 +66,7 @@
 				</con:request>
 			</con:method>
 		</con:resource>
-		<con:resource name="datentransfer" path="/clients/api/datentransfer/502dd918-13b9-4511-863e-ba0eac07e23a/0" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
+		<con:resource name="datentransfer" path="/clients/api/datentransfer/5807ceda-966b-431b-84f4-59feb898aaec/0" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
 			<con:settings/>
 			<con:parameters/>
 			<con:method name="Method 1" id="424a6805-93d8-4e90-8c72-7850d6cfe7d2" method="GET">
@@ -179,7 +179,7 @@
 				</con:request>
 			</con:method>
 		</con:resource>
-		<con:resource name="schnittstelle" path="/clients/api/schnittstelle/502dd918-13b9-4511-863e-ba0eac07e23a/status" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
+		<con:resource name="schnittstelle" path="/clients/api/schnittstelle/0f0bc666-3475-4665-a870-e5923fabc732/status" id="94ba7d6f-53ed-46fa-b446-9bf347759140">
 			<con:settings/>
 			<con:parameters/>
 			<con:method name="Method 1" id="424a6805-93d8-4e90-8c72-7850d6cfe7d2" method="GET">
@@ -203,7 +203,7 @@
 					<con:params/>
 					<con:element xmlns:auth="${#Project#SSOURL}/auth/realms/intrap/protocol/openid-connect/auth">auth:Fault</con:element>
 				</con:representation>
-				<con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Schnittstelle Status (no token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
+				<con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Schnittstelle Status (no token)" id="14969ca8-c4e2-4189-8503-d37f93f6b7b7" mediaType="application/json">
 					<con:settings>
 						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
 					</con:settings>
@@ -211,8 +211,8 @@
 					<con:request/>
 					<con:originalUri>${#Project#SSOURL}/auth/realms/intrap/protocol/openid-connect/auth</con:originalUri>
 					<con:credentials>
-						<con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-						<con:authType>No Authorization</con:authType>
+						<con:selectedAuthProfile>Profile 1</con:selectedAuthProfile>
+						<con:authType>OAuth 2.0</con:authType>
 					</con:credentials>
 					<con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
 					<con:jmsPropertyConfig/>
@@ -270,7 +270,7 @@
 					<con:params/>
 					<con:element xmlns:dat="${#Project#BASEURL}/clients/api/datentransfer">dat:Response</con:element>
 				</con:representation>
-				<con:request name="Create Datentransfer (no token)" id="afb85232-cada-4553-a774-7a49af76aee3" mediaType="application/json" postQueryString="false">
+				<con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>401</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>400</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Create Datentransfer (no token)" id="afb85232-cada-4553-a774-7a49af76aee3" mediaType="application/json" postQueryString="false">
 					<con:settings>
 						<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
 					</con:settings>
@@ -280,7 +280,7 @@
 						"zeitstempel": "2024-02-06T12:00:00",
 						"ereignis": "ERFOLG",
 						"info": "test",
-						"schnittstelle": "502dd918-13b9-4511-863e-ba0eac07e23a"
+						"schnittstelle": "c25ff226-2616-4247-8730-cffe07822226"
 						}
 					</con:request>
 					<con:originalUri>${#Project#BASEURL}/clients/api/datentransfer</con:originalUri>
@@ -302,7 +302,7 @@
 						"zeitstempel": "2024-02-06T12:00:00",
 						"ereignis": "ERFOLG",
 						"info": "test",
-						"schnittstelle": "502dd918-13b9-4511-863e-ba0eac07e23a"
+						"schnittstelle": "0f0bc666-3475-4665-a870-e5923fabc732"
 						}
 					</con:request>
 					<con:originalUri>${#Project#BASEURL}/clients/api/datentransfer</con:originalUri>
@@ -319,25 +319,25 @@
 	</con:interface>
 	<con:properties>
 		<con:property>
-			<con:name>BASEURL</con:name>
-			<con:value>http://localhost:8082</con:value>
-		</con:property>
-		<con:property>
-			<con:name>SSOURL</con:name>
-			<con:value>https://localhost:9999</con:value>
-		</con:property>
-		<con:property>
-			<con:name>CLIENTSECRET</con:name>
+			<con:name>BASEURL_DEV</con:name>
 			<con:value></con:value>
 		</con:property>
-	</con:properties>
+		<con:property>
+			<con:name>SSOURL_DEV</con:name>
+			<con:value></con:value>
+		</con:property>
+		<con:property>
+			<con:name>CLIENTSECRET_DEV</con:name>
+			<con:value></con:value>
+		</con:property>
+	<con:property><con:name>REALM_DEV</con:name><con:value></con:value></con:property><con:property><con:name>BASEURL_TEST</con:name><con:value></con:value></con:property><con:property><con:name>SSOURL_TEST</con:name><con:value></con:value></con:property><con:property><con:name>CLIENTSECRET_TEST</con:name><con:value></con:value></con:property><con:property><con:name>REALM_TEST</con:name><con:value></con:value></con:property><con:property><con:name>BASEURL</con:name><con:value>${#Project#BASEURL_TEST}</con:value></con:property><con:property><con:name>SSOURL</con:name><con:value>${#Project#SSOURL_TEST}</con:value></con:property><con:property><con:name>CLIENTSECRET</con:name><con:value>${#Project#CLIENTSECRET_TEST}</con:value></con:property><con:property><con:name>REALM</con:name><con:value>${#Project#REALM_TEST}</con:value></con:property></con:properties>
 	<con:wssContainer/>
 	<con:oAuth2ProfileContainer>
 		<con:oAuth2Profile>
 			<con:name>Profile 1</con:name>
 			<con:clientID>mobidam-sst-management</con:clientID>
 			<con:clientSecret>${#Project#CLIENTSECRET}</con:clientSecret>
-			<con:accessTokenURI>${#Project#SSOURL}/auth/realms/mobidam/protocol/openid-connect/token</con:accessTokenURI>
+			<con:accessTokenURI>${#Project#SSOURL}/auth/realms/${#Project#REALM}/protocol/openid-connect/token</con:accessTokenURI>
 			<con:accessToken></con:accessToken>
 			<con:accessTokenPosition>HEADER</con:accessTokenPosition>
 			<con:oAuth2Flow>CLIENT_CREDENTIALS_GRANT</con:oAuth2Flow>
@@ -346,7 +346,7 @@
 			<con:accessTokenStatus>RETRIEVED_FROM_SERVER</con:accessTokenStatus>
 			<con:accessTokenStartingStatus>RETRIEVED_FROM_SERVER</con:accessTokenStartingStatus>
 			<con:accessTokenExpirationTime>300</con:accessTokenExpirationTime>
-			<con:accessTokenIssuedTime>1710159171</con:accessTokenIssuedTime>
+			<con:accessTokenIssuedTime>1710413890</con:accessTokenIssuedTime>
 			<con:resourceOwnerName/>
 			<con:resourceOwnerPassword/>
 		</con:oAuth2Profile>
@@ -354,7 +354,7 @@
 			<con:name>Profile 2</con:name>
 			<con:clientID>mobidam-sst-management</con:clientID>
 			<con:clientSecret>${#Project#CLIENTSECRET}</con:clientSecret>
-			<con:accessTokenURI>${#Project#SSOURL}/auth/realms/mobidam/protocol/openid-connect/token</con:accessTokenURI>
+			<con:accessTokenURI>${#Project#SSOURL}/auth/realms/${#Project#REALM}/protocol/openid-connect/token</con:accessTokenURI>
 			<con:accessToken></con:accessToken>
 			<con:accessTokenPosition>HEADER</con:accessTokenPosition>
 			<con:oAuth2Flow>RESOURCE_OWNER_PASSWORD_CREDENTIALS</con:oAuth2Flow>
@@ -363,7 +363,7 @@
 			<con:accessTokenStatus>RETRIEVED_FROM_SERVER</con:accessTokenStatus>
 			<con:accessTokenStartingStatus>RETRIEVED_FROM_SERVER</con:accessTokenStartingStatus>
 			<con:accessTokenExpirationTime>300</con:accessTokenExpirationTime>
-			<con:accessTokenIssuedTime>1710159131</con:accessTokenIssuedTime>
+			<con:accessTokenIssuedTime>1710413540</con:accessTokenIssuedTime>
 			<con:manualAccessTokenExpirationTimeUnit>SECONDS</con:manualAccessTokenExpirationTimeUnit>
 			<con:resourceOwnerName></con:resourceOwnerName>
 			<con:resourceOwnerPassword></con:resourceOwnerPassword>
