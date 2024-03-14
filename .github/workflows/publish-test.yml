@@ -1,9 +1,6 @@
 name: Build and publish to test
 
-on:
-  push:
-    branches:
-      - 'sprint'
+on: [workflow_dispatch]
 
 jobs:
   backend-build-and-docker-push:
