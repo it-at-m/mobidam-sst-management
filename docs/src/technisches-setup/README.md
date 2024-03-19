@@ -8,4 +8,23 @@ So können beispielsweise über den jeweiligen Controller `POST`, `GET` und `DEL
 
 Die API kann nach dem Starten des Backends über den Link http://localhost:39146/swagger-ui/index.html#/ erreicht werden. 
 
-Weitere Informationen zur Swagger UI sind unter https://swagger.io/tools/swagger-ui/ zu finden. 
+Weitere Informationen zur Swagger UI sind unter https://swagger.io/tools/swagger-ui/ zu finden.
+
+## Integration-starter
+* Projekt erstellen mit Dependency: 
+```
+		<dependency>
+			<groupId>de.muenchen.mobidam</groupId>
+			<artifactId>mobidam-sst-management-integration-starter</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+```
+* Konfiguration
+```
+de.muenchen.mobidam.eai.logging:
+    clientId: 
+    clientSecret: 
+    timeout: 30000
+    baseUrl: http://localhost:39146
+    endpoint: /clients/api
+```

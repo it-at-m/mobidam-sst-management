@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/schnittstelle")
+@Slf4j
 public class SchnittstelleController {
 
     private final SchnittstelleService schnittstelleService;
@@ -58,7 +60,8 @@ public class SchnittstelleController {
 
     @Operation(summary = "Get status of schnittstelle")
     @GetMapping("{id}/status")
-    public ResponseEntity<?> getStatus(@PathVariable final String id) {
+    public ResponseEntity<?> getStatus(@PathVariable("id") final String id) {
+        log.debug("Get status: {}", id);
         Optional<SchnittstelleGetStatusDTO> schnittstelleDTO = schnittstelleService.getStatus(id);
         if (schnittstelleDTO.isPresent())
             return new ResponseEntity<>(schnittstelleDTO.get(), HttpStatus.OK);
