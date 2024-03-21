@@ -11,20 +11,29 @@ Die API kann nach dem Starten des Backends über den Link http://localhost:39146
 Weitere Informationen zur Swagger UI sind unter https://swagger.io/tools/swagger-ui/ zu finden.
 
 ## Integration-starter
-* Projekt erstellen mit Dependency: 
+* Client-Projekt erstellen mit Dependency: 
 ```
-		<dependency>
-			<groupId>de.muenchen.mobidam</groupId>
-			<artifactId>mobidam-sst-management-integration-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+<dependency>
+    <groupId>de.muenchen.mobidam</groupId>
+    <artifactId>mobidam-sst-management-integration-starter</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</dependency>
 ```
 * Konfiguration
 ```
-de.muenchen.mobidam.eai.logging:
-    clientId: 
-    clientSecret: 
+spring.security:
+  ...
+  
+...  
+de.muenchen.mobidam.integration:
     timeout: 30000
     baseUrl: http://localhost:39146
     endpoint: /clients/api
+```
+* Verwendung
+```
+@Autowired
+private SstManagementIntegrationService sstManagementIntegrationService;
+...
+boolean status = sstManagementIntegrationService.isActivated("04415b59-a35f-47e1-9567-4373713ad908");	
 ```

@@ -63,7 +63,7 @@
         <org.projectlombok.lombok.version>1.18.26</org.projectlombok.lombok.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <org.projectlombok.mapstructbinding.version>0.2.0</org.projectlombok.mapstructbinding.version>
-        <springdoc.version>2.2.0</springdoc.version>
+        <springdoc.version>2.4.0</springdoc.version>
     </properties>
 
 

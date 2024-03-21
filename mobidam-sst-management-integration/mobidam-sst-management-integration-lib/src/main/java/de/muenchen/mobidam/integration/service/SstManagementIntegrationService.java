@@ -23,29 +23,39 @@
 
 package de.muenchen.mobidam.integration.service;
 
+import de.muenchen.mobidam.domain.DatentransferCreateDTO;
+import de.muenchen.mobidam.integration.domain.SchnittstellenStatus;
 import de.muenchen.mobidam.rest.DatentransferControllerApi;
-import de.muenchen.mobidam.rest.DatentransferCreateDTO;
 import de.muenchen.mobidam.rest.SchnittstelleControllerApi;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+import java.util.LinkedHashMap;
+
 @RequiredArgsConstructor
+@Slf4j
 public class SstManagementIntegrationService {
 
     private final DatentransferControllerApi datentransferControllerApi;
     private final SchnittstelleControllerApi schnittstelleControllerApi;
 
     public void logDatentransfer(final DatentransferCreateDTO dto) {
-        System.out.println("Lib::logDatentransfer: " + dto.getEreignis() + ": " + dto.getZeitstempel());
+        log.debug("Called logDatentransfer for: {}", dto.getSchnittstelle());
         Mono<Object> res = datentransferControllerApi.createDatentransfer(dto);
-        System.out.println(res.subscribe(System.out::println));
+        res.subscribe(datentransfer -> log.info("Datentransfer created: {}", datentransfer));
     }
 
-    public boolean isActivated(final String sstId) {
-        System.out.println("Lib::isActivated");
-        Object statusDto = schnittstelleControllerApi.getStatus(sstId).block();
-        System.out.println("Status: " + statusDto);
-        return true;
+    public boolean isActivated(final String sstId) throws Exception {
+        log.debug("Called isActivated for: {}", sstId);
+        Object dto = schnittstelleControllerApi.getStatus(sstId).block();
+        if (dto instanceof LinkedHashMap<?,?> map) {
+            String status = (String) map.get("status");
+            log.info("Status ({}): {}", sstId, status);
+            return SchnittstellenStatus.AKTIVIERT.name().equals(status);
+        } else {
+            throw new Exception("Unknown result format");
+        }
     }
 
 }
