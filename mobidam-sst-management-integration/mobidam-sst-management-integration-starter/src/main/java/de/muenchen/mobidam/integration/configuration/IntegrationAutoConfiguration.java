@@ -40,7 +40,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @ComponentScan(basePackages = { "de.muenchen.mobidam.integration" })
 @EnableConfigurationProperties({ IntegrationProperties.class })
 @RequiredArgsConstructor
-public class LoggingAutoConfiguration {
+public class IntegrationAutoConfiguration {
 
     private final IntegrationProperties properties;
 
@@ -51,4 +51,5 @@ public class LoggingAutoConfiguration {
         SchnittstelleControllerApi sstControllerApi = new SchnittstelleControllerApi(new ApiClient(webClient));
         return new SstManagementIntegrationService(datentransferControllerApi, sstControllerApi);
     }
+
 }

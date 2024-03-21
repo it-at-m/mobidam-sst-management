@@ -344,7 +344,7 @@
                                     <configOptions>
 <!--                                        <sourceFolder>src/gen/java/main</sourceFolder>-->
                                         <apiPackage>de.muenchen.mobidam.rest</apiPackage>
-                                        <modelPackage>de.muenchen.mobidam.rest</modelPackage>
+                                        <modelPackage>de.muenchen.mobidam.domain</modelPackage>
                                         <useSpringBoot3>true</useSpringBoot3>
                                         <library>webclient</library>
 <!--                                        <library>resttemplate</library>-->

@@ -1,2 +1,2 @@
-de.muenchen.mobidam.integration.configuration.LoggingAutoConfiguration
+de.muenchen.mobidam.integration.configuration.IntegrationAutoConfiguration
 de.muenchen.mobidam.integration.configuration.SecurityAutoConfig
