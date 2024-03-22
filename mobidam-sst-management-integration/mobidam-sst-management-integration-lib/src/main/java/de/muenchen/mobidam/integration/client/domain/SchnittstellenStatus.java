@@ -20,7 +20,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package de.muenchen.mobidam.integration.domain;
+package de.muenchen.mobidam.integration.client.domain;
 
 public enum SchnittstellenStatus {
     AKTIVIERT, DEAKTIVIERT

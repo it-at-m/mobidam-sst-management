@@ -23,10 +23,10 @@
 
 package de.muenchen.mobidam.integration.service;
 
-import de.muenchen.mobidam.domain.DatentransferCreateDTO;
-import de.muenchen.mobidam.integration.domain.SchnittstellenStatus;
-import de.muenchen.mobidam.rest.DatentransferControllerApi;
-import de.muenchen.mobidam.rest.SchnittstelleControllerApi;
+import de.muenchen.mobidam.integration.client.api.DatentransferControllerApi;
+import de.muenchen.mobidam.integration.client.api.SchnittstelleControllerApi;
+import de.muenchen.mobidam.integration.client.domain.DatentransferCreateDTO;
+import de.muenchen.mobidam.integration.client.domain.SchnittstellenStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -46,16 +46,22 @@ public class SstManagementIntegrationService {
         res.subscribe(datentransfer -> log.info("Datentransfer created: {}", datentransfer));
     }
 
-    public boolean isActivated(final String sstId) throws Exception {
-        log.debug("Called isActivated for: {}", sstId);
+    public String getStatus(final String sstId) throws Exception {
+        log.debug("Called getStatus for: {}", sstId);
         Object result = schnittstelleControllerApi.getStatus(sstId).block();
         if (result instanceof LinkedHashMap<?, ?> map) {
             String status = (String) map.get("status");
             log.debug("Status ({}): {}", sstId, status);
-            return SchnittstellenStatus.AKTIVIERT.name().equals(status);
+            return status;
         } else {
             throw new Exception("Unexpected result class: " + result.getClass().getName());
         }
+    }
+
+    public boolean isActivated(final String sstId) throws Exception {
+        log.debug("Called isActivated for: {}", sstId);
+        String status = getStatus(sstId);
+        return SchnittstellenStatus.AKTIVIERT.name().equals(status);
     }
 
 }

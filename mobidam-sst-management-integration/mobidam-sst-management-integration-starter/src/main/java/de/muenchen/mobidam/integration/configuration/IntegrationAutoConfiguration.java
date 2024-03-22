@@ -22,10 +22,10 @@
  */
 package de.muenchen.mobidam.integration.configuration;
 
-import de.muenchen.mobidam.ApiClient;
-import de.muenchen.mobidam.rest.DatentransferControllerApi;
+import de.muenchen.mobidam.integration.client.ApiClient;
+import de.muenchen.mobidam.integration.client.api.DatentransferControllerApi;
+import de.muenchen.mobidam.integration.client.api.SchnittstelleControllerApi;
 import de.muenchen.mobidam.integration.service.SstManagementIntegrationService;
-import de.muenchen.mobidam.rest.SchnittstelleControllerApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -47,8 +47,9 @@ public class IntegrationAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean // To let others override the service
     public SstManagementIntegrationService sstManagementIntegrationService(WebClient webClient) {
-        DatentransferControllerApi datentransferControllerApi = new DatentransferControllerApi(new ApiClient(webClient));
-        SchnittstelleControllerApi sstControllerApi = new SchnittstelleControllerApi(new ApiClient(webClient));
+        ApiClient apiClient = new ApiClient(webClient);
+        DatentransferControllerApi datentransferControllerApi = new DatentransferControllerApi(apiClient);
+        SchnittstelleControllerApi sstControllerApi = new SchnittstelleControllerApi(apiClient);
         return new SstManagementIntegrationService(datentransferControllerApi, sstControllerApi);
     }
 
