@@ -26,10 +26,8 @@ import de.muenchen.mobidam.integration.client.ApiClient;
 import de.muenchen.mobidam.integration.client.api.DatentransferControllerApi;
 import de.muenchen.mobidam.integration.client.api.SchnittstelleControllerApi;
 import de.muenchen.mobidam.integration.service.SstManagementIntegrationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -38,11 +36,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 @ConditionalOnClass(SstManagementIntegrationService.class)
 @ComponentScan(basePackages = { "de.muenchen.mobidam.integration" })
-@EnableConfigurationProperties({ IntegrationProperties.class })
-@RequiredArgsConstructor
 public class IntegrationAutoConfiguration {
-
-    private final IntegrationProperties properties;
 
     @Bean
     @ConditionalOnMissingBean // To let others override the service

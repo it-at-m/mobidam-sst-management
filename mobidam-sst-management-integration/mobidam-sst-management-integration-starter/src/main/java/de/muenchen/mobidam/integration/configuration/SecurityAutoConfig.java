@@ -1,8 +1,8 @@
 package de.muenchen.mobidam.integration.configuration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -25,10 +25,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class SecurityAutoConfig {
-
-    private static final String RESOURCE_ENDPOINT = "_resource_endpoint";
-    private static final String OAUTH2_TOKEN_ENDPOINT = "_oauth2_token_endpoint";
 
     // if this block is not added then all urls are redirected to default login /login url
     @Bean
@@ -40,17 +38,16 @@ public class SecurityAutoConfig {
     }
 
     @Bean
-    public WebClient webClientTest(final @Value("${oauth2.registration.id}")
+    @ConditionalOnMissingBean // To let others override the service
+    public WebClient webClient(final @Value("${oauth2.registration.id}")
     String oauth2RegistrationId,
-            final @Value("${resource.base}")
+            final @Value("${de.muenchen.mobidam.integration.baseUrl}")
             String resourceBase,
             final ClientRegistrationRepository clientRegistrationRepository) {
-        var tokenEndpointLogger = LoggerFactory.getLogger(oauth2RegistrationId + OAUTH2_TOKEN_ENDPOINT);
-        var resourceEndpointLogger = LoggerFactory.getLogger(oauth2RegistrationId + RESOURCE_ENDPOINT);
 
         var defaultClientCredentialsTokenResponseClient = new DefaultClientCredentialsTokenResponseClient();
         defaultClientCredentialsTokenResponseClient
-                .setRestOperations(getRestTemplateForTokenEndPoint(oauth2RegistrationId, tokenEndpointLogger));
+                .setRestOperations(getRestTemplateForTokenEndPoint(oauth2RegistrationId));
 
         var provider = OAuth2AuthorizedClientProviderBuilder.builder()
                 .clientCredentials(c -> c.accessTokenResponseClient(defaultClientCredentialsTokenResponseClient))
@@ -69,12 +66,12 @@ public class SecurityAutoConfig {
                 // base path of the client, just path while calling is required
                 .baseUrl(resourceBase)
                 .apply(oauth.oauth2Configuration())
-                .filter(logResourceRequest(resourceEndpointLogger, oauth2RegistrationId))
-                .filter(logResourceResponse(resourceEndpointLogger, oauth2RegistrationId))
+                .filter(logResourceRequest(oauth2RegistrationId))
+                .filter(logResourceResponse(oauth2RegistrationId))
                 .build();
     }
 
-    private RestTemplate getRestTemplateForTokenEndPoint(String oauth2RegistrationId, Logger tokenEndpointLogger) {
+    private RestTemplate getRestTemplateForTokenEndPoint(String oauth2RegistrationId) {
         var restTemplateForTokenEndPoint = new RestTemplate();
         restTemplateForTokenEndPoint
                 .setMessageConverters(
@@ -83,31 +80,31 @@ public class SecurityAutoConfig {
         restTemplateForTokenEndPoint
                 .setErrorHandler(new OAuth2ErrorResponseErrorHandler());
         restTemplateForTokenEndPoint
-                .setInterceptors(List.of(restTemplateRequestInterceptor(tokenEndpointLogger, oauth2RegistrationId)));
+                .setInterceptors(List.of(restTemplateRequestInterceptor(oauth2RegistrationId)));
         return restTemplateForTokenEndPoint;
     }
 
-    private static ExchangeFilterFunction logResourceRequest(final Logger logger, final String clientName) {
+    private static ExchangeFilterFunction logResourceRequest(final String clientName) {
         return ExchangeFilterFunction.ofRequestProcessor(c -> {
-            logger.info(
+            log.debug(
                     "For Client {}, Sending OAUTH2 protected Resource Request to {}: {}",
                     clientName, c.method(), c.url());
             return Mono.just(c);
         });
     }
 
-    private static ExchangeFilterFunction logResourceResponse(final Logger logger, final String clientName) {
+    private static ExchangeFilterFunction logResourceResponse(final String clientName) {
         return ExchangeFilterFunction.ofResponseProcessor(c -> {
-            logger.info("For Client {}, OAUTH2 protected Resource Response status: {}", clientName, c.statusCode());
+            log.debug("For Client {}, OAUTH2 protected Resource Response status: {}", clientName, c.statusCode());
             return Mono.just(c);
         });
     }
 
-    private static ClientHttpRequestInterceptor restTemplateRequestInterceptor(final Logger logger, final String clientName) {
+    private static ClientHttpRequestInterceptor restTemplateRequestInterceptor(final String clientName) {
         return (request, body, execution) -> {
-            logger.info("For Client {}, Sending OAUTH2 Token Request to {}", clientName, request.getURI());
+            log.debug("For Client {}, Sending OAUTH2 Token Request to {}", clientName, request.getURI());
             var clientResponse = execution.execute(request, body);
-            logger.info("For Client {}, OAUTH2 Token Response: {}", clientName, clientResponse.getStatusCode());
+            log.debug("For Client {}, OAUTH2 Token Response: {}", clientName, clientResponse.getStatusCode());
             return clientResponse;
         };
     }
