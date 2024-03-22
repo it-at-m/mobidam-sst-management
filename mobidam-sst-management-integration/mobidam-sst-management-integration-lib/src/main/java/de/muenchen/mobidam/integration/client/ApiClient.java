@@ -3,31 +3,35 @@ package de.muenchen.mobidam.integration.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import de.muenchen.mobidam.integration.client.auth.ApiKeyAuth;
+import de.muenchen.mobidam.integration.client.auth.Authentication;
+import de.muenchen.mobidam.integration.client.auth.HttpBasicAuth;
+import de.muenchen.mobidam.integration.client.auth.HttpBearerAuth;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ClientHttpRequest;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-import org.springframework.http.client.reactive.ClientHttpRequest;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Optional;
-
+import javax.annotation.Nullable;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,18 +40,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.TimeZone;
 
-import javax.annotation.Nullable;
-
-import java.time.OffsetDateTime;
-
-import de.muenchen.mobidam.integration.client.auth.Authentication;
-import de.muenchen.mobidam.integration.client.auth.HttpBasicAuth;
-import de.muenchen.mobidam.integration.client.auth.HttpBearerAuth;
-import de.muenchen.mobidam.integration.client.auth.ApiKeyAuth;
-
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T12:50:09.387918700+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T16:23:15.259024800+01:00[Europe/Berlin]")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);

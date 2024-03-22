@@ -1,27 +1,25 @@
 package de.muenchen.mobidam.integration.client.api;
 
 import de.muenchen.mobidam.integration.client.ApiClient;
-
 import de.muenchen.mobidam.integration.client.domain.DatentransferCreateDTO;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T12:50:09.387918700+01:00[Europe/Berlin]")
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T16:23:15.259024800+01:00[Europe/Berlin]")
 public class DatentransferControllerApi {
     private ApiClient apiClient;
 

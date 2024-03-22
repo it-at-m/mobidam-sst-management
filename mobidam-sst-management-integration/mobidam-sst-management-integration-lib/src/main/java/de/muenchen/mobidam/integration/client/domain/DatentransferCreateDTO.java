@@ -13,14 +13,14 @@
 
 package de.muenchen.mobidam.integration.client.domain;
 
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.OffsetDateTime;
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * DatentransferCreateDTO
@@ -32,13 +32,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   DatentransferCreateDTO.JSON_PROPERTY_INFO,
   DatentransferCreateDTO.JSON_PROPERTY_SCHNITTSTELLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T12:50:09.387918700+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T16:23:15.259024800+01:00[Europe/Berlin]")
 public class DatentransferCreateDTO {
   public static final String JSON_PROPERTY_PROZESS_ID = "prozessId";
   private String prozessId;
 
   public static final String JSON_PROPERTY_ZEITSTEMPEL = "zeitstempel";
-  private OffsetDateTime zeitstempel;
+  private LocalDateTime zeitstempel;
 
   public static final String JSON_PROPERTY_EREIGNIS = "ereignis";
   private String ereignis;
@@ -79,7 +79,7 @@ public class DatentransferCreateDTO {
   }
 
 
-  public DatentransferCreateDTO zeitstempel(OffsetDateTime zeitstempel) {
+  public DatentransferCreateDTO zeitstempel(LocalDateTime zeitstempel) {
     
     this.zeitstempel = zeitstempel;
     return this;
@@ -94,14 +94,14 @@ public class DatentransferCreateDTO {
   @JsonProperty(JSON_PROPERTY_ZEITSTEMPEL)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public OffsetDateTime getZeitstempel() {
+  public LocalDateTime getZeitstempel() {
     return zeitstempel;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ZEITSTEMPEL)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setZeitstempel(OffsetDateTime zeitstempel) {
+  public void setZeitstempel(LocalDateTime zeitstempel) {
     this.zeitstempel = zeitstempel;
   }
 

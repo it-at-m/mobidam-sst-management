@@ -112,11 +112,11 @@
             <artifactId>jsr250-api</artifactId>
             <version>1.0</version>
         </dependency>
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>3.0.2</version>
-            </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
 
         <!-- Webflux -->
         <dependency>
@@ -152,9 +152,8 @@
                                         <useSpringBoot3>true</useSpringBoot3>
                                         <library>webclient</library>
                                         <annotationLibrary>swagger2</annotationLibrary>
-                                        <dateLibrary>java8</dateLibrary>
+                                        <dateLibrary>java8-localdatetime</dateLibrary>
                                     </configOptions>
-<!--                                    <generateSupportingFiles>true</generateSupportingFiles>-->
                                 </configuration>
                             </execution>
                         </executions>

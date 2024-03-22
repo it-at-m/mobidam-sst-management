@@ -1,12 +1,12 @@
 package de.muenchen.mobidam.integration.client.auth;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T12:50:09.387918700+01:00[Europe/Berlin]")
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T16:23:15.259024800+01:00[Europe/Berlin]")
 public class HttpBasicAuth implements Authentication {
     private String username;
     private String password;

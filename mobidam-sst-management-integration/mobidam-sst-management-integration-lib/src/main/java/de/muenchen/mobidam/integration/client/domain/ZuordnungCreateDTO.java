@@ -13,14 +13,14 @@
 
 package de.muenchen.mobidam.integration.client.domain;
 
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDate;
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * ZuordnungCreateDTO
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ZuordnungCreateDTO.JSON_PROPERTY_GUELTIG_AB,
   ZuordnungCreateDTO.JSON_PROPERTY_GUELTIG_BIS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T12:50:09.387918700+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-03-22T16:23:15.259024800+01:00[Europe/Berlin]")
 public class ZuordnungCreateDTO {
   public static final String JSON_PROPERTY_SCHNITTSTELLE = "schnittstelle";
   private UUID schnittstelle;
