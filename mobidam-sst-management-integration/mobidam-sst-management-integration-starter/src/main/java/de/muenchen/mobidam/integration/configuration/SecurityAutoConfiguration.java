@@ -26,7 +26,7 @@ import java.util.List;
 
 @Configuration
 @Slf4j
-public class SecurityAutoConfig {
+public class SecurityAutoConfiguration {
 
     // if this block is not added then all urls are redirected to default login /login url
     @Bean
