@@ -48,13 +48,13 @@ public class SstManagementIntegrationService {
 
     public boolean isActivated(final String sstId) throws Exception {
         log.debug("Called isActivated for: {}", sstId);
-        Object dto = schnittstelleControllerApi.getStatus(sstId).block();
-        if (dto instanceof LinkedHashMap<?,?> map) {
+        Object result = schnittstelleControllerApi.getStatus(sstId).block();
+        if (result instanceof LinkedHashMap<?, ?> map) {
             String status = (String) map.get("status");
-            log.info("Status ({}): {}", sstId, status);
+            log.debug("Status ({}): {}", sstId, status);
             return SchnittstellenStatus.AKTIVIERT.name().equals(status);
         } else {
-            throw new Exception("Unknown result format");
+            throw new Exception("Unexpected result class: " + result.getClass().getName());
         }
     }
 
