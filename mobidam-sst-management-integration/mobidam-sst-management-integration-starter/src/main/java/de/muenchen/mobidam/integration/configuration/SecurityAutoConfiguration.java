@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
@@ -16,7 +15,6 @@ import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorH
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -28,21 +26,12 @@ import java.util.List;
 @Slf4j
 public class SecurityAutoConfiguration {
 
-    // if this block is not added then all urls are redirected to default login /login url
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                //.csrf(AbstractHttpConfigurer::disable)
-                //.oauth2Client(withDefaults())
-                .build();
-    }
-
     @Bean
     @ConditionalOnMissingBean // To let others override the service
     public WebClient webClient(final @Value("${oauth2.registration.id}")
     String oauth2RegistrationId,
             final @Value("${de.muenchen.mobidam.integration.baseUrl}")
-            String resourceBase,
+            String baseUrl,
             final ClientRegistrationRepository clientRegistrationRepository) {
 
         var defaultClientCredentialsTokenResponseClient = new DefaultClientCredentialsTokenResponseClient();
@@ -64,7 +53,7 @@ public class SecurityAutoConfiguration {
 
         return WebClient.builder()
                 // base path of the client, just path while calling is required
-                .baseUrl(resourceBase)
+                .baseUrl(baseUrl)
                 .apply(oauth.oauth2Configuration())
                 .filter(logResourceRequest(oauth2RegistrationId))
                 .filter(logResourceResponse(oauth2RegistrationId))

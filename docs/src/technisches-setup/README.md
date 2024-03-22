@@ -26,9 +26,7 @@ spring.security:
   
 ...  
 de.muenchen.mobidam.integration:
-    timeout: 30000
     baseUrl: http://localhost:39146
-    endpoint: /clients/api
 ```
 * Verwendung
 ```
