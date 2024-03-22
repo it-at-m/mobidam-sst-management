@@ -35,6 +35,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,7 @@ public class ZuordnungController {
 
     @Operation(summary = "Generates a zuordnung")
     @PostMapping
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<?> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
         Optional<ZuordnungDTO> zuordnungDTO = zuordnungService.create(zuordnungCreateDTO);
         if (zuordnungDTO.isEmpty())
@@ -64,16 +66,18 @@ public class ZuordnungController {
 
     @Operation(summary = "Returns the list of all zuordnungen of a schnittstelle")
     @GetMapping("/bySchnittstelle/{id}")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Iterable<ZuordnungDTO>> getAllById(@PathVariable String id) {
         List<ZuordnungDTO> personDTOList = new ArrayList<>();
         zuordnungService.getAllById(id)
                 .forEach(task -> personDTOList.add(zuordnungMapper.toDTO(task)));
-        personDTOList.sort(Comparator.comparing(ZuordnungDTO::getValidUntil));
+        personDTOList.sort(Comparator.comparing(ZuordnungDTO::getGueltigBis));
         return new ResponseEntity<>(personDTOList, HttpStatus.OK);
     }
 
     @Operation(summary = "Deletes the zuordnung with the given ID")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return this.zuordnungService.deleteById(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

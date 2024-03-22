@@ -29,8 +29,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,18 +43,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/datentransfer")
+@Slf4j
 public class DatentransferController {
 
     private final DatentransferService datentransferService;
 
     @Operation(summary = "Get all Datentransfers for Schnittstelle")
     @GetMapping("/{schnittstelleId}/{page}")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
 
     @Operation(summary = "Get first Datentransfer result state for Schnittstelle")
     @GetMapping("/latestResultState/{schnittstelleId}")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<?> getLatestResultStateBySchnittstelle(@PathVariable String schnittstelleId) {
         Optional<DatentransferDTO> datentransferDTO = datentransferService.getLatestResultStateBySchnittstelle(schnittstelleId);
         if (datentransferDTO.isPresent())
@@ -63,6 +68,7 @@ public class DatentransferController {
     @Operation(summary = "Creating a Datentransfer for an existing Schnittstelle")
     @PostMapping
     public ResponseEntity<?> createDatentransfer(@Valid @RequestBody DatentransferCreateDTO datentransferCreateDTO) {
+        log.info("Creating Datentransfer: {}", datentransferCreateDTO);
         Optional<DatentransferDTO> datentransferDTO = datentransferService.createDatentransfer(datentransferCreateDTO);
         if (datentransferDTO.isPresent())
             return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);

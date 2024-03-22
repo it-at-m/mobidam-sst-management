@@ -44,7 +44,7 @@
                     >
                     </v-text-field>
                     <v-text-field
-                        ref="creationDate"
+                        ref="anlagedatum"
                         :value="today.toLocaleDateString()"
                         label="Anlagedatum"
                         hint="Als Anlagedatum wird automatisch der heutige Tag gesetzt."
@@ -64,8 +64,8 @@
                         </v-col>
                         <v-col>
                             <v-textarea
-                                ref="explanantion"
-                                v-model="schnittstelleRequest.explanation"
+                                ref="begruendung"
+                                v-model="schnittstelleRequest.begruendung"
                                 label="Begründung der Statussetzung"
                                 outlined
                                 :maxlength="255"
@@ -96,7 +96,7 @@
                                 style="margin-right: 1%"
                                 @click:close="removeZuordnung(zuordnung)"
                             >
-                                {{ zuordnung.userID }}
+                                {{ zuordnung.benutzerkennung }}
                             </v-chip>
                             <br />
                         </v-col>
