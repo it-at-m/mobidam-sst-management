@@ -132,11 +132,15 @@
                     <header>header.txt</header>
                     <failIfMissing>true</failIfMissing>
                     <useDefaultExcludes>true</useDefaultExcludes>
+                    <aggregate>true</aggregate>
                     <excludes>
                         <exclude>**/*.txt</exclude>
                         <exclude>**/*.yml</exclude>
-                        <exclude>**/META-INF/*</exclude>
                     </excludes>
+                    <includes>
+                        <include>mobidam-sst-management-integration-lib/**/*</include>
+                        <include>mobidam-sst-management-integration-starter/**/*</include>
+                    </includes>
                 </configuration>
             </plugin>
 
