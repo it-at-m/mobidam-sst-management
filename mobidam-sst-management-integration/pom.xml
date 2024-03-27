@@ -28,10 +28,43 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.muenchen.mobidam</groupId>
+    <groupId>de.muenchen.oss.mobidam</groupId>
     <artifactId>mobidam-sst-management-integration</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>mobidam-sst-management-integration</name>
+    <description>spring-boot-starter to integrate mobidam-sst-management client into other components</description>
+    <url>https://github.com/it-at-m/mobidam-sst-management/</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Landeshauptstadt München - it@M</name>
+        <url>https://muenchen.digital/it-at-m/</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>martind260</name>
+            <organization>Landeshauptstadt München</organization>
+            <url>https://github.com/martind260</url>
+            <roles>
+                <role>mobidam_admin</role>
+                <role>mobidam_devs</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/it-at-m/mobidam-sst-management</url>
+        <connection>scm:git:https://github.com/it-at-m/mobidam-sst-management.git</connection>
+        <developerConnection>scm:git:https://github.com/it-at-m/mobidam-sst-management.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -39,6 +72,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven-scm-plugin.version>1.10.0</maven-scm-plugin.version>
+        <skipGpg>false</skipGpg>
     </properties>
 
     <modules>
@@ -46,8 +80,83 @@
         <module>mobidam-sst-management-integration-starter</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- Central Portal Publishing Plugin -->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <tokenAuth>true</tokenAuth>
+                            <autoPublish>true</autoPublish>
+                            <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
+                        </configuration>
+                    </plugin>
+                    <!-- GPG plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <configuration>
+                            <skip>${skipGpg}</skip>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- Prevent `gpg` from using pinentry programs -->
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.4.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-scm-plugin</artifactId>
                 <version>${maven-scm-plugin.version}</version>
