@@ -59,6 +59,14 @@
         </developer>
     </developers>
 
+    <distributionManagement>
+        <!-- Central Repository -->
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <scm>
         <url>https://github.com/it-at-m/mobidam-sst-management</url>
         <connection>scm:git:https://github.com/it-at-m/mobidam-sst-management.git</connection>
@@ -157,14 +165,6 @@
                     <tagNameFormat>@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-scm-plugin</artifactId>
-                <version>${maven-scm-plugin.version}</version>
-                <configuration>
-                    <tag>RT-REL-${project.version}</tag>
-                </configuration>
-            </plugin>
-
             <!-- Codeformatter Spotless -->
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
