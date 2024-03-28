@@ -44,7 +44,7 @@ jobs:
 
       - name: Perform maven release
         run: >
-          mvn -B -ntp -Prelease release:prepare sign release:perform
+          mvn --batch-mode --no-transfer-progress -Prelease release:prepare sign release:perform
           -DreleaseVersion=${{ github.event.inputs.release-version }} 
           -DdevelopmentVersion=${{ github.event.inputs.development-version }} 
           -Dtag=${{ github.event.inputs.release-tag }} 
