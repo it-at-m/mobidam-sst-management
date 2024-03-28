@@ -106,7 +106,7 @@
 
         <!-- Mobidam -->
         <dependency>
-            <groupId>de.muenchen.mobidam</groupId>
+            <groupId>de.muenchen.oss.mobidam</groupId>
             <artifactId>mobidam-sst-management-integration-lib</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
