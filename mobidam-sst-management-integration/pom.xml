@@ -178,6 +178,14 @@
                     <tagNameFormat>@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <altDeploymentRepository>local::default::file:/path/to/local/repo</altDeploymentRepository>
+                </configuration>
+            </plugin>
             <!-- Codeformatter Spotless -->
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
