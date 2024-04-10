@@ -130,6 +130,8 @@
                                     <goal>sign</goal>
                                 </goals>
                                 <configuration>
+                                    <keyname>martind260</keyname>
+                                    <passphrase>${env.PASSPHRASE}</passphrase>
                                     <!-- Prevent `gpg` from using pinentry programs -->
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
