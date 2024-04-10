@@ -183,7 +183,7 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>3.1.1</version>
                 <configuration>
-                    <altDeploymentRepository>local::default::file:/path/to/local/repo</altDeploymentRepository>
+                    <altDeploymentRepository>local::default::file:${env.LOCAL_REPOSITORY}</altDeploymentRepository>
                 </configuration>
             </plugin>
             <!-- Codeformatter Spotless -->
