@@ -75,7 +75,11 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <header>header.txt</header>
+                    <properties>
+                        <owner>Landeshauptstadt München | it@M</owner>
+                        <year>2023</year>
+                    </properties>
+                    <header>com/mycila/maven/plugin/license/templates/MIT.txt</header>
                     <failIfMissing>true</failIfMissing>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <aggregate>true</aggregate>
