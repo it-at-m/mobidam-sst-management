@@ -28,7 +28,7 @@
 
     <groupId>de.muenchen.oss.mobidam</groupId>
     <artifactId>mobidam-sst-management-integration</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>mobidam-sst-management-integration</name>
     <description>spring-boot-starter to integrate mobidam-sst-management client into other components</description>
@@ -57,18 +57,19 @@
         </developer>
     </developers>
 
-    <distributionManagement>
-        <repository>
-            <id>localReleases</id>
-            <name>RepositoryProxyRel</name>
-            <url>file:///${env.LOCAL_REPOSITORY}</url>
-        </repository>
-        <snapshotRepository>
-            <id>localSnapshots</id>
-            <name>RepositoryProxySnap</name>
-            <url>file:///${env.LOCAL_REPOSITORY}</url>
-        </snapshotRepository>
-    </distributionManagement>
+<!--    TODO: remove-->
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>localReleases</id>-->
+<!--            <name>RepositoryProxyRel</name>-->
+<!--            <url>file:///${env.LOCAL_REPOSITORY}</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>localSnapshots</id>-->
+<!--            <name>RepositoryProxySnap</name>-->
+<!--            <url>file:///${env.LOCAL_REPOSITORY}</url>-->
+<!--        </snapshotRepository>-->
+<!--    </distributionManagement>-->
 
     <scm>
         <url>https://github.com/it-at-m/mobidam-sst-management</url>
@@ -97,16 +98,16 @@
             <build>
                 <plugins>
                     <!-- Central Portal Publishing Plugin -->
-<!--                    <plugin>-->
-<!--                        <groupId>org.sonatype.central</groupId>-->
-<!--                        <artifactId>central-publishing-maven-plugin</artifactId>-->
-<!--                        <extensions>true</extensions>-->
-<!--                        <configuration>-->
-<!--                            <tokenAuth>true</tokenAuth>-->
-<!--                            <autoPublish>true</autoPublish>-->
-<!--                            <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>-->
-<!--                        </configuration>-->
-<!--                    </plugin>-->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <tokenAuth>true</tokenAuth>
+                            <autoPublish>true</autoPublish>
+                            <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
+                        </configuration>
+                    </plugin>
                     <!-- GPG plugin -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -122,8 +123,9 @@
                                     <goal>sign</goal>
                                 </goals>
                                 <configuration>
-                                    <keyname>martind260</keyname>
-                                    <passphrase>${env.PASSPHRASE}</passphrase>
+<!--                                    TODO: remove-->
+<!--                                    <keyname>martind260</keyname>-->
+<!--                                    <passphrase>${env.PASSPHRASE}</passphrase>-->
                                     <!-- Prevent `gpg` from using pinentry programs -->
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
