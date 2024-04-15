@@ -44,7 +44,7 @@ jobs:
 
       - name: Perform maven release
         run: >
-          mvn --batch-mode --no-transfer-progress release:prepare release:perform
+          mvn --batch-mode --no-transfer-progress -f mobidam-sst-management-integration/pom.xml release:prepare release:perform
           -DreleaseVersion=${{ github.event.inputs.release-version }} 
           -DdevelopmentVersion=${{ github.event.inputs.development-version }} 
           -Dtag=${{ github.event.inputs.release-tag }} 
