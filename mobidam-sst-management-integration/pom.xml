@@ -57,20 +57,6 @@
         </developer>
     </developers>
 
-<!--    TODO: remove-->
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>localReleases</id>-->
-<!--            <name>RepositoryProxyRel</name>-->
-<!--            <url>file:///${env.LOCAL_REPOSITORY}</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <id>localSnapshots</id>-->
-<!--            <name>RepositoryProxySnap</name>-->
-<!--            <url>file:///${env.LOCAL_REPOSITORY}</url>-->
-<!--        </snapshotRepository>-->
-<!--    </distributionManagement>-->
-
     <scm>
         <url>https://github.com/it-at-m/mobidam-sst-management</url>
         <connection>scm:git:https://github.com/it-at-m/mobidam-sst-management.git</connection>
@@ -123,9 +109,6 @@
                                     <goal>sign</goal>
                                 </goals>
                                 <configuration>
-<!--                                    TODO: remove-->
-<!--                                    <keyname>martind260</keyname>-->
-<!--                                    <passphrase>${env.PASSPHRASE}</passphrase>-->
                                     <!-- Prevent `gpg` from using pinentry programs -->
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
