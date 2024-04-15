@@ -1,8 +1,13 @@
 # Release-Notes
 
+## Sprint 8 (26.03.2024 - 16.04.2024)
+### Verbessert
+- integration-starter publishing
+
 ## Sprint 8 (05.03.2024 - 26.03.2024)
 ### Hinzugefügt
 - SSO aktiviert und Backend abgesichert
+- integration-starter
 
 ### Verbessert
 - Tabellen auf deutsch
