@@ -16,6 +16,7 @@ buildNumber.properties
 .project
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
+.idea
 ../.idea
 *.iml
 
@@ -73,7 +74,7 @@ bld/
 [Ll]og/
 
 .DS_Store
-node_modules
+docs/node_modules
 /dist
 
 # local env files

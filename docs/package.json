@@ -1,21 +1,16 @@
 {
-  "name": "mobidam-sst-management",
-  "version": "0.0.1",
-  "description": "Anwendung für das Management der Schnittstellen",
+  "name": "isi-frontend-docs",
+  "description": "Dokumentation des ISI Frontends",
   "main": "index.js",
-  "authors": {
-    "name": "it@M",
-    "email": "opensource@muenchen.de"
-  },
-  "repository": "https://github.com/it-at-m/mobidam-sst-management",
+  "repository": "https://github.com/it-at-m/isi-frontend.git",
   "scripts": {
     "dev": "vuepress dev src",
     "build": "vuepress build src"
   },
   "license": "MIT",
   "devDependencies": {
-    "vuepress": "^1.5.3",
-    "markdown-it-footnote": "^3.0.3"
+    "markdown-it-footnote": "^3.0.3",
+    "vuepress": "^1.9.7"
   },
   "dependencies": {
     "vuepress-plugin-mermaidjs": "^1.9.1"

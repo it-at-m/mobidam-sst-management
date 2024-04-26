@@ -1,11 +1,11 @@
-# Dokumentation
+# ISI Dokumentation
 
 ## Source Code holen
 
 Sourcen auf den lokalen Rechner holen und ins docs-Verzeichnis wechseln
 
-    git clone https://github.com/it-at-m/mobidam-sst-management.git
-    cd mobidam-sst-management/docs
+    git clone https://github.com/it-at-m/isi-frontend.git
+    cd isi-frontend/docs
 
 ## Mit lokaler node Installation
 
