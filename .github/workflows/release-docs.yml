@@ -13,6 +13,7 @@ jobs:
         uses: jenkey2011/vuepress-deploy@master
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_BRANCH: sprint
           BUILD_SCRIPT: npm install && npm run build
           BUILD_DIR: docs/.vuepress/dist
           CNAME: https://it-at-m.github.io/mobidam-sst-management/
