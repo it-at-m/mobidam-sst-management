@@ -9,16 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          node-version-file: 'docs/package.json'
-
       - name: vuepress-deploy
         uses: jenkey2011/vuepress-deploy@master
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_BRANCH: gh-pages
-          BUILD_SCRIPT: cd docs && export NODE_OPTIONS=--openssl-legacy-provider && npm install && npm run build
+          BUILD_SCRIPT: cd docs && npm install && npm run build
           BUILD_DIR: docs/src/.vuepress/dist
