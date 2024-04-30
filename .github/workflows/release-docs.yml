@@ -8,12 +8,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        ref: {sprint}
 
       - name: vuepress-deploy
         uses: jenkey2011/vuepress-deploy@master
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_BRANCH: sprint
-          BUILD_SCRIPT: npm --prefix /docs install && npm --prefix /docs run build
+          BUILD_SCRIPT: cd docs && npm install && npm run build
           BUILD_DIR: docs/.vuepress/dist
           CNAME: https://it-at-m.github.io/mobidam-sst-management/
