@@ -9,6 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          node-version-file: 'docs/package.json'
+
       - name: vuepress-deploy
         uses: jenkey2011/vuepress-deploy@master
         env:
