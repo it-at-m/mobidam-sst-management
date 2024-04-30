@@ -1,6 +1,10 @@
 # Release-Notes
 
-## Sprint 8 (26.03.2024 - 16.04.2024)
+## Sprint 10 (16.04.2024 - 07.05.2024)
+### Hinuzgefügt
+- Dokumentation wurde veröffenticht
+
+## Sprint 9 (26.03.2024 - 16.04.2024)
 ### Verbessert
 - integration-starter publishing
 
