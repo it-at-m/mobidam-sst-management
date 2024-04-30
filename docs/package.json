@@ -10,9 +10,12 @@
   "repository": "https://github.com/it-at-m/mobidam-sst-management",
   "scripts": {
     "dev": "vuepress dev src",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && vuepress build src"
+    "build": "vuepress build src"
   },
   "license": "MIT",
+  "engines" : {
+    "node" : "^20.0.0"
+  },
   "devDependencies": {
     "vuepress": "^1.5.3",
     "markdown-it-footnote": "^3.0.3"
