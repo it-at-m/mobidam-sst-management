@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Change to sprint branch
         uses: actions/checkout@v4
-        with: { ref: main }
+        with: { ref: sprint }
 
       - uses: actions/setup-node@v3
         with:
