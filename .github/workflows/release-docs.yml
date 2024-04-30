@@ -5,14 +5,16 @@ on: [workflow_dispatch]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./docs
     steps:
       - uses: actions/checkout@v4
-
-      - name: vuepress-deploy
-        uses: jenkey2011/vuepress-deploy@master
-        env:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_BRANCH: gh-pages
-          BUILD_SCRIPT: cd docs && npm install && npm run build
-          BUILD_DIR: src/.vuepress/dist
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          cache-dependency-path: "./docs/package-lock.json"
+      - run: npm install
+      - run: npm run build
