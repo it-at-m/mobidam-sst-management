@@ -16,11 +16,11 @@ jobs:
           node-version-file: 'docs/package.json'
 
       - name: Install Packages
-        run: npm install
+        run: cd docs && npm install
 
       # run build script
       - name: Build VuePress site
-        run: npm run build
+        run: cd docs && npm run build
 
       # please check out the docs of the workflow for more details
       # @see https://github.com/crazy-max/ghaction-github-pages
