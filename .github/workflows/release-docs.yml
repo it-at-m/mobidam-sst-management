@@ -1,16 +1,9 @@
 name: Release docs
 
-on:
-  workflow_dispatch:
-    inputs:
-      docs:
-        description: "Release docs"
-        type: boolean
-        required: true
-        default: true
+on: [workflow_dispatch]
 
 jobs:
-  build:
+  build-release:
     runs-on: ubuntu-latest
 
     steps:
