@@ -1,10 +1,6 @@
----
-sidebar: auto
----
-
 # API
 
-## Static
+## Statisch
 
 ![API](~@source/images/API.png)
 

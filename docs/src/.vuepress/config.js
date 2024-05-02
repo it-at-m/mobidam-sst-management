@@ -35,51 +35,17 @@ module.exports = {
     lastUpdated: false,
     nav: [
       {
-        text: 'Dokumentation',
-        link: '/dokumentation/',
-      },
-      {
-        text: 'Release-Notes',
-        link: '/releasenotes/'
-      },
-      {
-        text: 'API',
-        link: '/api/'
-      },
-      {
-        text: 'Konfiguration',
-        link: '/konfiguration/'
+        text: 'Munich Open Source',
+        link: 'https://opensource.muenchen.de/',
       }
     ],
-    sidebar: {
-      '/dokumentation/': [
-        {
-          title: 'Dokumentation',
-          collapsable: false,
-          children: [
-            ''
-          ]
-        }
-      ],
-      "/releasenotes/": [
-        {
-          title: "Release-Notes",
-          collapsable: false
-        }
-      ],
-      "/api/": [
-        {
-          title: "API",
-          collapsable: false
-        }
-      ],
-      "/konfiguration/": [
-        {
-          title: "Konfiguration",
-          collapsable: false
-        }
-      ]
-    }
+    sidebar: [
+      '/dokumentation/',
+      "/releasenotes/",
+      "/api/",
+      "/konfiguration/",
+      "/technisches-setup/"
+    ]
   },
 
   /**

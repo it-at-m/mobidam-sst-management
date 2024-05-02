@@ -1,4 +1,6 @@
-# Einführung
+# Dokumentation
+
+## Einführung
 
 Für die Administration und Überwachung der Vielzahl von Schnittstellen in der MobidaM-Plattform wird eine Weboberfläche bereitgestellt, 
 in welcher diese Tätigkeiten durchgeführt werden. 
@@ -17,7 +19,7 @@ An der Webanwendung kann sich eine berechtigte Person anmelden und sieht dann in
 ---
 
 ![Screenshot Ansicht Schnittstelle](~@source/images/MobidaM_SST-Management-Komponente_Screenshot2.png)
-*Screenshot Ansicht Schnittstellen*
+*Screenshot Ansicht Schnittstelle*
 
 ---
 
