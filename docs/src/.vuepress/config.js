@@ -39,6 +39,14 @@ module.exports = {
         link: '/dokumentation/',
       },
       {
+        text: 'Release-Notes',
+        link: '/releasenotes/'
+      },
+      {
+        text: 'API',
+        link: '/api/'
+      },
+      {
         text: 'Konfiguration',
         link: '/konfiguration/'
       }
@@ -49,16 +57,26 @@ module.exports = {
           title: 'Dokumentation',
           collapsable: false,
           children: [
-            '',
-            'using-vue',
+            ''
           ]
         }
       ],
-      "/configuration/": [
+      "/releasenotes/": [
         {
-          title: "Umgebung",
-          collapsable: false,
-          children: ["env/"],
+          title: "Release-Notes",
+          collapsable: false
+        }
+      ],
+      "/api/": [
+        {
+          title: "API",
+          collapsable: false
+        }
+      ],
+      "/konfiguration/": [
+        {
+          title: "Konfiguration",
+          collapsable: false
         }
       ]
     }
