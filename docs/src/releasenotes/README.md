@@ -4,6 +4,9 @@
 ### Hinuzgefügt
 - Dokumentation wurde veröffenticht
 
+### Verbessert
+- baseUrl config bug fixed (#48)
+
 ## Sprint 9 (26.03.2024 - 16.04.2024)
 ### Verbessert
 - integration-starter publishing
