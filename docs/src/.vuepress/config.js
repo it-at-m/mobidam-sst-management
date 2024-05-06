@@ -35,33 +35,17 @@ module.exports = {
     lastUpdated: false,
     nav: [
       {
-        text: 'Dokumentation',
-        link: '/dokumentation/',
-      },
-      {
-        text: 'Konfiguration',
-        link: '/konfiguration/'
+        text: 'Munich Open Source',
+        link: 'https://opensource.muenchen.de/',
       }
     ],
-    sidebar: {
-      '/dokumentation/': [
-        {
-          title: 'Dokumentation',
-          collapsable: false,
-          children: [
-            '',
-            'using-vue',
-          ]
-        }
-      ],
-      "/configuration/": [
-        {
-          title: "Umgebung",
-          collapsable: false,
-          children: ["env/"],
-        }
-      ]
-    }
+    sidebar: [
+      '/dokumentation/',
+      "/releasenotes/",
+      "/api/",
+      "/konfiguration/",
+      "/technisches-setup/"
+    ]
   },
 
   /**
