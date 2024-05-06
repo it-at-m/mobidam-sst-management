@@ -1,6 +1,12 @@
 name: Release docs
 
-on: [workflow_dispatch]
+on:
+  push:
+    branches:
+      - 'release-docs-autom'
+    paths:
+      - 'docs/**'
+      - '.github/workflows/**'
 
 jobs:
   build-and-deploy:
