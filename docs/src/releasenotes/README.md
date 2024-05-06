@@ -5,6 +5,7 @@
 - Dokumentation wurde veröffenticht
 
 ### Verbessert
+- auto-publish docs
 - baseUrl config bug fixed (#48)
 
 ## Sprint 9 (26.03.2024 - 16.04.2024)
