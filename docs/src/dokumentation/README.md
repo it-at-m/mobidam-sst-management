@@ -51,10 +51,6 @@ Sobald von einen Datengeber Daten abgerufen werden, werden in der Management-Kom
 
 Innerhalb der Steuerungsoberfläche gibt es die Möglichkeit, die Logeinträge einzusehen. 
 
-## API
-
-![API](~@source/images/API.png)
-
 ## Komponenten
 Die MobidaM SST-Management-Komponente wird in der Microservice Architektur umgesetzt und in Github als Multi-Repo verwaltet.
 
