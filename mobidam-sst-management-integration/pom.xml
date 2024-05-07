@@ -28,7 +28,7 @@
 
     <groupId>de.muenchen.oss.mobidam</groupId>
     <artifactId>mobidam-sst-management-integration</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <packaging>pom</packaging>
     <name>mobidam-sst-management-integration</name>
     <description>spring-boot-starter to integrate mobidam-sst-management client into other components</description>
@@ -61,7 +61,7 @@
         <url>https://github.com/it-at-m/mobidam-sst-management</url>
         <connection>scm:git:https://github.com/it-at-m/mobidam-sst-management.git</connection>
         <developerConnection>scm:git:https://github.com/it-at-m/mobidam-sst-management.git</developerConnection>
-        <tag>0.0.1</tag>
+        <tag>0.0.2</tag>
     </scm>
 
     <properties>

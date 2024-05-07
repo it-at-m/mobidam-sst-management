@@ -29,7 +29,7 @@
     <parent>
         <groupId>de.muenchen.oss.mobidam</groupId>
         <artifactId>mobidam-sst-management-integration</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.2</version>
     </parent>
     <artifactId>mobidam-sst-management-integration-starter</artifactId>
 
