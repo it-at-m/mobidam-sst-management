@@ -1,8 +1,21 @@
 # Release-Notes
 
+## Sprint 10 (16.04.2024 - 07.05.2024)
+### Hinuzgefügt
+- Dokumentation wurde veröffenticht
+
+### Verbessert
+- auto-publish docs
+- baseUrl config bug fixed (#48)
+
+## Sprint 9 (26.03.2024 - 16.04.2024)
+### Verbessert
+- integration-starter publishing
+
 ## Sprint 8 (05.03.2024 - 26.03.2024)
 ### Hinzugefügt
 - SSO aktiviert und Backend abgesichert
+- integration-starter
 
 ### Verbessert
 - Tabellen auf deutsch

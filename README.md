@@ -52,7 +52,7 @@ TBD: _how can i start and fly this project_
 
 <!--*what insights do you have to tell*-->
 
-Die Dokumentation befindet sich unter <a href="https://github.com/it-at-m/mobidam-sst-management/tree/sprint/docs">docs</a>
+Die Dokumentation befindet sich unter <a href="https://github.com/it-at-m/mobidam-sst-management/tree/sprint/docs">docs</a> oder https://it-at-m.github.io/mobidam-sst-management/
 
 <p align="right">(<a href="#top">nach oben</a>)</p>
 
