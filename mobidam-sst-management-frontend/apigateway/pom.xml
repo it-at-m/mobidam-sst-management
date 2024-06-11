@@ -50,6 +50,8 @@
         <jvm.options>-Dorg.conscrypt.native.workdir=$(pwd)</jvm.options>
         <jacoco.version>0.8.7</jacoco.version>
         <org.projectlombok.lombok.version>1.18.30</org.projectlombok.lombok.version>
+        <!-- SonarQube -->
+        <sonar.scanner.version>3.11.0.3922</sonar.scanner.version>
     </properties>
 
 
@@ -277,7 +279,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.4.0</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                 </configuration>
@@ -288,6 +290,19 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.17.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar.scanner.version}</version>
             </plugin>
         </plugins>
     </build>
