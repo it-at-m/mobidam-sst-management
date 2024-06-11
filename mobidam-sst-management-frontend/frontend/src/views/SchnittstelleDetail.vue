@@ -78,6 +78,14 @@
                 </v-col>
             </v-list-item>
         </v-list>
+        <v-divider />
+        <br />
+        <v-row>
+            <v-col>
+                <h3>Datentransfer Log-Tabelle</h3>
+                <DatentransferTable :schnittstelle="schnittstelleID" />
+            </v-col>
+        </v-row>
         <add-person-dialog
             :show-dialog.sync="showAddPersonDialog"
             confirm-button="Speichern"
@@ -102,6 +110,7 @@ import { useRouter } from "vue-router/composables";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
 import YesNoDialog from "@/components/common/YesNoDialog.vue";
+import DatentransferTable from "@/components/DatentransferTable.vue";
 
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;
