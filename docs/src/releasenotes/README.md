@@ -1,4 +1,7 @@
 # Release-Notes
+## Sprint 12 (28.05.2024 - 18.06.2024)
+### Hinuzgefügt
+- Datentransfer-Log_tabelle pro Schnittstelle hinzugefügt
 
 ## Sprint 10 (16.04.2024 - 07.05.2024)
 ### Hinuzgefügt
