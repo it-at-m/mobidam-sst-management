@@ -24,7 +24,7 @@
 -->
 <template>
     <v-container>
-        <h1>Schnittstelle {{ props.schnittstelleName }}</h1>
+        <h1>Schnittstelle {{ schnittstelleName }}</h1>
         <br />
         <v-row>
             <v-col>
@@ -114,19 +114,12 @@ import DatentransferTable from "@/components/DatentransferTable.vue";
 
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;
+let schnittstelleName = useRouter().currentRoute.params.name;
 const showAddPersonDialog = ref(false);
 const zuordnungen = ref<Zuordnung[]>([]);
 const showYesNoDialog = ref(false);
 
 let zuordnungToDeleteId: string | undefined = undefined;
-
-interface Props {
-    schnittstelleName: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-    schnittstelleName: "-",
-});
 
 onMounted(() => {
     HealthService.checkHealth().catch((error) => {

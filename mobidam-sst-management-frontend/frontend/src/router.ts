@@ -60,10 +60,9 @@ export default new Router({
             meta: {},
         },
         {
-            path: "/:id",
+            path: "/:id/:name",
             name: "schnittstelleDetail",
             component: SchnittstelleDetail,
-            props: true,
         },
         { path: "*", redirect: "/" }, //Fallback 2
     ],
