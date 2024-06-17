@@ -84,4 +84,12 @@ public class SchnittstelleController {
             return new ResponseEntity<>(updatedSchnittstelleDTO.get(), HttpStatus.OK);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+    @Operation(summary = "Get schnittstelle")
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
+    public ResponseEntity<SchnittstelleDTO> getSchnittstelle(@PathVariable String id) {
+        Optional<SchnittstelleDTO> schnittstelle = schnittstelleService.getById(id);
+        return schnittstelle.map(schnittstelleDTO -> new ResponseEntity<>(schnittstelleDTO, HttpStatus.OK)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 }

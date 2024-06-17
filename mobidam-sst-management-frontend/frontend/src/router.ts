@@ -60,7 +60,7 @@ export default new Router({
             meta: {},
         },
         {
-            path: "/:id/:name",
+            path: "/:id",
             name: "schnittstelleDetail",
             component: SchnittstelleDetail,
         },

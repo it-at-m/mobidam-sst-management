@@ -24,7 +24,7 @@
 -->
 <template>
     <v-container>
-        <h1>Schnittstelle {{ schnittstelleName }}</h1>
+        <h1>Schnittstelle {{ schnittstelle.name }}</h1>
         <br />
         <v-row>
             <v-col>
@@ -111,21 +111,28 @@ import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
 import YesNoDialog from "@/components/common/YesNoDialog.vue";
 import DatentransferTable from "@/components/DatentransferTable.vue";
+import SchnittstelleService from "@/api/SchnittstelleService";
+import Schnittstelle from "@/types/Schnittstelle";
 
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;
-let schnittstelleName = useRouter().currentRoute.params.name;
 const showAddPersonDialog = ref(false);
 const zuordnungen = ref<Zuordnung[]>([]);
 const showYesNoDialog = ref(false);
 
 let zuordnungToDeleteId: string | undefined = undefined;
+const schnittstelle = ref<Schnittstelle>({
+    name: "",
+    anlagedatum: "",
+    id: schnittstelleID,
+});
 
 onMounted(() => {
     HealthService.checkHealth().catch((error) => {
         snackbarStore.showMessage(error);
     });
     refreshTasks();
+    getSchnittstelle();
 });
 
 function tryToDeleteZuordnung(zuordnung: Zuordnung) {
@@ -153,6 +160,14 @@ function refreshTasks() {
     ZuordnungService.getZuordnungenByID(schnittstelleID).then(
         (fetchedZuordnungen) => {
             zuordnungen.value = [...fetchedZuordnungen];
+        }
+    );
+}
+
+function getSchnittstelle() {
+    SchnittstelleService.getSchnittstelle(schnittstelleID).then(
+        (fetchedSchnittstelle) => {
+            schnittstelle.value = fetchedSchnittstelle;
         }
     );
 }
