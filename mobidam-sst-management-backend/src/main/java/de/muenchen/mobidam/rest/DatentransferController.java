@@ -79,7 +79,7 @@ public class DatentransferController {
     @GetMapping("/{schnittstelleId}")
     public ResponseEntity<Integer> getNumberOfDatentransfers(@PathVariable String schnittstelleId) {
         Optional<Integer> datentransferNumber = datentransferService.getDatentransferNumber(schnittstelleId);
-        return datentransferNumber.map(integer -> new ResponseEntity<>(integer, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(0, HttpStatus.OK));
+        return datentransferNumber.map(integer -> new ResponseEntity<>(integer, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

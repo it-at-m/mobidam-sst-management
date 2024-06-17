@@ -60,6 +60,11 @@ export default class DatentransferService {
             `${this.base}/api/datentransfer/${schnittstelleId}`,
             FetchUtils.getGETConfig()
         ).then((response) => {
+            if (response.status != 200)
+                FetchUtils.defaultResponseHandler(
+                    response,
+                    "Die Schnittstellen konnte nicht gefunden werden."
+                );
             return response.json();
         });
     }
