@@ -39,4 +39,33 @@ export default class DatentransferService {
             return response.json();
         });
     }
+
+    public static getDatentransfersBySchnittstelle(
+        schnittstelleId: string | undefined,
+        page: number
+    ): Promise<Datentransfer[] | void> {
+        return fetch(
+            `${this.base}/api/datentransfer/${schnittstelleId}/${page}`,
+            FetchUtils.getGETConfig()
+        ).then((response) => {
+            if (response.status == 404) return Promise.resolve();
+            return response.json();
+        });
+    }
+
+    public static getDatentransferNumberBySchnittstelle(
+        schnittstelleId: string | undefined
+    ): Promise<number> {
+        return fetch(
+            `${this.base}/api/datentransfer/${schnittstelleId}`,
+            FetchUtils.getGETConfig()
+        ).then((response) => {
+            if (response.status != 200)
+                FetchUtils.defaultResponseHandler(
+                    response,
+                    "Die Schnittstellen konnte nicht gefunden werden."
+                );
+            return response.json();
+        });
+    }
 }

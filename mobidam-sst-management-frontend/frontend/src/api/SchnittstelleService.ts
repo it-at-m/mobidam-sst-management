@@ -69,4 +69,19 @@ export default class SchnittstelleService {
                 FetchUtils.defaultResponseHandler(err);
             });
     }
+
+    public static getSchnittstelle(id: string): Promise<Schnittstelle> {
+        return fetch(
+            `${this.base}/api/schnittstelle/${id}`,
+            FetchUtils.getGETConfig()
+        ).then((response) => {
+            if (response.status != 200) {
+                FetchUtils.defaultResponseHandler(
+                    response,
+                    "Die Schnittstellen konnte nicht geladen werden."
+                );
+            }
+            return response.json();
+        });
+    }
 }

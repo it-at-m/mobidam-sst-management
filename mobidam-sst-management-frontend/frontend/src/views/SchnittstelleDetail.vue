@@ -24,7 +24,7 @@
 -->
 <template>
     <v-container>
-        <h1>Schnittstelle {{ props.schnittstelleName }}</h1>
+        <h1>Schnittstelle {{ schnittstelle.name }}</h1>
         <br />
         <v-row>
             <v-col>
@@ -78,6 +78,14 @@
                 </v-col>
             </v-list-item>
         </v-list>
+        <v-divider />
+        <br />
+        <v-row>
+            <v-col>
+                <h3>Datentransfer Log-Tabelle</h3>
+                <DatentransferTable :schnittstelle="schnittstelleID" />
+            </v-col>
+        </v-row>
         <add-person-dialog
             :show-dialog.sync="showAddPersonDialog"
             confirm-button="Speichern"
@@ -102,6 +110,9 @@ import { useRouter } from "vue-router/composables";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
 import YesNoDialog from "@/components/common/YesNoDialog.vue";
+import DatentransferTable from "@/components/DatentransferTable.vue";
+import SchnittstelleService from "@/api/SchnittstelleService";
+import Schnittstelle from "@/types/Schnittstelle";
 
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;
@@ -110,13 +121,10 @@ const zuordnungen = ref<Zuordnung[]>([]);
 const showYesNoDialog = ref(false);
 
 let zuordnungToDeleteId: string | undefined = undefined;
-
-interface Props {
-    schnittstelleName: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-    schnittstelleName: "-",
+const schnittstelle = ref<Schnittstelle>({
+    name: "",
+    anlagedatum: "",
+    id: schnittstelleID,
 });
 
 onMounted(() => {
@@ -124,6 +132,7 @@ onMounted(() => {
         snackbarStore.showMessage(error);
     });
     refreshTasks();
+    getSchnittstelle();
 });
 
 function tryToDeleteZuordnung(zuordnung: Zuordnung) {
@@ -151,6 +160,14 @@ function refreshTasks() {
     ZuordnungService.getZuordnungenByID(schnittstelleID).then(
         (fetchedZuordnungen) => {
             zuordnungen.value = [...fetchedZuordnungen];
+        }
+    );
+}
+
+function getSchnittstelle() {
+    SchnittstelleService.getSchnittstelle(schnittstelleID).then(
+        (fetchedSchnittstelle) => {
+            schnittstelle.value = fetchedSchnittstelle;
         }
     );
 }

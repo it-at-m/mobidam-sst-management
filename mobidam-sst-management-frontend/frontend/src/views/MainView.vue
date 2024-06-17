@@ -53,7 +53,6 @@
                         name: 'schnittstelleDetail',
                         params: {
                             id: schnittstelle.id,
-                            schnittstelleName: schnittstelle.name,
                         },
                     })
                 "

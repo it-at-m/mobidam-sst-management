@@ -51,7 +51,8 @@ public class DatentransferService {
 
     public Iterable<DatentransferDTO> getBySchnittstelle(String schnittstelleId, int page) {
         List<DatentransferDTO> dtos = new ArrayList<>();
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        int offset = page - 1;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
         UUID schnittstelleUUID = UUID.fromString(schnittstelleId);
 
         datentransferRepository.findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(schnittstelleUUID, pageable)
@@ -74,5 +75,13 @@ public class DatentransferService {
 
         Datentransfer datentransfer = datentransferMapper.toEntity(datentransferDTO, EreignisTyp.valueOf(datentransferDTO.getEreignis()));
         return Optional.of(datentransferMapper.toDTO(datentransferRepository.save(datentransfer)));
+    }
+
+    public Optional<Integer> getDatentransferNumber(String schnittstelleId) {
+        Optional<Schnittstelle> schnittstelle = schnittstelleRepository.findById(UUID.fromString(schnittstelleId));
+        if (schnittstelle.isEmpty())
+            return Optional.empty();
+
+        return datentransferRepository.countBySchnittstelleId(UUID.fromString(schnittstelleId));
     }
 }
