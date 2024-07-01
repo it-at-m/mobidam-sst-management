@@ -45,7 +45,11 @@
                     </v-text-field>
                     <v-text-field
                         ref="anlagedatum"
-                        :value="schnittstelle.anlagedatum"
+                        :value="
+                            new Date(
+                                schnittstelle.anlagedatum
+                            ).toLocaleDateString()
+                        "
                         label="Anlagedatum"
                         readonly
                     ></v-text-field>
