@@ -24,20 +24,20 @@
 -->
 <template>
     <v-container>
-        <h1>Schnittstelle {{ schnittstelle.name }}</h1>
+        <h1>
+            Schnittstelle {{ schnittstelle.name }} &nbsp;
+            <v-btn
+                small
+                outlined
+                @click="showEditSchnittstelleDialog = true"
+            >
+                <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+        </h1>
         <br />
         <v-row>
             <v-col>
-                <h3>
-                    Zugewiesene Personen &nbsp;
-                    <v-btn
-                        small
-                        outlined
-                        @click="showAddPersonDialog = true"
-                    >
-                        <v-icon>mdi-account-plus</v-icon>
-                    </v-btn>
-                </h3>
+                <h3>Zugewiesene Personen</h3>
             </v-col>
         </v-row>
         <v-list lines="two">
@@ -98,6 +98,11 @@
             @no="showYesNoDialog = false"
             @yes="deleteZuordnung"
         ></yes-no-dialog>
+        <edit-schnittstelle-dialog
+            :show-dialog.sync="showEditSchnittstelleDialog"
+            :schnittstelle-i-d="schnittstelleID"
+            @schnittstelle-saved="getSchnittstelle"
+        ></edit-schnittstelle-dialog>
     </v-container>
 </template>
 
@@ -113,12 +118,14 @@ import YesNoDialog from "@/components/common/YesNoDialog.vue";
 import DatentransferTable from "@/components/DatentransferTable.vue";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
+import EditSchnittstelleDialog from "@/components/EditSchnittstelleDialog.vue";
 
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;
 const showAddPersonDialog = ref(false);
 const zuordnungen = ref<Zuordnung[]>([]);
 const showYesNoDialog = ref(false);
+const showEditSchnittstelleDialog = ref(false);
 
 let zuordnungToDeleteId: string | undefined = undefined;
 const schnittstelle = ref<Schnittstelle>({
