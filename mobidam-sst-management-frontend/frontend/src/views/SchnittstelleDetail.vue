@@ -65,17 +65,6 @@
                     <v-icon>mdi-calendar-end</v-icon>
                     {{ zuordnung.gueltigBis }}
                 </v-col>
-                <v-col>
-                    <v-btn
-                        small
-                        @click="
-                            showYesNoDialog = true;
-                            tryToDeleteZuordnung(zuordnung);
-                        "
-                    >
-                        <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                </v-col>
             </v-list-item>
         </v-list>
         <v-divider />
@@ -86,21 +75,10 @@
                 <DatentransferTable :schnittstelle="schnittstelleID" />
             </v-col>
         </v-row>
-        <add-person-dialog
-            :show-dialog.sync="showAddPersonDialog"
-            confirm-button="Speichern"
-            @zuordnung-saved="saveZuordnung"
-        ></add-person-dialog>
-        <yes-no-dialog
-            dialogtext="Sicher, dass Du die Zuordnung löschen möchtest?"
-            dialogtitle="Zuordnung löschen"
-            :value.sync="showYesNoDialog"
-            @no="showYesNoDialog = false"
-            @yes="deleteZuordnung"
-        ></yes-no-dialog>
         <edit-schnittstelle-dialog
             :show-dialog.sync="showEditSchnittstelleDialog"
-            :schnittstelle-i-d="schnittstelleID"
+            :schnittstelle="schnittstelle"
+            :zuordnungen="zuordnungen"
             @schnittstelle-saved="getSchnittstelle"
         ></edit-schnittstelle-dialog>
     </v-container>
@@ -108,13 +86,11 @@
 
 <script setup lang="ts">
 import HealthService from "@/api/HealthService";
-import AddPersonDialog from "@/components/AddPersonDialog.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router/composables";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
-import YesNoDialog from "@/components/common/YesNoDialog.vue";
 import DatentransferTable from "@/components/DatentransferTable.vue";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
@@ -122,12 +98,9 @@ import EditSchnittstelleDialog from "@/components/EditSchnittstelleDialog.vue";
 
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;
-const showAddPersonDialog = ref(false);
 const zuordnungen = ref<Zuordnung[]>([]);
-const showYesNoDialog = ref(false);
 const showEditSchnittstelleDialog = ref(false);
 
-let zuordnungToDeleteId: string | undefined = undefined;
 const schnittstelle = ref<Schnittstelle>({
     name: "",
     anlagedatum: "",
@@ -141,27 +114,6 @@ onMounted(() => {
     refreshTasks();
     getSchnittstelle();
 });
-
-function tryToDeleteZuordnung(zuordnung: Zuordnung) {
-    zuordnungToDeleteId = zuordnung.id;
-}
-
-function deleteZuordnung() {
-    ZuordnungService.delete(zuordnungToDeleteId)
-        .then(() => {
-            refreshTasks();
-        })
-        .finally(() => {
-            showYesNoDialog.value = false;
-        });
-}
-
-function saveZuordnung(zuordnung: Zuordnung) {
-    zuordnung.schnittstelle = schnittstelleID;
-    ZuordnungService.create(zuordnung).then(() => {
-        refreshTasks();
-    });
-}
 
 function refreshTasks() {
     ZuordnungService.getZuordnungenByID(schnittstelleID).then(

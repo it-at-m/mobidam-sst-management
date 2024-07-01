@@ -38,7 +38,7 @@
                 <v-form ref="form">
                     <v-text-field
                         ref="name"
-                        v-model="schnittstelle.name"
+                        v-model="mutableSchnittstelle.name"
                         label="Name der Schnittstelle"
                         readonly
                     >
@@ -47,7 +47,7 @@
                         ref="anlagedatum"
                         :value="
                             new Date(
-                                schnittstelle.anlagedatum
+                                mutableSchnittstelle.anlagedatum
                             ).toLocaleDateString()
                         "
                         label="Anlagedatum"
@@ -66,8 +66,8 @@
                         <v-col cols="3">
                             <v-switch
                                 ref="status"
-                                v-model="schnittstelle.status"
-                                :label="`Status der Schnittstelle: ${schnittstelle.status}`"
+                                v-model="mutableSchnittstelle.status"
+                                :label="`Status der Schnittstelle: ${mutableSchnittstelle.status}`"
                                 true-value="AKTIVIERT"
                                 false-value="DEAKTIVIERT"
                                 color="success"
@@ -76,7 +76,7 @@
                         <v-col>
                             <v-textarea
                                 ref="begruendung"
-                                v-model="schnittstelle.begruendung"
+                                v-model="mutableSchnittstelle.begruendung"
                                 label="Begründung der Statussetzung"
                                 outlined
                                 :rules="textInputRules"
@@ -102,8 +102,8 @@
                         </v-col>
                         <v-col>
                             <v-chip
-                                v-for="zuordnung in zuordnungen"
-                                :key="zuordnung"
+                                v-for="zuordnung in mutableZuordnungen"
+                                :key="zuordnung.benutzerkennung"
                                 close
                                 style="margin-right: 1%"
                                 @click:close="removeZuordnung(zuordnung)"
@@ -137,7 +137,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref, onBeforeUpdate } from "vue";
 import { useRules } from "@/composables/rules";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
@@ -156,19 +156,20 @@ const textInputRules = [
 ];
 const today = ref<Date>(new Date());
 const showAddPersonDialog = ref(false);
-const zuordnungen = ref<Zuordnung[]>([]);
+const mutableZuordnungen = ref<Zuordnung[]>([]);
 
 interface Props {
     showDialog: boolean;
-    schnittstelleID: string;
+    schnittstelle: Schnittstelle;
+    zuordnungen: Zuordnung[];
 }
 
 const props = defineProps<Props>();
 
-const schnittstelle = ref<Schnittstelle>({
+const mutableSchnittstelle = ref<Schnittstelle>({
     name: "",
     anlagedatum: "",
-    id: props.schnittstelleID,
+    id: "",
 });
 
 const emit = defineEmits<{
@@ -178,17 +179,14 @@ const emit = defineEmits<{
 
 const form = ref<HTMLFormElement>();
 
-onMounted(() => {
-    SchnittstelleService.getSchnittstelle(props.schnittstelleID).then(
-        (fetchedSchnittstelle) => {
-            schnittstelle.value = fetchedSchnittstelle;
-        }
-    );
+onBeforeUpdate(() => {
+    mutableZuordnungen.value = [...props.zuordnungen];
+    mutableSchnittstelle.value = props.schnittstelle;
 });
 
 function saveSchnittstelle(): void {
-    if (form.value?.validate() && schnittstelle.value) {
-        SchnittstelleService.update(schnittstelle.value).finally(() => {
+    if (form.value?.validate() && mutableSchnittstelle.value) {
+        SchnittstelleService.update(mutableSchnittstelle.value).finally(() => {
             emit("schnittstelle-saved");
             closeDialog();
             form.value?.resetValidation();
@@ -197,19 +195,19 @@ function saveSchnittstelle(): void {
 }
 
 function confirmZuordnung(zuordnung: Zuordnung): void {
-    zuordnungen.value.push(zuordnung);
-}
-
-function saveZuordnungen(schnittstelle: Schnittstelle) {
-    for (const zuordnung of zuordnungen.value) {
-        if (schnittstelle.id !== undefined)
-            zuordnung.schnittstelle = schnittstelle.id;
-        ZuordnungService.create(zuordnung);
-    }
+    zuordnung.schnittstelle = mutableSchnittstelle.value.id;
+    ZuordnungService.create(zuordnung).then(() =>
+        mutableZuordnungen.value.push(zuordnung)
+    );
 }
 
 function removeZuordnung(zuordnung: Zuordnung): void {
-    zuordnungen.value.splice(zuordnungen.value.indexOf(zuordnung), 1);
+    ZuordnungService.delete(zuordnung.id).then(() =>
+        mutableZuordnungen.value.splice(
+            mutableZuordnungen.value.indexOf(zuordnung),
+            1
+        )
+    );
 }
 
 function closeDialog() {
