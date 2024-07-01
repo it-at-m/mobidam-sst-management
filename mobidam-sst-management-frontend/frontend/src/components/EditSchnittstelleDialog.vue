@@ -41,7 +41,6 @@
                         ref="name"
                         v-model="mutableSchnittstelle.name"
                         label="Name der Schnittstelle"
-                        readonly
                     >
                     </v-text-field>
                     <v-text-field
