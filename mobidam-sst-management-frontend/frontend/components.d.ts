@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     VForm: typeof import('vuetify/lib')['VForm']
     VIcon: typeof import('vuetify/lib')['VIcon']
     VImg: typeof import('vuetify/lib')['VImg']
+    VLazy: typeof import('vuetify/lib')['VLazy']
     VList: typeof import('vuetify/lib')['VList']
     VListItem: typeof import('vuetify/lib')['VListItem']
     VMain: typeof import('vuetify/lib')['VMain']

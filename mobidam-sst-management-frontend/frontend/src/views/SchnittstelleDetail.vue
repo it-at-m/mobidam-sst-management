@@ -75,19 +75,19 @@
                 <DatentransferTable :schnittstelle="schnittstelleID" />
             </v-col>
         </v-row>
-        <edit-schnittstelle-dialog
+        <EditSchnittstelleDialog
             :show-dialog.sync="showEditSchnittstelleDialog"
             :schnittstelle="schnittstelle"
             :zuordnungen="zuordnungen"
             @schnittstelle-saved="getSchnittstelle"
-        ></edit-schnittstelle-dialog>
+        ></EditSchnittstelleDialog>
     </v-container>
 </template>
 
 <script setup lang="ts">
 import HealthService from "@/api/HealthService";
 import { useSnackbarStore } from "@/stores/snackbar";
-import { onMounted, ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router/composables";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
@@ -111,11 +111,10 @@ onMounted(() => {
     HealthService.checkHealth().catch((error) => {
         snackbarStore.showMessage(error);
     });
-    refreshTasks();
     getSchnittstelle();
 });
 
-function refreshTasks() {
+function getZuordnungen() {
     ZuordnungService.getZuordnungenByID(schnittstelleID).then(
         (fetchedZuordnungen) => {
             zuordnungen.value = [...fetchedZuordnungen];
@@ -127,6 +126,7 @@ function getSchnittstelle() {
     SchnittstelleService.getSchnittstelle(schnittstelleID).then(
         (fetchedSchnittstelle) => {
             schnittstelle.value = fetchedSchnittstelle;
+            getZuordnungen();
         }
     );
 }

@@ -26,6 +26,7 @@
     <v-dialog
         :value="props.showDialog"
         max-width="60%"
+        persistent
         @input="closeDialog"
     >
         <v-card :style="{ overflowX: 'hidden' }">
@@ -157,6 +158,7 @@ const textInputRules = [
 const today = ref<Date>(new Date());
 const showAddPersonDialog = ref(false);
 const mutableZuordnungen = ref<Zuordnung[]>([]);
+let firstRender = true;
 
 interface Props {
     showDialog: boolean;
@@ -180,13 +182,25 @@ const emit = defineEmits<{
 const form = ref<HTMLFormElement>();
 
 onBeforeUpdate(() => {
-    mutableZuordnungen.value = [...props.zuordnungen];
-    mutableSchnittstelle.value = props.schnittstelle;
+    if (firstRender) {
+        mutableZuordnungen.value = [...props.zuordnungen];
+        mutableSchnittstelle.value = props.schnittstelle;
+    }
 });
 
 function saveSchnittstelle(): void {
     if (form.value?.validate() && mutableSchnittstelle.value) {
-        SchnittstelleService.update(mutableSchnittstelle.value).finally(() => {
+        SchnittstelleService.update(mutableSchnittstelle.value).then(() => {
+            mutableZuordnungen.value.forEach((zuordnung) => {
+                if (!props.zuordnungen.includes(zuordnung)) {
+                    zuordnung.schnittstelle = props.schnittstelle.id;
+                    ZuordnungService.create(zuordnung);
+                }
+            });
+            props.zuordnungen.forEach((toDelete) => {
+                if (!mutableZuordnungen.value.includes(toDelete))
+                    ZuordnungService.delete(toDelete.id);
+            });
             emit("schnittstelle-saved");
             closeDialog();
             form.value?.resetValidation();
@@ -195,18 +209,15 @@ function saveSchnittstelle(): void {
 }
 
 function confirmZuordnung(zuordnung: Zuordnung): void {
-    zuordnung.schnittstelle = mutableSchnittstelle.value.id;
-    ZuordnungService.create(zuordnung).then(() =>
-        mutableZuordnungen.value.push(zuordnung)
-    );
+    firstRender = false;
+    mutableZuordnungen.value.push(zuordnung);
 }
 
 function removeZuordnung(zuordnung: Zuordnung): void {
-    ZuordnungService.delete(zuordnung.id).then(() =>
-        mutableZuordnungen.value.splice(
-            mutableZuordnungen.value.indexOf(zuordnung),
-            1
-        )
+    firstRender = false;
+    mutableZuordnungen.value.splice(
+        mutableZuordnungen.value.indexOf(zuordnung),
+        1
     );
 }
 
