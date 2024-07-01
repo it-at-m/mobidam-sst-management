@@ -72,6 +72,7 @@
                                 true-value="AKTIVIERT"
                                 false-value="DEAKTIVIERT"
                                 color="success"
+                                @change="resetBegruendung()"
                             ></v-switch>
                         </v-col>
                         <v-col>
@@ -224,6 +225,10 @@ function removeZuordnung(zuordnung: Zuordnung): void {
 function closeDialog() {
     emit("update:showDialog", false);
     form.value?.resetValidation();
+}
+
+function resetBegruendung(): void {
+    mutableSchnittstelle.value.begruendung = undefined;
 }
 </script>
 
