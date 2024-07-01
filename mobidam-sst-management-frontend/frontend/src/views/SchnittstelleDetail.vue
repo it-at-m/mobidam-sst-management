@@ -36,6 +36,52 @@
         </h1>
         <br />
         <v-row>
+            <v-col v-if="schnittstelle.status">
+                <v-icon
+                    v-if="schnittstelle.status == 'AKTIVIERT'"
+                    color="green"
+                    >mdi-check</v-icon
+                >
+                <v-icon
+                    v-else
+                    color="red"
+                    >mdi-window-close</v-icon
+                >
+                {{ schnittstelle.status }}
+            </v-col>
+            <v-tooltip top>
+                <template #activator="{ on }">
+                    <v-col v-on="on">
+                        <v-icon>mdi-calendar-plus</v-icon>
+                        {{ schnittstelle.anlagedatum }}
+                    </v-col>
+                </template>
+                Anlagedatum
+            </v-tooltip>
+            <v-tooltip top>
+                <template #activator="{ on }">
+                    <v-col
+                        v-if="schnittstelle.aenderungsdatum"
+                        v-on="on"
+                    >
+                        <v-icon>mdi-calendar-edit</v-icon>
+                        {{ schnittstelle.aenderungsdatum }}
+                    </v-col>
+                    <v-col
+                        v-else
+                        v-on="on"
+                    >
+                        <v-icon>mdi-calendar-edit</v-icon>
+                        -
+                    </v-col>
+                </template>
+                Änderungsdatum
+            </v-tooltip>
+        </v-row>
+        <br />
+        <v-divider />
+        <br />
+        <v-row>
             <v-col>
                 <h3>Zugewiesene Personen</h3>
             </v-col>
