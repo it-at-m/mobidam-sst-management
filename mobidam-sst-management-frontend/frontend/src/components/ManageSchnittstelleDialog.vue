@@ -30,7 +30,7 @@
     >
         <v-card :style="{ overflowX: 'hidden' }">
             <v-card-title class="title-content">
-                <span class="text-h5 mb-2">Schnittstelle hinzufügen</span>
+                <span class="text-h5 mb-2">Schnittstelle {{ props.verb }}</span>
             </v-card-title>
 
             <v-divider class="divider"></v-divider>
@@ -38,7 +38,7 @@
                 <v-form ref="form">
                     <v-text-field
                         ref="name"
-                        v-model="schnittstelleRequest.name"
+                        v-model="mutableSchnittstelle.name"
                         label="Name der Schnittstelle"
                         :rules="textInputRules"
                     >
@@ -50,13 +50,20 @@
                         hint="Als Anlagedatum wird automatisch der heutige Tag gesetzt."
                         readonly
                     ></v-text-field>
+                    <v-text-field
+                        ref="aenderungsdatum"
+                        :value="today.toLocaleDateString()"
+                        label="Änderungsdatum"
+                        hint="Als Änderungsdatum wird automatisch der heutige Tag gesetzt."
+                        readonly
+                    ></v-text-field>
                     &nbsp;
                     <v-row>
                         <v-col cols="3">
                             <v-switch
                                 ref="status"
-                                v-model="schnittstelleRequest.status"
-                                :label="`Status der Schnittstelle: ${schnittstelleRequest.status}`"
+                                v-model="mutableSchnittstelle.status"
+                                :label="`Status der Schnittstelle: ${mutableSchnittstelle.status}`"
                                 true-value="AKTIVIERT"
                                 false-value="DEAKTIVIERT"
                                 color="success"
@@ -65,7 +72,7 @@
                         <v-col>
                             <v-textarea
                                 ref="begruendung"
-                                v-model="schnittstelleRequest.begruendung"
+                                v-model="mutableSchnittstelle.begruendung"
                                 label="Begründung der Statussetzung"
                                 outlined
                                 :maxlength="255"
@@ -149,14 +156,16 @@ const zuordnungen = ref<Zuordnung[]>([]);
 
 interface Props {
     showDialog: boolean;
+    verb: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     showDialog: false,
+    verb: "",
 });
 
-const schnittstelleRequest = ref<SchnittstelleRequest>(
-    new SchnittstelleRequest("", "DEAKTIVIERT")
+const mutableSchnittstelle = ref<Schnittstelle>(
+    new Schnittstelle("", "", "", "DEAKTIVIERT")
 );
 
 const emit = defineEmits<{
@@ -167,8 +176,13 @@ const emit = defineEmits<{
 const form = ref<HTMLFormElement>();
 
 function saveSchnittstelle(): void {
+    let schnittstelleRequest = new SchnittstelleRequest(
+        mutableSchnittstelle.value.name,
+        mutableSchnittstelle.value.status,
+        mutableSchnittstelle.value.begruendung
+    );
     if (form.value?.validate()) {
-        SchnittstelleService.create(schnittstelleRequest.value)
+        SchnittstelleService.create(schnittstelleRequest)
             .then((schnittstelle) => {
                 saveZuordnungen(schnittstelle);
             })
@@ -198,7 +212,7 @@ function removeZuordnung(zuordnung: Zuordnung): void {
 }
 
 function resetSchnittstelle(): void {
-    schnittstelleRequest.value = new SchnittstelleRequest("", "DEAKTIVIERT");
+    mutableSchnittstelle.value = new Schnittstelle("", "", "");
     zuordnungen.value = [];
     form.value?.resetValidation();
 }
