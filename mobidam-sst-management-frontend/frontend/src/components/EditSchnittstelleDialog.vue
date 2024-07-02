@@ -177,6 +177,7 @@ const mutableSchnittstelle = ref<Schnittstelle>({
 const emit = defineEmits<{
     (e: "update:showDialog", b: boolean): void;
     (e: "schnittstelle-saved"): void;
+    (e: "update-exited"): void;
 }>();
 
 const form = ref<HTMLFormElement>();
@@ -221,9 +222,17 @@ function removeZuordnung(zuordnung: Zuordnung): void {
     );
 }
 
-function closeDialog() {
-    emit("update:showDialog", false);
+function resetSchnittstelle(): void {
+    firstRender = true;
+    mutableSchnittstelle.value = props.schnittstelle;
+    mutableZuordnungen.value = props.zuordnungen;
     form.value?.resetValidation();
+}
+
+function closeDialog() {
+    resetSchnittstelle();
+    emit("update:showDialog", false);
+    emit("update-exited");
 }
 
 function resetBegruendung(): void {

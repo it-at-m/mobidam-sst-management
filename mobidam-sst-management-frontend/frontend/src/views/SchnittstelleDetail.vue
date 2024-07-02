@@ -143,6 +143,7 @@
             :schnittstelle="schnittstelle"
             :zuordnungen="zuordnungen"
             @schnittstelle-saved="getSchnittstelle"
+            @update-exited="reload"
         ></EditSchnittstelleDialog>
     </v-container>
 </template>
@@ -192,5 +193,9 @@ function getSchnittstelle() {
             getZuordnungen();
         }
     );
+}
+
+function reload() {
+    location.reload();
 }
 </script>
