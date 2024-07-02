@@ -138,13 +138,15 @@
                 <DatentransferTable :schnittstelle="schnittstelleID" />
             </v-col>
         </v-row>
-        <EditSchnittstelleDialog
+        <manage-schnittstelle-dialog
             :show-dialog.sync="showEditSchnittstelleDialog"
+            :verb="'bearbeiten'"
             :schnittstelle="schnittstelle"
             :zuordnungen="zuordnungen"
+            :is-edit="true"
             @schnittstelle-saved="getSchnittstelle"
             @update-exited="reload"
-        ></EditSchnittstelleDialog>
+        ></manage-schnittstelle-dialog>
     </v-container>
 </template>
 
@@ -158,7 +160,7 @@ import Zuordnung from "@/types/Zuordnung";
 import DatentransferTable from "@/components/DatentransferTable.vue";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
-import EditSchnittstelleDialog from "@/components/EditSchnittstelleDialog.vue";
+import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;

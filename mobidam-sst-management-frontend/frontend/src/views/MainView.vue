@@ -130,6 +130,9 @@
         <manage-schnittstelle-dialog
             :show-dialog.sync="showAddSchnittstelleDialog"
             :verb="'hinzufügen'"
+            :schnittstelle="undefined"
+            :zuordnungen="[]"
+            :is-edit="false"
             @schnittstelle-saved="refreshList"
         ></manage-schnittstelle-dialog>
     </v-container>
