@@ -29,7 +29,7 @@
             <v-btn
                 small
                 outlined
-                @click="showEditSchnittstelleDialog = true"
+                @click="showManageSchnittstelleDialog = true"
             >
                 <v-icon>mdi-pencil</v-icon>
             </v-btn>
@@ -139,7 +139,7 @@
             </v-col>
         </v-row>
         <manage-schnittstelle-dialog
-            :show-dialog.sync="showEditSchnittstelleDialog"
+            :show-dialog.sync="showManageSchnittstelleDialog"
             :verb="'bearbeiten'"
             :schnittstelle="schnittstelle"
             :zuordnungen="zuordnungen"
@@ -165,7 +165,7 @@ import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vu
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;
 const zuordnungen = ref<Zuordnung[]>([]);
-const showEditSchnittstelleDialog = ref(false);
+const showManageSchnittstelleDialog = ref(false);
 
 const schnittstelle = ref<Schnittstelle>({
     name: "",

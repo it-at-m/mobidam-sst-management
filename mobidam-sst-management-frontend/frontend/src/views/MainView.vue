@@ -37,7 +37,7 @@
                 <v-btn
                     small
                     outlined
-                    @click="showAddSchnittstelleDialog = true"
+                    @click="showManageSchnittstelleDialog = true"
                 >
                     <v-icon>mdi-plus</v-icon>
                 </v-btn>
@@ -128,7 +128,7 @@
             </v-list-item>
         </v-list>
         <manage-schnittstelle-dialog
-            :show-dialog.sync="showAddSchnittstelleDialog"
+            :show-dialog.sync="showManageSchnittstelleDialog"
             :verb="'hinzufügen'"
             :schnittstelle="undefined"
             :zuordnungen="[]"
@@ -149,7 +149,7 @@ import SchnittstelleWithDatentransfer from "@/types/SchnittstelleWithDatentransf
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 
 const snackbarStore = useSnackbarStore();
-const showAddSchnittstelleDialog = ref(false);
+const showManageSchnittstelleDialog = ref(false);
 const schnittstellen = ref<SchnittstelleWithDatentransfer[]>([]);
 const sortedSchnittstellen = computed(() => {
     let sorted = ref<SchnittstelleWithDatentransfer[]>([]);
