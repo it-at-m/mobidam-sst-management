@@ -1,4 +1,9 @@
 # Release-Notes
+## Sprint 13 (18.06.2024 - 09.07.2024)
+## Hinzugefügt
+- Detailansicht der Schnittstellen
+- Bearbeitungsmöglichkeit der Schnittstellen
+
 ## Sprint 12 (28.05.2024 - 18.06.2024)
 ### Hinuzgefügt
 - Datentransfer-Log-Tabelle pro Schnittstelle hinzugefügt

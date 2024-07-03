@@ -24,20 +24,83 @@
 -->
 <template>
     <v-container>
-        <h1>Schnittstelle {{ schnittstelle.name }}</h1>
+        <h1>
+            Schnittstelle {{ schnittstelle.name }} &nbsp;
+            <v-btn
+                small
+                outlined
+                @click="showManageSchnittstelleDialog = true"
+            >
+                <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+        </h1>
+        <br />
+        <v-row>
+            <v-tooltip left>
+                <template #activator="{ on }">
+                    <v-col
+                        cols="2"
+                        v-on="on"
+                    >
+                        <v-icon>mdi-calendar-plus</v-icon>
+                        {{ schnittstelle.anlagedatum }}
+                    </v-col>
+                </template>
+                Anlagedatum
+            </v-tooltip>
+            <v-tooltip left>
+                <template #activator="{ on }">
+                    <v-col
+                        v-if="schnittstelle.aenderungsdatum"
+                        v-on="on"
+                    >
+                        <v-icon>mdi-calendar-edit</v-icon>
+                        {{ schnittstelle.aenderungsdatum }}
+                    </v-col>
+                    <v-col
+                        v-else
+                        v-on="on"
+                    >
+                        <v-icon>mdi-calendar-edit</v-icon>
+                        -
+                    </v-col>
+                </template>
+                Änderungsdatum
+            </v-tooltip>
+        </v-row>
+        <v-row>
+            <v-col
+                v-if="schnittstelle.status"
+                cols="2"
+            >
+                <v-icon
+                    v-if="schnittstelle.status == 'AKTIVIERT'"
+                    color="green"
+                    >mdi-check</v-icon
+                >
+                <v-icon
+                    v-else
+                    color="red"
+                    >mdi-window-close</v-icon
+                >
+                {{ schnittstelle.status }}
+            </v-col>
+            <v-col>
+                <v-textarea
+                    v-model="schnittstelle.begruendung"
+                    label="Begründung der Statussetzung"
+                    outlined
+                    readonly
+                >
+                </v-textarea>
+            </v-col>
+        </v-row>
+        <br />
+        <v-divider />
         <br />
         <v-row>
             <v-col>
-                <h3>
-                    Zugewiesene Personen &nbsp;
-                    <v-btn
-                        small
-                        outlined
-                        @click="showAddPersonDialog = true"
-                    >
-                        <v-icon>mdi-account-plus</v-icon>
-                    </v-btn>
-                </h3>
+                <h3>Zugewiesene Personen</h3>
             </v-col>
         </v-row>
         <v-list lines="two">
@@ -65,17 +128,6 @@
                     <v-icon>mdi-calendar-end</v-icon>
                     {{ zuordnung.gueltigBis }}
                 </v-col>
-                <v-col>
-                    <v-btn
-                        small
-                        @click="
-                            showYesNoDialog = true;
-                            tryToDeleteZuordnung(zuordnung);
-                        "
-                    >
-                        <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                </v-col>
             </v-list-item>
         </v-list>
         <v-divider />
@@ -86,41 +138,35 @@
                 <DatentransferTable :schnittstelle="schnittstelleID" />
             </v-col>
         </v-row>
-        <add-person-dialog
-            :show-dialog.sync="showAddPersonDialog"
-            confirm-button="Speichern"
-            @zuordnung-saved="saveZuordnung"
-        ></add-person-dialog>
-        <yes-no-dialog
-            dialogtext="Sicher, dass Du die Zuordnung löschen möchtest?"
-            dialogtitle="Zuordnung löschen"
-            :value.sync="showYesNoDialog"
-            @no="showYesNoDialog = false"
-            @yes="deleteZuordnung"
-        ></yes-no-dialog>
+        <manage-schnittstelle-dialog
+            :show-dialog.sync="showManageSchnittstelleDialog"
+            :verb="'bearbeiten'"
+            :schnittstelle="schnittstelle"
+            :zuordnungen="zuordnungen"
+            :is-edit="true"
+            @schnittstelle-saved="getSchnittstelle"
+            @update-exited="reload"
+        ></manage-schnittstelle-dialog>
     </v-container>
 </template>
 
 <script setup lang="ts">
 import HealthService from "@/api/HealthService";
-import AddPersonDialog from "@/components/AddPersonDialog.vue";
 import { useSnackbarStore } from "@/stores/snackbar";
-import { onMounted, ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router/composables";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
-import YesNoDialog from "@/components/common/YesNoDialog.vue";
 import DatentransferTable from "@/components/DatentransferTable.vue";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
+import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 
 const snackbarStore = useSnackbarStore();
 let schnittstelleID = useRouter().currentRoute.params.id;
-const showAddPersonDialog = ref(false);
 const zuordnungen = ref<Zuordnung[]>([]);
-const showYesNoDialog = ref(false);
+const showManageSchnittstelleDialog = ref(false);
 
-let zuordnungToDeleteId: string | undefined = undefined;
 const schnittstelle = ref<Schnittstelle>({
     name: "",
     anlagedatum: "",
@@ -131,32 +177,10 @@ onMounted(() => {
     HealthService.checkHealth().catch((error) => {
         snackbarStore.showMessage(error);
     });
-    refreshTasks();
     getSchnittstelle();
 });
 
-function tryToDeleteZuordnung(zuordnung: Zuordnung) {
-    zuordnungToDeleteId = zuordnung.id;
-}
-
-function deleteZuordnung() {
-    ZuordnungService.delete(zuordnungToDeleteId)
-        .then(() => {
-            refreshTasks();
-        })
-        .finally(() => {
-            showYesNoDialog.value = false;
-        });
-}
-
-function saveZuordnung(zuordnung: Zuordnung) {
-    zuordnung.schnittstelle = schnittstelleID;
-    ZuordnungService.create(zuordnung).then(() => {
-        refreshTasks();
-    });
-}
-
-function refreshTasks() {
+function getZuordnungen() {
     ZuordnungService.getZuordnungenByID(schnittstelleID).then(
         (fetchedZuordnungen) => {
             zuordnungen.value = [...fetchedZuordnungen];
@@ -168,7 +192,12 @@ function getSchnittstelle() {
     SchnittstelleService.getSchnittstelle(schnittstelleID).then(
         (fetchedSchnittstelle) => {
             schnittstelle.value = fetchedSchnittstelle;
+            getZuordnungen();
         }
     );
+}
+
+function reload() {
+    location.reload();
 }
 </script>

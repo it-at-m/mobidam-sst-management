@@ -8,9 +8,9 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddPersonDialog: typeof import('./src/components/AddPersonDialog.vue')['default']
-    AddSchnittstelleDialog: typeof import('./src/components/AddSchnittstelleDialog.vue')['default']
     DatentransferTable: typeof import('./src/components/DatentransferTable.vue')['default']
     DatetimeInput: typeof import('./src/components/common/DatetimeInput.vue')['default']
+    ManageSchnittstelleDialog: typeof import('./src/components/ManageSchnittstelleDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheSnackbar: typeof import('./src/components/TheSnackbar.vue')['default']
@@ -32,6 +32,7 @@ declare module '@vue/runtime-core' {
     VForm: typeof import('vuetify/lib')['VForm']
     VIcon: typeof import('vuetify/lib')['VIcon']
     VImg: typeof import('vuetify/lib')['VImg']
+    VLazy: typeof import('vuetify/lib')['VLazy']
     VList: typeof import('vuetify/lib')['VList']
     VListItem: typeof import('vuetify/lib')['VListItem']
     VMain: typeof import('vuetify/lib')['VMain']

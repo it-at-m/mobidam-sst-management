@@ -26,11 +26,12 @@
     <v-dialog
         :value="props.showDialog"
         max-width="60%"
+        persistent
         @input="closeDialog"
     >
         <v-card :style="{ overflowX: 'hidden' }">
             <v-card-title class="title-content">
-                <span class="text-h5 mb-2">Schnittstelle hinzufügen</span>
+                <span class="text-h5 mb-2">Schnittstelle {{ props.verb }}</span>
             </v-card-title>
 
             <v-divider class="divider"></v-divider>
@@ -38,16 +39,23 @@
                 <v-form ref="form">
                     <v-text-field
                         ref="name"
-                        v-model="schnittstelleRequest.name"
+                        v-model="mutableSchnittstelle.name"
                         label="Name der Schnittstelle"
                         :rules="textInputRules"
                     >
                     </v-text-field>
                     <v-text-field
                         ref="anlagedatum"
-                        :value="today.toLocaleDateString()"
+                        :value="anlagedatum"
                         label="Anlagedatum"
                         hint="Als Anlagedatum wird automatisch der heutige Tag gesetzt."
+                        readonly
+                    ></v-text-field>
+                    <v-text-field
+                        ref="aenderungsdatum"
+                        :value="today.toLocaleDateString()"
+                        label="Änderungsdatum"
+                        hint="Als Änderungsdatum wird automatisch der heutige Tag gesetzt."
                         readonly
                     ></v-text-field>
                     &nbsp;
@@ -55,17 +63,18 @@
                         <v-col cols="3">
                             <v-switch
                                 ref="status"
-                                v-model="schnittstelleRequest.status"
-                                :label="`Status der Schnittstelle: ${schnittstelleRequest.status}`"
+                                v-model="mutableSchnittstelle.status"
+                                :label="`Status der Schnittstelle: ${mutableSchnittstelle.status}`"
                                 true-value="AKTIVIERT"
                                 false-value="DEAKTIVIERT"
                                 color="success"
+                                @change="resetBegruendung()"
                             ></v-switch>
                         </v-col>
                         <v-col>
                             <v-textarea
                                 ref="begruendung"
-                                v-model="schnittstelleRequest.begruendung"
+                                v-model="mutableSchnittstelle.begruendung"
                                 label="Begründung der Statussetzung"
                                 outlined
                                 :maxlength="255"
@@ -90,7 +99,7 @@
                         </v-col>
                         <v-col>
                             <v-chip
-                                v-for="zuordnung in zuordnungen"
+                                v-for="zuordnung in mutableZuordnungen"
                                 :key="zuordnung"
                                 close
                                 style="margin-right: 1%"
@@ -125,7 +134,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, onBeforeUpdate, ref } from "vue";
 import { useRules } from "@/composables/rules";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
@@ -145,48 +154,103 @@ const textInputRules = [
 ];
 const today = ref<Date>(new Date());
 const showAddPersonDialog = ref(false);
-const zuordnungen = ref<Zuordnung[]>([]);
+const mutableZuordnungen = ref<Zuordnung[]>([]);
+let firstRender = true;
 
 interface Props {
     showDialog: boolean;
+    verb: string;
+    isEdit: boolean;
+    schnittstelle: Schnittstelle;
+    zuordnungen: Zuordnung[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
     showDialog: false,
+    verb: "",
+    isEdit: false,
+    schnittstelle: () => new Schnittstelle("", "", "", "DEAKTIVIERT"),
+    zuordnungen: () => [],
 });
 
-const schnittstelleRequest = ref<SchnittstelleRequest>(
-    new SchnittstelleRequest("", "DEAKTIVIERT")
+const mutableSchnittstelle = ref<Schnittstelle>(
+    new Schnittstelle("", "", "", "DEAKTIVIERT")
 );
 
 const emit = defineEmits<{
     (e: "update:showDialog", b: boolean): void;
     (e: "schnittstelle-saved"): void;
+    (e: "update-exited"): void;
 }>();
 
 const form = ref<HTMLFormElement>();
 
+const anlagedatum = computed(() => {
+    return props.isEdit
+        ? new Date(mutableSchnittstelle.value.anlagedatum).toLocaleDateString()
+        : today.value.toLocaleDateString();
+});
+
+onBeforeUpdate(() => {
+    if (firstRender) {
+        mutableZuordnungen.value = [...props.zuordnungen];
+        mutableSchnittstelle.value = props.schnittstelle;
+        firstRender = false;
+    }
+});
+
+function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
+    SchnittstelleService.create(schnittstelleRequest)
+        .then((schnittstelle) => {
+            saveZuordnungen(schnittstelle);
+        })
+        .finally(() => {
+            emit("schnittstelle-saved");
+            resetSchnittstelle();
+            closeDialog();
+            form.value?.resetValidation();
+        });
+}
+
+function updateSchnittstelle() {
+    SchnittstelleService.update(mutableSchnittstelle.value).then(() => {
+        mutableZuordnungen.value.forEach((zuordnung) => {
+            if (!props.zuordnungen.includes(zuordnung)) {
+                zuordnung.schnittstelle = props.schnittstelle.id;
+                ZuordnungService.create(zuordnung);
+            }
+        });
+        props.zuordnungen.forEach((toDelete) => {
+            if (!mutableZuordnungen.value.includes(toDelete))
+                ZuordnungService.delete(toDelete.id);
+        });
+        emit("schnittstelle-saved");
+        closeDialog();
+        form.value?.resetValidation();
+    });
+}
+
 function saveSchnittstelle(): void {
     if (form.value?.validate()) {
-        SchnittstelleService.create(schnittstelleRequest.value)
-            .then((schnittstelle) => {
-                saveZuordnungen(schnittstelle);
-            })
-            .finally(() => {
-                emit("schnittstelle-saved");
-                resetSchnittstelle();
-                closeDialog();
-                form.value?.resetValidation();
-            });
+        if (props.isEdit) {
+            updateSchnittstelle();
+        } else {
+            let schnittstelleRequest = new SchnittstelleRequest(
+                mutableSchnittstelle.value.name,
+                mutableSchnittstelle.value.status,
+                mutableSchnittstelle.value.begruendung
+            );
+            createSchnittstelle(schnittstelleRequest);
+        }
     }
 }
 
 function confirmZuordnung(zuordnung: Zuordnung): void {
-    zuordnungen.value.push(zuordnung);
+    mutableZuordnungen.value.push(zuordnung);
 }
 
 function saveZuordnungen(schnittstelle: Schnittstelle) {
-    for (const zuordnung of zuordnungen.value) {
+    for (const zuordnung of mutableZuordnungen.value) {
         if (schnittstelle.id !== undefined)
             zuordnung.schnittstelle = schnittstelle.id;
         ZuordnungService.create(zuordnung);
@@ -194,18 +258,28 @@ function saveZuordnungen(schnittstelle: Schnittstelle) {
 }
 
 function removeZuordnung(zuordnung: Zuordnung): void {
-    zuordnungen.value.splice(zuordnungen.value.indexOf(zuordnung), 1);
+    mutableZuordnungen.value.splice(
+        mutableZuordnungen.value.indexOf(zuordnung),
+        1
+    );
 }
 
 function resetSchnittstelle(): void {
-    schnittstelleRequest.value = new SchnittstelleRequest("", "DEAKTIVIERT");
-    zuordnungen.value = [];
+    mutableSchnittstelle.value = props.isEdit
+        ? props.schnittstelle
+        : new Schnittstelle("", "", "", "DEAKTIVIERT");
+    mutableZuordnungen.value = props.isEdit ? props.zuordnungen : [];
     form.value?.resetValidation();
 }
 
 function closeDialog() {
     emit("update:showDialog", false);
+    emit("update-exited");
     resetSchnittstelle();
+}
+
+function resetBegruendung(): void {
+    mutableSchnittstelle.value.begruendung = undefined;
 }
 </script>
 
