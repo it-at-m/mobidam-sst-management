@@ -56,7 +56,6 @@ public class Schnittstelle extends BaseEntity {
 
     @Column(nullable = false)
     @NotNull
-    @FutureOrPresent
     private LocalDate anlagedatum;
 
     @Column
