@@ -77,7 +77,7 @@
                                 v-model="mutableSchnittstelle.begruendung"
                                 label="Begründung der Statussetzung"
                                 outlined
-                                :maxlength="255"
+                                :rules="textInputRules"
                             ></v-textarea>
                         </v-col>
                     </v-row>
