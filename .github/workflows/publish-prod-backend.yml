@@ -41,9 +41,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract Docker metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}-backend
+
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
           context: ./mobidam-sst-management-backend
           push: true
-          tags: ghcr.io/it-at-m/mobidam-sst-management:backend-prod
+          tags: ghcr.io/it-at-m/mobidam-sst-management-backend:prod
