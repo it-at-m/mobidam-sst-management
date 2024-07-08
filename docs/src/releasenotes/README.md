@@ -3,6 +3,7 @@
 ## Hinzugefügt
 - Detailansicht der Schnittstellen
 - Bearbeitungsmöglichkeit der Schnittstellen
+- von Dockerhub auf GitHub Registry migriert
 
 ## Sprint 12 (28.05.2024 - 18.06.2024)
 ### Hinuzgefügt
