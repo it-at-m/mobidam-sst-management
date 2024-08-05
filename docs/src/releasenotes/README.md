@@ -1,4 +1,8 @@
 # Release-Notes
+## Sprint 15 (30.07.2024 - 20.08.2024)
+## Hinzugefügt
+- Datentransfer Info Spalte auf 512 Zeichen vergrößert
+
 ## Sprint 13 (18.06.2024 - 09.07.2024)
 ## Hinzugefügt
 - Detailansicht der Schnittstellen
