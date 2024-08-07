@@ -44,7 +44,7 @@
     "unplugin-auto-import": "^0.10.3",
     "unplugin-vue-components": "^0.21.2",
     "url-loader": "^4.1.1",
-    "vite": "^3.0.4",
+    "vite": "^3.2.10",
     "vite-plugin-eslint": "^1.8.1",
     "vitest": "^0.20.3",
     "vue-template-compiler": "^2.7.10",
