@@ -3,6 +3,9 @@
 ## Hinzugefügt
 - Datentransfer Info Spalte auf 512 Zeichen vergrößert
 
+## Entfernt
+- Demo Workflows
+
 ## Sprint 13 (18.06.2024 - 09.07.2024)
 ## Hinzugefügt
 - Detailansicht der Schnittstellen
