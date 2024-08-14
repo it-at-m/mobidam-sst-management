@@ -59,7 +59,7 @@ jobs:
         with:
           context: ./mobidam-sst-management-frontend
           push: true
-          tags: ghcr.io/it-at-m/mobidam-sst-management-frontend:${{ steps.set-version.outputs.new_version }}, ghcr.io/it-at-m/mobidam-sst-management-frontend:demo
+          tags: ghcr.io/it-at-m/mobidam-sst-management-frontend:${{ steps.set-version.outputs.new_version }}
 
   github-release:
     needs: release
