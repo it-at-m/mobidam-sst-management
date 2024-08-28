@@ -32,7 +32,7 @@
  *
  * Mit dem Aufruf von `leave()` oder `cancel()` kann die Entscheidung des Nutzers ausgeführt werden.
  */
-import { onBeforeRouteLeave } from "vue-router/composables";
+import { onBeforeRouteLeave } from "vue-router";
 import { NavigationGuardNext, Route } from "vue-router";
 import { ref } from "vue";
 

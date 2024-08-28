@@ -35,7 +35,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     // Vue-Regeln: https://eslint.vuejs.org/rules/
     'plugin:vue/base',
-    'plugin:vue/essential',
+    'plugin:vue/vue3-essential',
     'plugin:vue/strongly-recommended',
     'plugin:vue/recommended',
     '@vue/typescript',

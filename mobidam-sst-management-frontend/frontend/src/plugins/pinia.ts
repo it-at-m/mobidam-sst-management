@@ -21,14 +21,7 @@
 /// THE SOFTWARE.
 ///
 
-import { createApp } from "vue";
+// Utilities
+import { createPinia } from "pinia";
 
-import { registerPlugins } from "@/plugins";
-import App from "./App.vue";
-
-const app = createApp(App);
-
-registerPlugins(app);
-
-app.mount("#app");
-
+export default createPinia();

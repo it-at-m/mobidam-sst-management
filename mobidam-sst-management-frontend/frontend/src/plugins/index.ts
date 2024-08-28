@@ -21,14 +21,12 @@
 /// THE SOFTWARE.
 ///
 
-import { createApp } from "vue";
+import type { App } from "vue";
 
-import { registerPlugins } from "@/plugins";
-import App from "./App.vue";
+import router from "../router";
+import pinia from "./pinia";
+import vuetify from "./vuetify";
 
-const app = createApp(App);
-
-registerPlugins(app);
-
-app.mount("#app");
-
+export function registerPlugins(app: App) {
+    app.use(vuetify).use(router).use(pinia);
+}

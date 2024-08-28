@@ -21,14 +21,29 @@
 /// THE SOFTWARE.
 ///
 
-import { createApp } from "vue";
+import { createRouter, createWebHistory } from "vue-router";
 
-import { registerPlugins } from "@/plugins";
-import App from "./App.vue";
+import Main from "@/views/MainView.vue";
+import SchnittstelleDetail from "@/views/SchnittstelleDetail.vue";
 
-const app = createApp(App);
+const routes = [
+    {
+        path: "/",
+        name: "home",
+        component: Main,
+        meta: {},
+    },
+    {
+        path: "/:id",
+        name: "schnittstelleDetail",
+        component: SchnittstelleDetail,
+    },
+    { path: "/:catchAll(.*)*", redirect: "/" }, // CatchAll route
+];
 
-registerPlugins(app);
+const router = createRouter({
+    history: createWebHistory(process.env.BASE_URL),
+    routes,
+});
 
-app.mount("#app");
-
+export default router;

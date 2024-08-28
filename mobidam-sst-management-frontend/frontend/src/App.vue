@@ -80,7 +80,7 @@
 <script setup lang="ts">
 import InfoService from "@/api/InfoService";
 import { onMounted, ref, watch } from "vue";
-import { useRoute } from "vue-router/composables";
+import { useRoute } from "vue-router";
 import { useSnackbarStore } from "@/stores/snackbar";
 import TheSnackbar from "@/components/TheSnackbar.vue";
 

@@ -154,7 +154,7 @@
 import HealthService from "@/api/HealthService";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router/composables";
+import { useRouter } from "vue-router";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
 import DatentransferTable from "@/components/DatentransferTable.vue";
