@@ -27,8 +27,8 @@
         <h1>
             Schnittstelle {{ schnittstelle.name }} &nbsp;
             <v-btn
-                small
-                outlined
+                size="small"
+                variant="outlined"
                 @click="showManageSchnittstelleDialog = true"
             >
                 <v-icon>mdi-pencil</v-icon>
@@ -36,11 +36,11 @@
         </h1>
         <br />
         <v-row>
-            <v-tooltip left>
-                <template #activator="{ on }">
+            <v-tooltip location="left">
+                <template #activator="{ props }">
                     <v-col
                         cols="2"
-                        v-on="on"
+                        v-bind="props"
                     >
                         <v-icon>mdi-calendar-plus</v-icon>
                         {{ schnittstelle.anlagedatum }}
@@ -48,8 +48,8 @@
                 </template>
                 Anlagedatum
             </v-tooltip>
-            <v-tooltip left>
-                <template #activator="{ on }">
+            <v-tooltip location="left">
+                <template #activator="{ props }">
                     <v-col
                         v-if="schnittstelle.aenderungsdatum"
                         v-on="on"
@@ -59,7 +59,7 @@
                     </v-col>
                     <v-col
                         v-else
-                        v-on="on"
+                        v-bind="props"
                     >
                         <v-icon>mdi-calendar-edit</v-icon>
                         -
@@ -89,7 +89,7 @@
                 <v-textarea
                     v-model="schnittstelle.begruendung"
                     label="Begründung der Statussetzung"
-                    outlined
+                    variant="outlined"
                     readonly
                 >
                 </v-textarea>
@@ -135,11 +135,11 @@
         <v-row>
             <v-col>
                 <h3>Datentransfer Log-Tabelle</h3>
-                <DatentransferTable :schnittstelle="schnittstelleID" />
+                <datentransfer-table :schnittstelle="schnittstelleID" />
             </v-col>
         </v-row>
         <manage-schnittstelle-dialog
-            :show-dialog.sync="showManageSchnittstelleDialog"
+            v-model:show-dialog="showManageSchnittstelleDialog"
             :verb="'bearbeiten'"
             :schnittstelle="schnittstelle"
             :zuordnungen="zuordnungen"
@@ -163,7 +163,7 @@ import Schnittstelle from "@/types/Schnittstelle";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 
 const snackbarStore = useSnackbarStore();
-let schnittstelleID = useRouter().currentRoute.params.id;
+const schnittstelleID = useRouter().currentRoute.params.id;
 const zuordnungen = ref<Zuordnung[]>([]);
 const showManageSchnittstelleDialog = ref(false);
 

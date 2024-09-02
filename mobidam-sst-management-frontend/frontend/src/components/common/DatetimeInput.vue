@@ -28,11 +28,11 @@
             {{ props.label }}
         </div>
         <v-input
+            v-model:error="error"
             :readonly="props.readonly"
             :hide-details="props.hideDetails"
             :rules="validierungsRegeln"
-            :dense="props.dense"
-            :error.sync="error"
+            :density="props.dense ? 'compact' : undefined"
             :error-messages="errorMessages"
             :persistent-hint="props.persistentHint"
             :hint="props.hint"
@@ -47,9 +47,9 @@
                         :readonly="props.readonly"
                         :error="error"
                         hide-details
-                        :dense="props.dense"
-                        :filled="props.filled"
-                        :outlined="props.outlined"
+                        :density="props.dense ? 'compact' : undefined"
+                        :variant="props.filled ? 'filled' : undefined"
+                        :variant="props.outlined ? 'outlined' : undefined"
                         type="date"
                         @focusout="leaveInput"
                         @focus="enterInput"
@@ -65,9 +65,9 @@
                         :readonly="props.readonly"
                         :error="error"
                         hide-details
-                        :dense="props.dense"
-                        :filled="props.filled"
-                        :outlined="props.outlined"
+                        :density="props.dense ? 'compact' : undefined"
+                        :variant="props.filled ? 'filled' : undefined"
+                        :variant="props.outlined ? 'outlined' : undefined"
                         type="time"
                         @focusout="leaveInput"
                         @focus="enterInput"
@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 /**
  * Das Date-Time-Input` Feld bietet eine Eingabemöglichkeit von Date-Times ohne zusätzliche
@@ -111,17 +111,17 @@ import {computed, onMounted, ref, watch} from "vue";
  */
 
 interface Props {
-    value: string,
-    readonly: boolean,
-    hideDetails: boolean,
-    dense: boolean,
-    filled: boolean,
-    outlined: boolean,
-    clearable: boolean,
-    persistentHint: boolean,
-    hint: string,
-    label: string,
-    rules: { (v: string): string | boolean; } []
+    value: string;
+    readonly: boolean;
+    hideDetails: boolean;
+    dense: boolean;
+    filled: boolean;
+    outlined: boolean;
+    clearable: boolean;
+    persistentHint: boolean;
+    hint: string;
+    label: string;
+    rules: { (v: string): string | boolean }[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -135,7 +135,7 @@ const props = withDefaults(defineProps<Props>(), {
     hint: "",
     label: "",
     rules: () => [],
-})
+});
 
 const day = ref<string | null>(null);
 const time = ref<string | null>(null);
@@ -154,7 +154,7 @@ const validierungsRegeln = computed(() => {
     } else {
         return [dateFilled];
     }
-})
+});
 
 onMounted(() => {
     parseValue();
@@ -188,10 +188,9 @@ function parseValue(): void {
     }
 }
 
-
 watch(
     () => props.value,
-    () => parseValue(),
+    () => parseValue()
 );
 
 function parseDay(timestamp: Date): string {
@@ -228,5 +227,4 @@ function sendInput(): void {
 function checkBothFieldsFilled(): boolean {
     return !!(time.value && day.value) || (!time.value && !day.value);
 }
-
 </script>

@@ -35,8 +35,8 @@
             <h2>
                 Schnittstellen &nbsp;
                 <v-btn
-                    small
-                    outlined
+                    size="small"
+                    variant="outlined"
                     @click="showManageSchnittstelleDialog = true"
                 >
                     <v-icon>mdi-plus</v-icon>
@@ -49,7 +49,7 @@
                 v-for="schnittstelle in sortedSchnittstellen"
                 :key="schnittstelle.id"
                 @click="
-                    $router.push({
+                    useRouter().push({
                         name: 'schnittstelleDetail',
                         params: {
                             id: schnittstelle.id,
@@ -57,26 +57,23 @@
                     })
                 "
             >
-                <v-tooltip top>
-                    <template #activator="{ on }">
-                        <v-col v-on="on">
+                <v-tooltip location="top">
+                    <template #activator="{ props }">
+                        <v-col v-bind="props">
                             {{ schnittstelle.name }}
                         </v-col>
                     </template>
                     Name der Schnittstelle
                 </v-tooltip>
-                <v-tooltip top>
-                    <template #activator="{ on }">
-                        <v-col
-                            v-if="schnittstelle.aenderungsdatum"
-                            v-on="on"
-                        >
+                <v-tooltip location="top">
+                    <template #activator="{ props }">
+                        <v-col v-if="schnittstelle.aenderungsdatum">
                             <v-icon>mdi-calendar-edit</v-icon>
                             {{ schnittstelle.aenderungsdatum }}
                         </v-col>
                         <v-col
                             v-else
-                            v-on="on"
+                            v-bind="props"
                         >
                             <v-icon>mdi-calendar-edit</v-icon>
                             -
@@ -85,11 +82,11 @@
                     Änderungsdatum
                 </v-tooltip>
 
-                <v-tooltip top>
-                    <template #activator="{ on }">
+                <v-tooltip location="top">
+                    <template #activator="{ props }">
                         <v-col
                             v-if="schnittstelle.status"
-                            v-on="on"
+                            v-bind="props"
                         >
                             <v-icon
                                 v-if="schnittstelle.status == 'AKTIVIERT'"
@@ -107,9 +104,9 @@
                     Status
                 </v-tooltip>
 
-                <v-tooltip left>
-                    <template #activator="{ on }">
-                        <v-col v-on="on">
+                <v-tooltip location="left">
+                    <template #activator="{ props }">
+                        <v-col v-bind="props">
                             <v-icon>mdi-google-analytics</v-icon>
                             {{ getDatentransferEreignis(schnittstelle) }}
                         </v-col>
@@ -117,9 +114,9 @@
                     Letzter Datentransfer
                 </v-tooltip>
 
-                <v-tooltip left>
-                    <template #activator="{ on }">
-                        <v-col v-on="on">
+                <v-tooltip location="left">
+                    <template #activator="{ props }">
+                        <v-col v-bind="props">
                             {{ getDatentransferZeitstempel(schnittstelle) }}
                         </v-col>
                     </template>
@@ -128,7 +125,7 @@
             </v-list-item>
         </v-list>
         <manage-schnittstelle-dialog
-            :show-dialog.sync="showManageSchnittstelleDialog"
+            v-model:show-dialog="showManageSchnittstelleDialog"
             :verb="'hinzufügen'"
             :schnittstelle="undefined"
             :zuordnungen="[]"
@@ -147,12 +144,13 @@ import Datentransfer from "@/types/Datentransfer";
 import DatentransferService from "@/api/DatentransferService";
 import SchnittstelleWithDatentransfer from "@/types/SchnittstelleWithDatentransfer";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
+import { useRouter } from "vue-router";
 
 const snackbarStore = useSnackbarStore();
 const showManageSchnittstelleDialog = ref(false);
 const schnittstellen = ref<SchnittstelleWithDatentransfer[]>([]);
 const sortedSchnittstellen = computed(() => {
-    let sorted = ref<SchnittstelleWithDatentransfer[]>([]);
+    const sorted = ref<SchnittstelleWithDatentransfer[]>([]);
     schnittstellen.value.forEach((schnittstelle) =>
         sorted.value.push(Object.assign({}, schnittstelle))
     );
@@ -172,7 +170,7 @@ onMounted(() => {
 
 function getSchnittstellen() {
     SchnittstelleService.getAllSchnittstelle().then((fetchedSchnittstellen) => {
-        let datentransfer: Datentransfer | undefined = undefined;
+        const datentransfer: Datentransfer | undefined = undefined;
         for (const fetchedSchnittstelle of fetchedSchnittstellen) {
             const schnittstelle: SchnittstelleWithDatentransfer =
                 new SchnittstelleWithDatentransfer(
@@ -216,4 +214,3 @@ function refreshList(): void {
     getSchnittstellen();
 }
 </script>
-

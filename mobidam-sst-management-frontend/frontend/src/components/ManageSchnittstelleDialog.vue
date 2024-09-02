@@ -24,10 +24,10 @@
 -->
 <template>
     <v-dialog
-        :value="props.showDialog"
+        :model-value="props.showDialog"
         max-width="60%"
         persistent
-        @input="closeDialog"
+        @update:model-value="closeDialog"
     >
         <v-card :style="{ overflowX: 'hidden' }">
             <v-card-title class="title-content">
@@ -46,14 +46,14 @@
                     </v-text-field>
                     <v-text-field
                         ref="anlagedatum"
-                        :value="anlagedatum"
+                        :model-value="anlagedatum"
                         label="Anlagedatum"
                         hint="Als Anlagedatum wird automatisch der heutige Tag gesetzt."
                         readonly
                     ></v-text-field>
                     <v-text-field
                         ref="aenderungsdatum"
-                        :value="today.toLocaleDateString()"
+                        :model-value="today.toLocaleDateString()"
                         label="Änderungsdatum"
                         hint="Als Änderungsdatum wird automatisch der heutige Tag gesetzt."
                         readonly
@@ -68,7 +68,7 @@
                                 true-value="AKTIVIERT"
                                 false-value="DEAKTIVIERT"
                                 color="success"
-                                @change="resetBegruendung()"
+                                @update:model-value="resetBegruendung()"
                             ></v-switch>
                         </v-col>
                         <v-col>
@@ -76,20 +76,20 @@
                                 ref="begruendung"
                                 v-model="mutableSchnittstelle.begruendung"
                                 label="Begründung der Statussetzung"
-                                outlined
+                                variant="outlined"
                                 :rules="textInputRules"
                             ></v-textarea>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="3">
-                            <v-tooltip right>
-                                <template #activator="{ on }">
+                            <v-tooltip location="right">
+                                <template #activator="{ props }">
                                     <v-btn
-                                        small
-                                        outlined
+                                        size="small"
+                                        variant="outlined"
+                                        v-bind="props"
                                         @click="showAddPersonDialog = true"
-                                        v-on="on"
                                     >
                                         <v-icon>mdi-account-plus</v-icon>
                                     </v-btn>
@@ -101,7 +101,7 @@
                             <v-chip
                                 v-for="zuordnung in mutableZuordnungen"
                                 :key="zuordnung"
-                                close
+                                closable
                                 style="margin-right: 1%"
                                 @click:close="removeZuordnung(zuordnung)"
                             >
@@ -117,7 +117,7 @@
                 <v-btn @click="closeDialog">Abbrechen</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
-                    class="white--text"
+                    class="text-white"
                     color="success"
                     @click="saveSchnittstelle"
                 >
@@ -126,7 +126,7 @@
             </v-card-actions>
         </v-card>
         <add-person-dialog
-            :show-dialog.sync="showAddPersonDialog"
+            v-model:show-dialog="showAddPersonDialog"
             confirm-button="Übernehmen"
             @zuordnung-saved="confirmZuordnung"
         ></add-person-dialog>
@@ -149,7 +149,9 @@ const textInputRules = [
     validationRules.notEmptyRule("Das Feld darf nicht leer sein."),
     validationRules.maxLengthRule(
         textMaxLength.value,
-        "Die Eingabe darf maximal " + textMaxLength + " Zeichen lang sein."
+        "Die Eingabe darf maximal " +
+            textMaxLength.value +
+            " Zeichen lang sein."
     ),
 ];
 const today = ref<Date>(new Date());
@@ -235,7 +237,7 @@ function saveSchnittstelle(): void {
         if (props.isEdit) {
             updateSchnittstelle();
         } else {
-            let schnittstelleRequest = new SchnittstelleRequest(
+            const schnittstelleRequest = new SchnittstelleRequest(
                 mutableSchnittstelle.value.name,
                 mutableSchnittstelle.value.status,
                 mutableSchnittstelle.value.begruendung

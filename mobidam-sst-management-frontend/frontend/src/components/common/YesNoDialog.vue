@@ -29,7 +29,7 @@
         persistent
         width="800"
     >
-        <template #activator="{ on }">
+        <template #activator="{ props }">
             <template v-if="props.buttontext">
                 <v-btn
                     color="primary"
@@ -40,11 +40,11 @@
             </template>
             <template v-else-if="props.icontext">
                 <v-btn
-                    text
+                    variant="text"
                     color="primary"
-                    v-on="on"
+                    v-bind="props"
                 >
-                    <v-icon large>
+                    <v-icon size="large">
                         {{ props.icontext }}
                     </v-icon>
                 </v-btn>
@@ -61,7 +61,7 @@
                 <v-spacer />
                 <v-btn
                     id="yesnodialog-btn-no"
-                    text
+                    variant="text"
                     @click="no"
                 >
                     Nein

@@ -21,10 +21,9 @@
 /// THE SOFTWARE.
 ///
 
-import { createRouter, createWebHistory } from "vue-router";
-
 import Main from "@/views/MainView.vue";
 import SchnittstelleDetail from "@/views/SchnittstelleDetail.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
     {

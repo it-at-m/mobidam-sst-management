@@ -24,9 +24,9 @@
 -->
 <template>
     <v-dialog
-        :value="props.showDialog"
+        :model-value="props.showDialog"
         max-width="60%"
-        @input="closeDialog"
+        @update:model-value="closeDialog"
     >
         <v-card :style="{ overflowX: 'hidden' }">
             <v-card-title class="title-content">
@@ -72,14 +72,14 @@
                                 max-width="100%"
                                 :close-on-content-click="true"
                             >
-                                <template #activator="{ on }">
+                                <template #activator="{ props }">
                                     <v-text-field
                                         v-model="zuordnung.gueltigAb"
                                         label="Gültig ab"
                                         readonly
-                                        outlined
+                                        variant="outlined"
                                         :rules="textInputRules"
-                                        v-on="on"
+                                        v-bind="props"
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
@@ -97,14 +97,14 @@
                                 max-width="100%"
                                 :close-on-content-click="true"
                             >
-                                <template #activator="{ on }">
+                                <template #activator="{ props }">
                                     <v-text-field
                                         v-model="zuordnung.gueltigBis"
                                         label="Gültig bis"
                                         readonly
-                                        outlined
+                                        variant="outlined"
                                         :rules="textInputRules"
-                                        v-on="on"
+                                        v-bind="props"
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
@@ -125,7 +125,7 @@
                 <v-btn @click="closeDialog">Schließen</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
-                    class="white--text"
+                    class="text-white"
                     color="success"
                     @click="saveTask"
                 >
@@ -149,7 +149,9 @@ const textInputRules = [
     validationRules.notEmptyRule("Das Feld darf nicht leer sein."),
     validationRules.maxLengthRule(
         textMaxLength.value,
-        "Die Eingabe darf maximal " + textMaxLength + " Zeichen lang sein."
+        "Die Eingabe darf maximal " +
+            textMaxLength.value +
+            " Zeichen lang sein."
     ),
 ];
 
