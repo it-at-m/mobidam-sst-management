@@ -24,7 +24,7 @@
 -->
 <template>
     <v-dialog
-        :model-value="props.showDialog"
+        :model-value="dialogProps.showDialog"
         max-width="60%"
         @update:model-value="closeDialog"
     >
@@ -82,14 +82,12 @@
                                         v-bind="props"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker
+                                <v-date-picker>
                                     v-model="zuordnung.gueltigAb"
-                                    color="primary"
-                                    header-color="primary"
-                                    :first-day-of-week="1"
-                                    :min="today"
+                                    color="primary" header-color="primary"
+                                    :first-day-of-week="1" :min="today"
                                     locale="de"
-                                ></v-date-picker>
+                                </v-date-picker>
                             </v-menu>
                         </v-col>
                         <v-col>
@@ -107,14 +105,12 @@
                                         v-bind="props"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker
+                                <v-date-picker>
                                     v-model="zuordnung.gueltigBis"
-                                    color="primary"
-                                    header-color="primary"
-                                    :first-day-of-week="1"
-                                    :min="today"
+                                    color="primary" header-color="primary"
+                                    :first-day-of-week="1" :min="today"
                                     locale="de"
-                                ></v-date-picker>
+                                </v-date-picker>
                             </v-menu>
                         </v-col>
                     </v-row>
@@ -160,7 +156,7 @@ interface Props {
     confirmButton: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const dialogProps = withDefaults(defineProps<Props>(), {
     showDialog: false,
 });
 

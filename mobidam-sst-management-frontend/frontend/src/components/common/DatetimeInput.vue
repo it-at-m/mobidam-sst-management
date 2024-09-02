@@ -48,8 +48,7 @@
                         :error="error"
                         hide-details
                         :density="props.dense ? 'compact' : undefined"
-                        :variant="props.filled ? 'filled' : undefined"
-                        :variant="props.outlined ? 'outlined' : undefined"
+                        :variant="props.filled ? 'filled' : 'outlined'"
                         type="date"
                         @focusout="leaveInput"
                         @focus="enterInput"
@@ -66,8 +65,7 @@
                         :error="error"
                         hide-details
                         :density="props.dense ? 'compact' : undefined"
-                        :variant="props.filled ? 'filled' : undefined"
-                        :variant="props.outlined ? 'outlined' : undefined"
+                        :variant="props.filled ? 'filled' : 'outlined'"
                         type="time"
                         @focusout="leaveInput"
                         @focus="enterInput"
@@ -116,7 +114,6 @@ interface Props {
     hideDetails: boolean;
     dense: boolean;
     filled: boolean;
-    outlined: boolean;
     clearable: boolean;
     persistentHint: boolean;
     hint: string;
@@ -129,7 +126,6 @@ const props = withDefaults(defineProps<Props>(), {
     hideDetails: false,
     dense: false,
     filled: false,
-    outlined: false,
     clearable: true,
     persistentHint: false,
     hint: "",

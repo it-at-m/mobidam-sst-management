@@ -24,14 +24,16 @@
 -->
 <template>
     <v-dialog
-        :model-value="props.showDialog"
+        :model-value="dialogProps.showDialog"
         max-width="60%"
         persistent
         @update:model-value="closeDialog"
     >
         <v-card :style="{ overflowX: 'hidden' }">
             <v-card-title class="title-content">
-                <span class="text-h5 mb-2">Schnittstelle {{ props.verb }}</span>
+                <span class="text-h5 mb-2"
+                    >Schnittstelle {{ dialogProps.verb }}</span
+                >
             </v-card-title>
 
             <v-divider class="divider"></v-divider>
@@ -167,7 +169,7 @@ interface Props {
     zuordnungen: Zuordnung[];
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const dialogProps = withDefaults(defineProps<Props>(), {
     showDialog: false,
     verb: "",
     isEdit: false,
@@ -188,15 +190,15 @@ const emit = defineEmits<{
 const form = ref<HTMLFormElement>();
 
 const anlagedatum = computed(() => {
-    return props.isEdit
+    return dialogProps.isEdit
         ? new Date(mutableSchnittstelle.value.anlagedatum).toLocaleDateString()
         : today.value.toLocaleDateString();
 });
 
 onBeforeUpdate(() => {
     if (firstRender) {
-        mutableZuordnungen.value = [...props.zuordnungen];
-        mutableSchnittstelle.value = props.schnittstelle;
+        mutableZuordnungen.value = [...dialogProps.zuordnungen];
+        mutableSchnittstelle.value = dialogProps.schnittstelle;
         firstRender = false;
     }
 });
@@ -217,12 +219,12 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
 function updateSchnittstelle() {
     SchnittstelleService.update(mutableSchnittstelle.value).then(() => {
         mutableZuordnungen.value.forEach((zuordnung) => {
-            if (!props.zuordnungen.includes(zuordnung)) {
-                zuordnung.schnittstelle = props.schnittstelle.id;
+            if (!dialogProps.zuordnungen.includes(zuordnung)) {
+                zuordnung.schnittstelle = dialogProps.schnittstelle.id;
                 ZuordnungService.create(zuordnung);
             }
         });
-        props.zuordnungen.forEach((toDelete) => {
+        dialogProps.zuordnungen.forEach((toDelete) => {
             if (!mutableZuordnungen.value.includes(toDelete))
                 ZuordnungService.delete(toDelete.id);
         });
@@ -234,7 +236,7 @@ function updateSchnittstelle() {
 
 function saveSchnittstelle(): void {
     if (form.value?.validate()) {
-        if (props.isEdit) {
+        if (dialogProps.isEdit) {
             updateSchnittstelle();
         } else {
             const schnittstelleRequest = new SchnittstelleRequest(
@@ -267,10 +269,12 @@ function removeZuordnung(zuordnung: Zuordnung): void {
 }
 
 function resetSchnittstelle(): void {
-    mutableSchnittstelle.value = props.isEdit
-        ? props.schnittstelle
+    mutableSchnittstelle.value = dialogProps.isEdit
+        ? dialogProps.schnittstelle
         : new Schnittstelle("", "", "", "DEAKTIVIERT");
-    mutableZuordnungen.value = props.isEdit ? props.zuordnungen : [];
+    mutableZuordnungen.value = dialogProps.isEdit
+        ? dialogProps.zuordnungen
+        : [];
     form.value?.resetValidation();
 }
 

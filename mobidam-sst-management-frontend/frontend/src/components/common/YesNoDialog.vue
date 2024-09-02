@@ -24,17 +24,14 @@
 -->
 <template>
     <v-dialog
-        :key="props.value"
+        :key="dialogProps.value"
         v-model="visible"
         persistent
         width="800"
     >
         <template #activator="{ props }">
             <template v-if="props.buttontext">
-                <v-btn
-                    color="primary"
-                    v-on="on"
-                >
+                <v-btn color="primary">
                     {{ buttontext }}
                 </v-btn>
             </template>
@@ -52,10 +49,10 @@
         </template>
         <v-card>
             <v-card-title>
-                {{ props.dialogtitle }}
+                {{ dialogProps.dialogtitle }}
             </v-card-title>
             <v-card-text>
-                {{ props.dialogtext }}
+                {{ dialogProps.dialogtext }}
             </v-card-text>
             <v-card-actions>
                 <v-spacer />
@@ -103,7 +100,7 @@ import { computed } from "vue";
  *    @yes="deleteSome"></yes-no-dialog>
  */
 
-const props = defineProps<{
+const dialogProps = defineProps<{
     buttontext?: string;
     icontext?: string;
     dialogtitle: string;
@@ -121,7 +118,7 @@ const emits = defineEmits<{
 }>();
 
 const visible = computed({
-    get: () => props.value,
+    get: () => dialogProps.value,
     set: (v) => emits("input", v),
 });
 

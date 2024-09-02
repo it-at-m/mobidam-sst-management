@@ -100,7 +100,7 @@ function loadItems(updatedOptions: DataOptions) {
         :loading="loading"
         :items-per-page="itemsPerPage"
         :items-length="numberOfDatentransfer"
-        :sort-by="[{ key: 'zeitstempel'}]"
+        :sort-by="[{ key: 'zeitstempel' }]"
         :footer-props="{
             itemsPerPageOptions: [10],
         }"

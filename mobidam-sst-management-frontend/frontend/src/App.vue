@@ -25,9 +25,7 @@
 <template>
     <v-app>
         <the-snackbar />
-        <v-app-bar
-            color="primary"
-        >
+        <v-app-bar color="primary">
             <v-col
                 cols="4"
                 class="d-flex align-center justify-start"
