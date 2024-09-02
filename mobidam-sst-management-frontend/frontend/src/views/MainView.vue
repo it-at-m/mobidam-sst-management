@@ -49,7 +49,7 @@
                 v-for="schnittstelle in sortedSchnittstellen"
                 :key="schnittstelle.id"
                 @click="
-                    useRouter().push({
+                    router.push({
                         name: 'schnittstelleDetail',
                         params: {
                             id: schnittstelle.id,
@@ -67,7 +67,7 @@
                 </v-tooltip>
                 <v-tooltip location="top">
                     <template #activator="{ props }">
-                        <v-col v-if="schnittstelle.aenderungsdatum">
+                        <v-col v-if="schnittstelle.aenderungsdatum" v-bind="props">
                             <v-icon>mdi-calendar-edit</v-icon>
                             {{ schnittstelle.aenderungsdatum }}
                         </v-col>
@@ -145,6 +145,7 @@ import DatentransferService from "@/api/DatentransferService";
 import SchnittstelleWithDatentransfer from "@/types/SchnittstelleWithDatentransfer";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 import { useRouter } from "vue-router";
+import router from "@/router";
 
 const snackbarStore = useSnackbarStore();
 const showManageSchnittstelleDialog = ref(false);

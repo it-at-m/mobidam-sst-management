@@ -52,7 +52,6 @@
                 <template #activator="{ props }">
                     <v-col
                         v-if="schnittstelle.aenderungsdatum"
-                        v-on="on"
                     >
                         <v-icon>mdi-calendar-edit</v-icon>
                         {{ schnittstelle.aenderungsdatum }}
@@ -154,16 +153,16 @@
 import HealthService from "@/api/HealthService";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
 import DatentransferTable from "@/components/DatentransferTable.vue";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
+import router from "@/router";
 
 const snackbarStore = useSnackbarStore();
-const schnittstelleID = useRouter().currentRoute.params.id;
+const schnittstelleID = router.currentRoute.value.params.id as string;
 const zuordnungen = ref<Zuordnung[]>([]);
 const showManageSchnittstelleDialog = ref(false);
 

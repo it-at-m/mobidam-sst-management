@@ -82,11 +82,12 @@
                                         v-bind="props"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker>
+                                <v-date-picker
                                     v-model="zuordnung.gueltigAb"
-                                    color="primary" header-color="primary"
-                                    :first-day-of-week="1" :min="today"
-                                    locale="de"
+                                    color="primary"
+                                    header-color="primary"
+                                    :min="today"
+                                >
                                 </v-date-picker>
                             </v-menu>
                         </v-col>
@@ -105,11 +106,12 @@
                                         v-bind="props"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker>
+                                <v-date-picker
                                     v-model="zuordnung.gueltigBis"
-                                    color="primary" header-color="primary"
-                                    :first-day-of-week="1" :min="today"
-                                    locale="de"
+                                    color="primary"
+                                    header-color="primary"
+                                    :min="today"
+                                >
                                 </v-date-picker>
                             </v-menu>
                         </v-col>

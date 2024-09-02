@@ -69,7 +69,6 @@ const headers = ref<ReadonlyHeaders>([
     },
 ]);
 
-watch(options, loadItems);
 
 onMounted(() => {
     DatentransferService.getDatentransferNumberBySchnittstelle(
@@ -79,22 +78,10 @@ onMounted(() => {
     });
 });
 
-function loadItems(updatedOptions: DataOptions) {
-    loading.value = true;
-    DatentransferService.getDatentransfersBySchnittstelle(
-        props.schnittstelle,
-        updatedOptions.page
-    )
-        .then((datentransfer) => {
-            if (datentransfer) items.value = datentransfer;
-        })
-        .finally(() => (loading.value = false));
-}
 </script>
 
 <template>
     <v-data-table-server
-        v-model:options="options"
         :headers="headers"
         :items="items"
         :loading="loading"
