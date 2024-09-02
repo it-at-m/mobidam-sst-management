@@ -57,71 +57,86 @@
                     })
                 "
             >
-                <v-tooltip location="top">
-                    <template #activator="{ props }">
-                        <v-col v-bind="props">
-                            {{ schnittstelle.name }}
-                        </v-col>
-                    </template>
-                    Name der Schnittstelle
-                </v-tooltip>
-                <v-tooltip location="top">
-                    <template #activator="{ props }">
-                        <v-col v-if="schnittstelle.aenderungsdatum" v-bind="props">
-                            <v-icon>mdi-calendar-edit</v-icon>
-                            {{ schnittstelle.aenderungsdatum }}
-                        </v-col>
-                        <v-col
-                            v-else
-                            v-bind="props"
-                        >
-                            <v-icon>mdi-calendar-edit</v-icon>
-                            -
-                        </v-col>
-                    </template>
-                    Änderungsdatum
-                </v-tooltip>
+                <v-row>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
 
-                <v-tooltip location="top">
-                    <template #activator="{ props }">
-                        <v-col
-                            v-if="schnittstelle.status"
-                            v-bind="props"
-                        >
-                            <v-icon
-                                v-if="schnittstelle.status == 'AKTIVIERT'"
-                                color="green"
-                                >mdi-check</v-icon
+                                v-bind="props"
                             >
-                            <v-icon
+                                {{ schnittstelle.name }}
+                            </v-col>
+                        </template>
+                        Name der Schnittstelle
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                v-if="schnittstelle.aenderungsdatum"
+                                cols="2"
+
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-calendar-edit</v-icon>
+                                {{ schnittstelle.aenderungsdatum }}
+                            </v-col>
+                            <v-col
+                                cols="2"
+
                                 v-else
-                                color="red"
-                                >mdi-window-close</v-icon
+                                v-bind="props"
                             >
-                            {{ schnittstelle.status }}
-                        </v-col>
-                    </template>
-                    Status
-                </v-tooltip>
+                                <v-icon>mdi-calendar-edit</v-icon>
+                                -
+                            </v-col>
+                        </template>
+                        Änderungsdatum
+                    </v-tooltip>
 
-                <v-tooltip location="left">
-                    <template #activator="{ props }">
-                        <v-col v-bind="props">
-                            <v-icon>mdi-google-analytics</v-icon>
-                            {{ getDatentransferEreignis(schnittstelle) }}
-                        </v-col>
-                    </template>
-                    Letzter Datentransfer
-                </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
 
-                <v-tooltip location="left">
-                    <template #activator="{ props }">
-                        <v-col v-bind="props">
-                            {{ getDatentransferZeitstempel(schnittstelle) }}
-                        </v-col>
-                    </template>
-                    Zeitstempel des letzten Datentransfers
-                </v-tooltip>
+                                v-if="schnittstelle.status"
+                                v-bind="props"
+                            >
+                                <v-icon
+                                    v-if="schnittstelle.status == 'AKTIVIERT'"
+                                    color="green"
+                                    >mdi-check</v-icon
+                                >
+                                <v-icon
+                                    v-else
+                                    color="red"
+                                    >mdi-window-close</v-icon
+                                >
+                                {{ schnittstelle.status }}
+                            </v-col>
+                        </template>
+                        Status
+                    </v-tooltip>
+
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col v-bind="props" cols="2" >
+                                <v-icon>mdi-google-analytics</v-icon>
+                                {{ getDatentransferEreignis(schnittstelle) }}
+                            </v-col>
+                        </template>
+                        Letzter Datentransfer
+                    </v-tooltip>
+
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col v-bind="props" cols="2" >
+                                {{ getDatentransferZeitstempel(schnittstelle) }}
+                            </v-col>
+                        </template>
+                        Zeitstempel des letzten Datentransfers
+                    </v-tooltip>
+                </v-row>
             </v-list-item>
         </v-list>
         <manage-schnittstelle-dialog
@@ -144,7 +159,6 @@ import Datentransfer from "@/types/Datentransfer";
 import DatentransferService from "@/api/DatentransferService";
 import SchnittstelleWithDatentransfer from "@/types/SchnittstelleWithDatentransfer";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
-import { useRouter } from "vue-router";
 import router from "@/router";
 
 const snackbarStore = useSnackbarStore();
