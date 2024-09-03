@@ -159,7 +159,7 @@ const textInputRules = [
 const today = ref<Date>(new Date());
 const showAddPersonDialog = ref(false);
 const mutableZuordnungen = ref<Zuordnung[]>([]);
-let firstRender = true;
+const firstRender = true;
 
 interface Props {
     showDialog: boolean;
@@ -196,11 +196,8 @@ const anlagedatum = computed(() => {
 });
 
 onBeforeUpdate(() => {
-    if (firstRender) {
-        mutableZuordnungen.value = [...dialogProps.zuordnungen];
-        mutableSchnittstelle.value = dialogProps.schnittstelle;
-        firstRender = false;
-    }
+    mutableZuordnungen.value = [...dialogProps.zuordnungen];
+    mutableSchnittstelle.value = dialogProps.schnittstelle;
 });
 
 function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
@@ -217,25 +214,27 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
 }
 
 function updateSchnittstelle() {
-    SchnittstelleService.update(mutableSchnittstelle.value).then(() => {
-        mutableZuordnungen.value.forEach((zuordnung) => {
-            if (!dialogProps.zuordnungen.includes(zuordnung)) {
-                zuordnung.schnittstelle = dialogProps.schnittstelle.id;
-                ZuordnungService.create(zuordnung);
-            }
+    if (form.value?.validate()) {
+        SchnittstelleService.update(mutableSchnittstelle.value).then(() => {
+            mutableZuordnungen.value.forEach((zuordnung) => {
+                if (!dialogProps.zuordnungen.includes(zuordnung)) {
+                    zuordnung.schnittstelle = dialogProps.schnittstelle.id;
+                    ZuordnungService.create(zuordnung);
+                }
+            });
+            dialogProps.zuordnungen.forEach((toDelete) => {
+                if (!mutableZuordnungen.value.includes(toDelete))
+                    ZuordnungService.delete(toDelete.id);
+            });
+            emit("schnittstelle-saved");
+            closeDialog();
+            form.value?.resetValidation();
         });
-        dialogProps.zuordnungen.forEach((toDelete) => {
-            if (!mutableZuordnungen.value.includes(toDelete))
-                ZuordnungService.delete(toDelete.id);
-        });
-        emit("schnittstelle-saved");
-        closeDialog();
-        form.value?.resetValidation();
-    });
+    }
 }
 
 function saveSchnittstelle(): void {
-    if (form.value?.validate()) {
+    if (form.value?.validate() && mutableSchnittstelle.value.begruendung && mutableSchnittstelle.value.name) {
         if (dialogProps.isEdit) {
             updateSchnittstelle();
         } else {
@@ -285,7 +284,7 @@ function closeDialog() {
 }
 
 function resetBegruendung(): void {
-    mutableSchnittstelle.value.begruendung = undefined;
+    mutableSchnittstelle.value.begruendung = "";
 }
 </script>
 
