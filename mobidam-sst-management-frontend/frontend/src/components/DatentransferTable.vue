@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import Datentransfer from "@/types/Datentransfer";
 import DatentransferService from "@/api/DatentransferService";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import type { VDataTableServer } from "vuetify/components";
 
 type ReadonlyHeaders = VDataTableServer["$props"]["headers"];
@@ -69,7 +69,6 @@ const headers = ref<ReadonlyHeaders>([
     },
 ]);
 
-
 onMounted(() => {
     DatentransferService.getDatentransferNumberBySchnittstelle(
         props.schnittstelle
@@ -77,7 +76,6 @@ onMounted(() => {
         numberOfDatentransfer.value = datentransferNumber;
     });
 });
-
 </script>
 
 <template>
