@@ -102,7 +102,7 @@
                         <v-col>
                             <v-chip
                                 v-for="zuordnung in mutableZuordnungen"
-                                :key="zuordnung"
+                                :key="zuordnung.id"
                                 closable
                                 style="margin-right: 1%"
                                 @click:close="removeZuordnung(zuordnung)"

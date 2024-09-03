@@ -24,7 +24,6 @@
 -->
 <template>
     <v-dialog
-        :key="dialogProps.value"
         v-model="visible"
         persistent
         width="800"

@@ -71,10 +71,7 @@
                         @focus="enterInput"
                         @blur="sendInput"
                     >
-                        <template
-                            v-if="props.clearable && !props.readonly"
-                            #append-outer
-                        >
+                        <template v-if="props.clearable && !props.readonly">
                             <v-btn
                                 icon
                                 :disabled="!value"

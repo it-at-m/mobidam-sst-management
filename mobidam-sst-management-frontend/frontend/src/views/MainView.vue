@@ -62,7 +62,6 @@
                         <template #activator="{ props }">
                             <v-col
                                 cols="2"
-
                                 v-bind="props"
                             >
                                 {{ schnittstelle.name }}
@@ -75,16 +74,14 @@
                             <v-col
                                 v-if="schnittstelle.aenderungsdatum"
                                 cols="2"
-
                                 v-bind="props"
                             >
                                 <v-icon>mdi-calendar-edit</v-icon>
                                 {{ schnittstelle.aenderungsdatum }}
                             </v-col>
                             <v-col
-                                cols="2"
-
                                 v-else
+                                cols="2"
                                 v-bind="props"
                             >
                                 <v-icon>mdi-calendar-edit</v-icon>
@@ -97,9 +94,8 @@
                     <v-tooltip location="top">
                         <template #activator="{ props }">
                             <v-col
-                                cols="2"
-
                                 v-if="schnittstelle.status"
+                                cols="2"
                                 v-bind="props"
                             >
                                 <v-icon
@@ -120,7 +116,10 @@
 
                     <v-tooltip location="top">
                         <template #activator="{ props }">
-                            <v-col v-bind="props" cols="2" >
+                            <v-col
+                                v-bind="props"
+                                cols="2"
+                            >
                                 <v-icon>mdi-google-analytics</v-icon>
                                 {{ getDatentransferEreignis(schnittstelle) }}
                             </v-col>
@@ -130,7 +129,10 @@
 
                     <v-tooltip location="top">
                         <template #activator="{ props }">
-                            <v-col v-bind="props" cols="2" >
+                            <v-col
+                                v-bind="props"
+                                cols="2"
+                            >
                                 {{ getDatentransferZeitstempel(schnittstelle) }}
                             </v-col>
                         </template>

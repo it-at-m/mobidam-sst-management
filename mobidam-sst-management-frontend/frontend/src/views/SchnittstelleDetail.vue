@@ -50,9 +50,7 @@
             </v-tooltip>
             <v-tooltip location="left">
                 <template #activator="{ props }">
-                    <v-col
-                        v-if="schnittstelle.aenderungsdatum"
-                    >
+                    <v-col v-if="schnittstelle.aenderungsdatum">
                         <v-icon>mdi-calendar-edit</v-icon>
                         {{ schnittstelle.aenderungsdatum }}
                     </v-col>
