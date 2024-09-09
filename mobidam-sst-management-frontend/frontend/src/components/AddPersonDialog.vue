@@ -90,7 +90,6 @@
                                         title="Datum auswählen"
                                         color="primary"
                                         header-color="primary"
-                                        :first-day-of-week="1"
                                         :min="today"
                                         @update:model-value="updateGueltigAb"
                                     >
@@ -121,7 +120,6 @@
                                         title="Datum auswählen"
                                         color="primary"
                                         header-color="primary"
-                                        :first-day-of-week="1"
                                         :min="today"
                                         @update:model-value="updateGueltiBis"
                                     >
