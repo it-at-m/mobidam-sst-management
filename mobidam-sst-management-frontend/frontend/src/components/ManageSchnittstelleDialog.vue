@@ -102,7 +102,7 @@
                         <v-col>
                             <v-chip
                                 v-for="zuordnung in mutableZuordnungen"
-                                :key="zuordnung.id"
+                                :key="zuordnung.benutzerkennung"
                                 closable
                                 style="margin-right: 1%"
                                 @click:close="removeZuordnung(zuordnung)"
@@ -267,7 +267,7 @@ function saveZuordnungen(schnittstelle: Schnittstelle) {
 }
 
 function removeZuordnung(zuordnung: Zuordnung): void {
-    mutableZuordnungen.value.splice(
+    mutableZuordnungen.value = mutableZuordnungen.value.toSpliced(
         mutableZuordnungen.value.indexOf(zuordnung),
         1
     );
