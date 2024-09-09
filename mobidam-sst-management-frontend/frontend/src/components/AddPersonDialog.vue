@@ -69,8 +69,9 @@
                     <v-row>
                         <v-col>
                             <v-menu
+                                v-model="gueltigAbMenu"
                                 max-width="100%"
-                                :close-on-content-click="true"
+                                :close-on-content-click="false"
                             >
                                 <template #activator="{ props }">
                                     <v-text-field
@@ -80,21 +81,25 @@
                                         variant="outlined"
                                         :rules="textInputRules"
                                         v-bind="props"
+                                        @click="gueltigAbMenu = true"
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                    v-model="zuordnung.gueltigAb"
+                                    v-model="gueltigAb"
                                     color="primary"
                                     header-color="primary"
+                                    :first-day-of-week="1"
                                     :min="today"
+                                    @update:model-value="updateGueltigAb"
                                 >
                                 </v-date-picker>
                             </v-menu>
                         </v-col>
                         <v-col>
                             <v-menu
+                                v-model="gueltigBisMenu"
                                 max-width="100%"
-                                :close-on-content-click="true"
+                                :close-on-content-click="false"
                             >
                                 <template #activator="{ props }">
                                     <v-text-field
@@ -104,13 +109,16 @@
                                         variant="outlined"
                                         :rules="textInputRules"
                                         v-bind="props"
+                                        @click="gueltigBisMenu = true"
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                    v-model="zuordnung.gueltigBis"
+                                    v-model="gueltigBis"
                                     color="primary"
                                     header-color="primary"
+                                    :first-day-of-week="1"
                                     :min="today"
+                                    @update:model-value="updateGueltiBis"
                                 >
                                 </v-date-picker>
                             </v-menu>
@@ -141,7 +149,7 @@ import { useRules } from "@/composables/rules";
 
 const textMaxLength = ref<number>(255);
 const textMinLength = ref<number>(1);
-const today = ref<string>(new Date().toISOString());
+const today = ref(new Date().toLocaleDateString());
 const validationRules = useRules();
 const textInputRules = [
     validationRules.notEmptyRule("Das Feld darf nicht leer sein."),
@@ -152,6 +160,10 @@ const textInputRules = [
             " Zeichen lang sein."
     ),
 ];
+const gueltigBisMenu = ref(false);
+const gueltigBis = ref(new Date());
+const gueltigAbMenu = ref(false);
+const gueltigAb = ref(new Date());
 
 interface Props {
     showDialog: boolean;
@@ -188,6 +200,16 @@ function resetZuordnung(): void {
 function closeDialog() {
     emit("update:showDialog", false);
     form.value?.resetValidation();
+}
+
+function updateGueltiBis(date: Date) {
+    gueltigBisMenu.value = false;
+    zuordnung.value.gueltigBis = date.toLocaleDateString();
+}
+
+function updateGueltigAb(date: Date) {
+    gueltigAbMenu.value = false;
+    zuordnung.value.gueltigAb = date.toLocaleDateString();
 }
 </script>
 
