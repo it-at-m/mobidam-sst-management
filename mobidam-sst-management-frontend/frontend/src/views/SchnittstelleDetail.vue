@@ -105,26 +105,28 @@
                 v-for="zuordnung in zuordnungen"
                 :key="zuordnung.id"
             >
-                <v-col>
-                    <v-icon>mdi-account</v-icon>
-                    {{ zuordnung.benutzerkennung }}
-                </v-col>
-                <v-col>
-                    <v-icon>mdi-home</v-icon>
-                    {{ zuordnung.fachbereich }}</v-col
-                >
-                <v-col>
-                    <v-icon>mdi-email</v-icon>
-                    {{ zuordnung.funktionsadresse }}</v-col
-                >
-                <v-col>
-                    <v-icon>mdi-calendar-start</v-icon>
-                    {{ zuordnung.gueltigAb }}
-                </v-col>
-                <v-col>
-                    <v-icon>mdi-calendar-end</v-icon>
-                    {{ zuordnung.gueltigBis }}
-                </v-col>
+                <v-row>
+                    <v-col cols="2">
+                        <v-icon>mdi-account</v-icon>
+                        {{ zuordnung.benutzerkennung }}
+                    </v-col>
+                    <v-col cols="2">
+                        <v-icon>mdi-home</v-icon>
+                        {{ zuordnung.fachbereich }}</v-col
+                    >
+                    <v-col cols="2">
+                        <v-icon>mdi-email</v-icon>
+                        {{ zuordnung.funktionsadresse }}</v-col
+                    >
+                    <v-col cols="2">
+                        <v-icon>mdi-calendar-start</v-icon>
+                        {{ zuordnung.gueltigAb }}
+                    </v-col>
+                    <v-col cols="2">
+                        <v-icon>mdi-calendar-end</v-icon>
+                        {{ zuordnung.gueltigBis }}
+                    </v-col>
+                </v-row>
             </v-list-item>
         </v-list>
         <v-divider />
