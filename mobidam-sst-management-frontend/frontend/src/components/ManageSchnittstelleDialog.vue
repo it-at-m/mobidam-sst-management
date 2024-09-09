@@ -138,11 +138,7 @@
 <script setup lang="ts">
 import {
     computed,
-    onActivated,
-    onBeforeMount,
     onBeforeUpdate,
-    onMounted,
-    onRenderTriggered,
     ref,
 } from "vue";
 import { useRules } from "@/composables/rules";
@@ -167,7 +163,6 @@ const textInputRules = [
 const today = ref<Date>(new Date());
 const showAddPersonDialog = ref(false);
 const mutableZuordnungen = ref<Zuordnung[]>([]);
-const firstRender = true;
 
 interface Props {
     showDialog: boolean;

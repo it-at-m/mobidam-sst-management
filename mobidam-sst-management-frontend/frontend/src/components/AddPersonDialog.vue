@@ -84,15 +84,18 @@
                                         @click="gueltigAbMenu = true"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker
-                                    v-model="gueltigAb"
-                                    color="primary"
-                                    header-color="primary"
-                                    :first-day-of-week="1"
-                                    :min="today"
-                                    @update:model-value="updateGueltigAb"
-                                >
-                                </v-date-picker>
+                                <v-locale-provider locale="de">
+                                    <v-date-picker
+                                        v-model="gueltigAb"
+                                        title="Datum auswählen"
+                                        color="primary"
+                                        header-color="primary"
+                                        :first-day-of-week="1"
+                                        :min="today"
+                                        @update:model-value="updateGueltigAb"
+                                    >
+                                    </v-date-picker>
+                                </v-locale-provider>
                             </v-menu>
                         </v-col>
                         <v-col>
@@ -112,15 +115,18 @@
                                         @click="gueltigBisMenu = true"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker
-                                    v-model="gueltigBis"
-                                    color="primary"
-                                    header-color="primary"
-                                    :first-day-of-week="1"
-                                    :min="today"
-                                    @update:model-value="updateGueltiBis"
-                                >
-                                </v-date-picker>
+                                <v-locale-provider locale="de">
+                                    <v-date-picker
+                                        v-model="gueltigBis"
+                                        title="Datum auswählen"
+                                        color="primary"
+                                        header-color="primary"
+                                        :first-day-of-week="1"
+                                        :min="today"
+                                        @update:model-value="updateGueltiBis"
+                                    >
+                                    </v-date-picker>
+                                </v-locale-provider>
                             </v-menu>
                         </v-col>
                     </v-row>
@@ -199,6 +205,7 @@ function resetZuordnung(): void {
 
 function closeDialog() {
     emit("update:showDialog", false);
+    zuordnung.value = new Zuordnung("", "", "", "", "", "");
     form.value?.resetValidation();
 }
 
