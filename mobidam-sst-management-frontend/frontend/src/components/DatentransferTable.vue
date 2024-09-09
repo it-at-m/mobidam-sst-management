@@ -76,6 +76,18 @@ onMounted(() => {
         numberOfDatentransfer.value = datentransferNumber;
     });
 });
+
+function loadItems(updatedOptions: any) {
+    loading.value = true;
+    DatentransferService.getDatentransfersBySchnittstelle(
+        props.schnittstelle,
+        updatedOptions.page
+    )
+        .then((datentransfer) => {
+            if (datentransfer) items.value = datentransfer;
+        })
+        .finally(() => (loading.value = false));
+}
 </script>
 
 <template>
@@ -89,6 +101,7 @@ onMounted(() => {
         :footer-props="{
             itemsPerPageOptions: [10],
         }"
+        @update:options="loadItems"
     ></v-data-table-server>
 </template>
 
