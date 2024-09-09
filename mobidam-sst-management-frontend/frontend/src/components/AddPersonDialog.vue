@@ -209,12 +209,25 @@ function closeDialog() {
 
 function updateGueltiBis(date: Date) {
     gueltigBisMenu.value = false;
-    zuordnung.value.gueltigBis = date.toLocaleDateString();
+    zuordnung.value.gueltigBis = formatDate(date.toLocaleDateString());
 }
 
 function updateGueltigAb(date: Date) {
     gueltigAbMenu.value = false;
-    zuordnung.value.gueltigAb = date.toLocaleDateString();
+    zuordnung.value.gueltigAb = formatDate(date.toLocaleDateString());
+}
+
+function formatDate(localeDate: string): string {
+    const dateParts = localeDate.split(".");
+    return (
+        dateParts[2] +
+        "-" +
+        (dateParts[1].length == 1 ? "0" : "") +
+        dateParts[1] +
+        "-" +
+        (dateParts[0].length == 1 ? "0" : "") +
+        dateParts[0]
+    );
 }
 </script>
 
