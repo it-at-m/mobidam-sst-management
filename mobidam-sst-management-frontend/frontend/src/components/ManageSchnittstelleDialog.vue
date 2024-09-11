@@ -240,7 +240,7 @@ function updateSchnittstelle() {
 
 async function saveSchnittstelle() {
     // eslint-disable-next-line no-unsafe-optional-chaining
-    const { valid, errors } = await form.value?.validate();
+    const valid = (await form.value?.validate())?.valid;
     if (valid) {
         if (dialogProps.isEdit) {
             updateSchnittstelle();
