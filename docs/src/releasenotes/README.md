@@ -1,4 +1,8 @@
 # Release-Notes
+## Sprint 17 (10.09.2024 - 01.10.2024)
+## Hinzugefügt
+- Vue 3 und Vuetify 3 Hebung
+
 ## Sprint 15 (30.07.2024 - 20.08.2024)
 ## Hinzugefügt
 - Datentransfer Info Spalte auf 512 Zeichen vergrößert
