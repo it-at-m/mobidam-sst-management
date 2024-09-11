@@ -38,7 +38,10 @@
 
             <v-divider class="divider"></v-divider>
             <v-card-text>
-                <v-form ref="form">
+                <v-form
+                    ref="form"
+                    @submit.prevent
+                >
                     <v-text-field
                         ref="name"
                         v-model="mutableSchnittstelle.name"
@@ -112,20 +115,22 @@
                             <br />
                         </v-col>
                     </v-row>
+                    &nbsp;
+                    <v-divider class="divider"></v-divider>
+                    <v-card-actions>
+                        <v-btn @click="closeDialog">Abbrechen</v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="text-white"
+                            color="success"
+                            type="submit"
+                            @click="saveSchnittstelle"
+                        >
+                            Speichern
+                        </v-btn>
+                    </v-card-actions>
                 </v-form>
             </v-card-text>
-            <v-divider class="divider"></v-divider>
-            <v-card-actions>
-                <v-btn @click="closeDialog">Abbrechen</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn
-                    class="text-white"
-                    color="success"
-                    @click="saveSchnittstelle"
-                >
-                    Speichern
-                </v-btn>
-            </v-card-actions>
         </v-card>
         <add-person-dialog
             v-model:show-dialog="showAddPersonDialog"
@@ -136,11 +141,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-    computed,
-    onBeforeUpdate,
-    ref,
-} from "vue";
+import { computed, onBeforeUpdate, ref } from "vue";
 import { useRules } from "@/composables/rules";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
@@ -148,6 +149,7 @@ import AddPersonDialog from "@/components/AddPersonDialog.vue";
 import Zuordnung from "@/types/Zuordnung";
 import ZuordnungService from "@/api/ZuordnungService";
 import SchnittstelleRequest from "@/types/SchnittstelleRequest";
+import type { VForm } from "vuetify/components";
 
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
@@ -190,7 +192,7 @@ const emit = defineEmits<{
     (e: "update-exited"): void;
 }>();
 
-const form = ref<HTMLFormElement>();
+const form = ref<VForm>();
 
 const anlagedatum = computed(() => {
     return dialogProps.isEdit
@@ -199,10 +201,8 @@ const anlagedatum = computed(() => {
 });
 
 onBeforeUpdate(() => {
-    if (dialogProps.schnittstelle.name) {
-        mutableZuordnungen.value = [...dialogProps.zuordnungen];
-        mutableSchnittstelle.value = dialogProps.schnittstelle;
-    }
+    mutableZuordnungen.value = [...dialogProps.zuordnungen];
+    mutableSchnittstelle.value = Object.assign({}, dialogProps.schnittstelle);
 });
 
 function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
@@ -211,10 +211,11 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
             saveZuordnungen(schnittstelle);
         })
         .finally(() => {
+            form.value?.reset();
+            form.value?.resetValidation();
             emit("schnittstelle-saved");
             resetSchnittstelle();
             closeDialog();
-            form.value?.resetValidation();
         });
 }
 
@@ -231,16 +232,16 @@ function updateSchnittstelle() {
                 ZuordnungService.delete(toDelete.id);
         });
         emit("schnittstelle-saved");
-        closeDialog();
+        form.value?.reset();
         form.value?.resetValidation();
+        closeDialog();
     });
 }
 
-function saveSchnittstelle(): void {
-    if (
-        mutableSchnittstelle.value.begruendung &&
-        mutableSchnittstelle.value.name
-    ) {
+async function saveSchnittstelle() {
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    const { valid, errors } = await form.value?.validate();
+    if (valid) {
         if (dialogProps.isEdit) {
             updateSchnittstelle();
         } else {
@@ -280,17 +281,19 @@ function resetSchnittstelle(): void {
     mutableZuordnungen.value = dialogProps.isEdit
         ? dialogProps.zuordnungen
         : [];
+    form.value?.reset();
     form.value?.resetValidation();
 }
 
 function closeDialog() {
+    resetSchnittstelle();
     emit("update:showDialog", false);
     emit("update-exited");
-    resetSchnittstelle();
 }
 
 function resetBegruendung(): void {
     mutableSchnittstelle.value.begruendung = "";
+    form.value?.validate();
 }
 </script>
 
