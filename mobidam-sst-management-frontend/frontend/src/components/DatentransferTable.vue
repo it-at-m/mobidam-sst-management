@@ -41,6 +41,7 @@ const itemsPerPage = ref(10);
 const items = ref<Datentransfer[]>([]);
 const loading = ref(false);
 const numberOfDatentransfer = ref(0);
+const page = 1;
 
 const headers = ref<ReadonlyHeaders>([
     {
@@ -77,6 +78,7 @@ onMounted(() => {
     });
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function loadItems(updatedOptions: any) {
     loading.value = true;
     DatentransferService.getDatentransfersBySchnittstelle(
@@ -92,17 +94,22 @@ function loadItems(updatedOptions: any) {
 
 <template>
     <v-data-table-server
+        v-model:items-per-page="itemsPerPage"
         :headers="headers"
         :items="items"
         :loading="loading"
-        :items-per-page="itemsPerPage"
         :items-length="numberOfDatentransfer"
         :sort-by="[{ key: 'zeitstempel' }]"
-        :footer-props="{
-            itemsPerPageOptions: [10],
-        }"
         @update:options="loadItems"
-    ></v-data-table-server>
+    >
+        <template #bottom>
+            <v-data-table-footer
+                :items-per-page-options="[itemsPerPage]"
+                :items-per-page-text="'Einträge pro Seite'"
+            >
+            </v-data-table-footer>
+        </template>
+    </v-data-table-server>
 </template>
 
 <style scoped></style>
