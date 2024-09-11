@@ -220,17 +220,17 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
 }
 
 function updateSchnittstelle() {
-    SchnittstelleService.update(mutableSchnittstelle.value).then(() => {
-        mutableZuordnungen.value.forEach((zuordnung) => {
+    SchnittstelleService.update(mutableSchnittstelle.value).then(async () => {
+        for (const zuordnung of mutableZuordnungen.value) {
             if (!dialogProps.zuordnungen.includes(zuordnung)) {
                 zuordnung.schnittstelle = dialogProps.schnittstelle.id;
-                ZuordnungService.create(zuordnung);
+                await ZuordnungService.create(zuordnung);
             }
-        });
-        dialogProps.zuordnungen.forEach((toDelete) => {
+        }
+        for (const toDelete of dialogProps.zuordnungen) {
             if (!mutableZuordnungen.value.includes(toDelete))
-                ZuordnungService.delete(toDelete.id);
-        });
+                await ZuordnungService.delete(toDelete.id);
+        }
         emit("schnittstelle-saved");
         form.value?.reset();
         form.value?.resetValidation();
