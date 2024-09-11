@@ -35,7 +35,7 @@
 
             <v-divider class="divider"></v-divider>
             <v-card-text>
-                <v-form ref="form">
+                <v-form ref="form" @submit.prevent>
                     <v-text-field
                         ref="person"
                         v-model="zuordnung.benutzerkennung"
@@ -128,20 +128,22 @@
                             </v-menu>
                         </v-col>
                     </v-row>
+                    &nbsp;
+                    <v-divider class="divider"></v-divider>
+                    <v-card-actions>
+                        <v-btn @click="closeDialog">Schließen</v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="text-white"
+                            color="success"
+                            @click="saveTask"
+                            type="submit"
+                        >
+                            {{ confirmButton }}
+                        </v-btn>
+                    </v-card-actions>
                 </v-form>
             </v-card-text>
-            <v-divider class="divider"></v-divider>
-            <v-card-actions>
-                <v-btn @click="closeDialog">Schließen</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn
-                    class="text-white"
-                    color="success"
-                    @click="saveTask"
-                >
-                    {{ confirmButton }}
-                </v-btn>
-            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -150,10 +152,11 @@
 import Zuordnung from "@/types/Zuordnung";
 import { ref } from "vue";
 import { useRules } from "@/composables/rules";
+import type { VForm } from "vuetify/components";
 
 const textMaxLength = ref<number>(255);
 const textMinLength = ref<number>(1);
-const today = ref(new Date().toLocaleDateString());
+const today = ref(formatDate(new Date().toLocaleDateString()));
 const validationRules = useRules();
 const textInputRules = [
     validationRules.notEmptyRule("Das Feld darf nicht leer sein."),
@@ -185,26 +188,22 @@ const emit = defineEmits<{
     (e: "zuordnung-saved", b: Zuordnung): void;
 }>();
 
-const form = ref<HTMLFormElement>();
+const form = ref<VForm>();
 
-function saveTask(): void {
-    if (form.value?.validate()) {
+async function saveTask() {
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    const valid = (await form.value?.validate())?.valid;
+    if (valid) {
         emit("zuordnung-saved", zuordnung.value);
         closeDialog();
-        resetZuordnung();
-        form.value?.resetValidation();
     }
-}
-
-function resetZuordnung(): void {
-    zuordnung.value = new Zuordnung("", "", "", "", "", "");
-    form.value?.resetValidation();
 }
 
 function closeDialog() {
     emit("update:showDialog", false);
     zuordnung.value = new Zuordnung("", "", "", "", "", "");
     form.value?.resetValidation();
+    form.value?.reset();
 }
 
 function updateGueltiBis(date: Date) {
