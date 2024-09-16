@@ -23,7 +23,7 @@
 
 -->
 <template>
-    <v-container>
+    <v-container fluid>
         <h1>
             Schnittstelle {{ schnittstelle.name }} &nbsp;
             <v-btn

@@ -35,7 +35,10 @@
 
             <v-divider class="divider"></v-divider>
             <v-card-text>
-                <v-form ref="form" @submit.prevent>
+                <v-form
+                    ref="form"
+                    @submit.prevent
+                >
                     <v-text-field
                         ref="person"
                         v-model="zuordnung.benutzerkennung"
@@ -136,8 +139,8 @@
                         <v-btn
                             class="text-white"
                             color="success"
-                            @click="saveTask"
                             type="submit"
+                            @click="saveTask"
                         >
                             {{ confirmButton }}
                         </v-btn>
