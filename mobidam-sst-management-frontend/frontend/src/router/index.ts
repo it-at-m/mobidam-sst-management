@@ -21,25 +21,28 @@
 /// THE SOFTWARE.
 ///
 
-import { fileURLToPath } from "node:url";
+import Main from "@/views/MainView.vue";
+import SchnittstelleDetail from "@/views/SchnittstelleDetail.vue";
+import { createRouter, createWebHashHistory } from "vue-router";
 
-import { configDefaults, defineConfig, mergeConfig } from "vitest/config";
+const routes = [
+    {
+        path: "/",
+        name: "home",
+        component: Main,
+        meta: {},
+    },
+    {
+        path: "/:id",
+        name: "schnittstelleDetail",
+        component: SchnittstelleDetail,
+    },
+    { path: "/:catchAll(.*)*", redirect: "/" }, // CatchAll route
+];
 
-import viteConfig from "./vite.config";
+const router = createRouter({
+    history: createWebHashHistory(process.env.BASE_URL),
+    routes,
+});
 
-export default mergeConfig(
-    viteConfig,
-    defineConfig({
-        test: {
-            globals: true,
-            environment: "jsdom",
-            exclude: [...configDefaults.exclude, "e2e/*"],
-            root: fileURLToPath(new URL("./", import.meta.url)),
-            server: {
-                deps: {
-                    inline: ["vuetify"],
-                },
-            },
-        },
-    })
-);
+export default router;

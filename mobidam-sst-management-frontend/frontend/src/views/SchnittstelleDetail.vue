@@ -23,12 +23,12 @@
 
 -->
 <template>
-    <v-container>
+    <v-container fluid>
         <h1>
             Schnittstelle {{ schnittstelle.name }} &nbsp;
             <v-btn
-                small
-                outlined
+                size="small"
+                variant="outlined"
                 @click="showManageSchnittstelleDialog = true"
             >
                 <v-icon>mdi-pencil</v-icon>
@@ -36,11 +36,11 @@
         </h1>
         <br />
         <v-row>
-            <v-tooltip left>
-                <template #activator="{ on }">
+            <v-tooltip location="left">
+                <template #activator="{ props }">
                     <v-col
                         cols="2"
-                        v-on="on"
+                        v-bind="props"
                     >
                         <v-icon>mdi-calendar-plus</v-icon>
                         {{ schnittstelle.anlagedatum }}
@@ -48,18 +48,15 @@
                 </template>
                 Anlagedatum
             </v-tooltip>
-            <v-tooltip left>
-                <template #activator="{ on }">
-                    <v-col
-                        v-if="schnittstelle.aenderungsdatum"
-                        v-on="on"
-                    >
+            <v-tooltip location="left">
+                <template #activator="{ props }">
+                    <v-col v-if="schnittstelle.aenderungsdatum">
                         <v-icon>mdi-calendar-edit</v-icon>
                         {{ schnittstelle.aenderungsdatum }}
                     </v-col>
                     <v-col
                         v-else
-                        v-on="on"
+                        v-bind="props"
                     >
                         <v-icon>mdi-calendar-edit</v-icon>
                         -
@@ -89,7 +86,7 @@
                 <v-textarea
                     v-model="schnittstelle.begruendung"
                     label="Begründung der Statussetzung"
-                    outlined
+                    variant="outlined"
                     readonly
                 >
                 </v-textarea>
@@ -108,26 +105,28 @@
                 v-for="zuordnung in zuordnungen"
                 :key="zuordnung.id"
             >
-                <v-col>
-                    <v-icon>mdi-account</v-icon>
-                    {{ zuordnung.benutzerkennung }}
-                </v-col>
-                <v-col>
-                    <v-icon>mdi-home</v-icon>
-                    {{ zuordnung.fachbereich }}</v-col
-                >
-                <v-col>
-                    <v-icon>mdi-email</v-icon>
-                    {{ zuordnung.funktionsadresse }}</v-col
-                >
-                <v-col>
-                    <v-icon>mdi-calendar-start</v-icon>
-                    {{ zuordnung.gueltigAb }}
-                </v-col>
-                <v-col>
-                    <v-icon>mdi-calendar-end</v-icon>
-                    {{ zuordnung.gueltigBis }}
-                </v-col>
+                <v-row>
+                    <v-col cols="2">
+                        <v-icon>mdi-account</v-icon>
+                        {{ zuordnung.benutzerkennung }}
+                    </v-col>
+                    <v-col cols="2">
+                        <v-icon>mdi-home</v-icon>
+                        {{ zuordnung.fachbereich }}</v-col
+                    >
+                    <v-col cols="2">
+                        <v-icon>mdi-email</v-icon>
+                        {{ zuordnung.funktionsadresse }}</v-col
+                    >
+                    <v-col cols="2">
+                        <v-icon>mdi-calendar-start</v-icon>
+                        {{ zuordnung.gueltigAb }}
+                    </v-col>
+                    <v-col cols="2">
+                        <v-icon>mdi-calendar-end</v-icon>
+                        {{ zuordnung.gueltigBis }}
+                    </v-col>
+                </v-row>
             </v-list-item>
         </v-list>
         <v-divider />
@@ -135,11 +134,11 @@
         <v-row>
             <v-col>
                 <h3>Datentransfer Log-Tabelle</h3>
-                <DatentransferTable :schnittstelle="schnittstelleID" />
+                <datentransfer-table :schnittstelle="schnittstelleID" />
             </v-col>
         </v-row>
         <manage-schnittstelle-dialog
-            :show-dialog.sync="showManageSchnittstelleDialog"
+            v-model:show-dialog="showManageSchnittstelleDialog"
             :verb="'bearbeiten'"
             :schnittstelle="schnittstelle"
             :zuordnungen="zuordnungen"
@@ -154,16 +153,16 @@
 import HealthService from "@/api/HealthService";
 import { useSnackbarStore } from "@/stores/snackbar";
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router/composables";
 import ZuordnungService from "@/api/ZuordnungService";
 import Zuordnung from "@/types/Zuordnung";
 import DatentransferTable from "@/components/DatentransferTable.vue";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
+import router from "@/router";
 
 const snackbarStore = useSnackbarStore();
-let schnittstelleID = useRouter().currentRoute.params.id;
+const schnittstelleID = router.currentRoute.value.params.id as string;
 const zuordnungen = ref<Zuordnung[]>([]);
 const showManageSchnittstelleDialog = ref(false);
 

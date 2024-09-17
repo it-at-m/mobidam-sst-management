@@ -24,19 +24,24 @@
 -->
 <template>
     <v-dialog
-        :value="props.showDialog"
+        :model-value="dialogProps.showDialog"
         max-width="60%"
         persistent
-        @input="closeDialog"
+        @update:model-value="closeDialog"
     >
         <v-card :style="{ overflowX: 'hidden' }">
             <v-card-title class="title-content">
-                <span class="text-h5 mb-2">Schnittstelle {{ props.verb }}</span>
+                <span class="text-h5 mb-2"
+                    >Schnittstelle {{ dialogProps.verb }}</span
+                >
             </v-card-title>
 
             <v-divider class="divider"></v-divider>
             <v-card-text>
-                <v-form ref="form">
+                <v-form
+                    ref="form"
+                    @submit.prevent
+                >
                     <v-text-field
                         ref="name"
                         v-model="mutableSchnittstelle.name"
@@ -46,14 +51,14 @@
                     </v-text-field>
                     <v-text-field
                         ref="anlagedatum"
-                        :value="anlagedatum"
+                        :model-value="anlagedatum"
                         label="Anlagedatum"
                         hint="Als Anlagedatum wird automatisch der heutige Tag gesetzt."
                         readonly
                     ></v-text-field>
                     <v-text-field
                         ref="aenderungsdatum"
-                        :value="today.toLocaleDateString()"
+                        :model-value="today.toLocaleDateString()"
                         label="Änderungsdatum"
                         hint="Als Änderungsdatum wird automatisch der heutige Tag gesetzt."
                         readonly
@@ -68,7 +73,7 @@
                                 true-value="AKTIVIERT"
                                 false-value="DEAKTIVIERT"
                                 color="success"
-                                @change="resetBegruendung()"
+                                @update:model-value="resetBegruendung()"
                             ></v-switch>
                         </v-col>
                         <v-col>
@@ -76,20 +81,20 @@
                                 ref="begruendung"
                                 v-model="mutableSchnittstelle.begruendung"
                                 label="Begründung der Statussetzung"
-                                outlined
+                                variant="outlined"
                                 :rules="textInputRules"
                             ></v-textarea>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="3">
-                            <v-tooltip right>
-                                <template #activator="{ on }">
+                            <v-tooltip location="right">
+                                <template #activator="{ props }">
                                     <v-btn
-                                        small
-                                        outlined
+                                        size="small"
+                                        variant="outlined"
+                                        v-bind="props"
                                         @click="showAddPersonDialog = true"
-                                        v-on="on"
                                     >
                                         <v-icon>mdi-account-plus</v-icon>
                                     </v-btn>
@@ -100,8 +105,8 @@
                         <v-col>
                             <v-chip
                                 v-for="zuordnung in mutableZuordnungen"
-                                :key="zuordnung"
-                                close
+                                :key="zuordnung.benutzerkennung"
+                                closable
                                 style="margin-right: 1%"
                                 @click:close="removeZuordnung(zuordnung)"
                             >
@@ -110,23 +115,25 @@
                             <br />
                         </v-col>
                     </v-row>
+                    &nbsp;
+                    <v-divider class="divider"></v-divider>
+                    <v-card-actions>
+                        <v-btn @click="closeDialog">Abbrechen</v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="text-white"
+                            color="success"
+                            type="submit"
+                            @click="saveSchnittstelle"
+                        >
+                            Speichern
+                        </v-btn>
+                    </v-card-actions>
                 </v-form>
             </v-card-text>
-            <v-divider class="divider"></v-divider>
-            <v-card-actions>
-                <v-btn @click="closeDialog">Abbrechen</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn
-                    class="white--text"
-                    color="success"
-                    @click="saveSchnittstelle"
-                >
-                    Speichern
-                </v-btn>
-            </v-card-actions>
         </v-card>
         <add-person-dialog
-            :show-dialog.sync="showAddPersonDialog"
+            v-model:show-dialog="showAddPersonDialog"
             confirm-button="Übernehmen"
             @zuordnung-saved="confirmZuordnung"
         ></add-person-dialog>
@@ -142,6 +149,7 @@ import AddPersonDialog from "@/components/AddPersonDialog.vue";
 import Zuordnung from "@/types/Zuordnung";
 import ZuordnungService from "@/api/ZuordnungService";
 import SchnittstelleRequest from "@/types/SchnittstelleRequest";
+import type { VForm } from "vuetify/components";
 
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
@@ -149,13 +157,14 @@ const textInputRules = [
     validationRules.notEmptyRule("Das Feld darf nicht leer sein."),
     validationRules.maxLengthRule(
         textMaxLength.value,
-        "Die Eingabe darf maximal " + textMaxLength + " Zeichen lang sein."
+        "Die Eingabe darf maximal " +
+            textMaxLength.value +
+            " Zeichen lang sein."
     ),
 ];
 const today = ref<Date>(new Date());
 const showAddPersonDialog = ref(false);
 const mutableZuordnungen = ref<Zuordnung[]>([]);
-let firstRender = true;
 
 interface Props {
     showDialog: boolean;
@@ -165,7 +174,7 @@ interface Props {
     zuordnungen: Zuordnung[];
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const dialogProps = withDefaults(defineProps<Props>(), {
     showDialog: false,
     verb: "",
     isEdit: false,
@@ -183,20 +192,17 @@ const emit = defineEmits<{
     (e: "update-exited"): void;
 }>();
 
-const form = ref<HTMLFormElement>();
+const form = ref<VForm>();
 
 const anlagedatum = computed(() => {
-    return props.isEdit
+    return dialogProps.isEdit
         ? new Date(mutableSchnittstelle.value.anlagedatum).toLocaleDateString()
         : today.value.toLocaleDateString();
 });
 
 onBeforeUpdate(() => {
-    if (firstRender) {
-        mutableZuordnungen.value = [...props.zuordnungen];
-        mutableSchnittstelle.value = props.schnittstelle;
-        firstRender = false;
-    }
+    mutableZuordnungen.value = [...dialogProps.zuordnungen];
+    mutableSchnittstelle.value = Object.assign({}, dialogProps.schnittstelle);
 });
 
 function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
@@ -205,37 +211,41 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
             saveZuordnungen(schnittstelle);
         })
         .finally(() => {
+            form.value?.reset();
+            form.value?.resetValidation();
             emit("schnittstelle-saved");
             resetSchnittstelle();
             closeDialog();
-            form.value?.resetValidation();
         });
 }
 
 function updateSchnittstelle() {
-    SchnittstelleService.update(mutableSchnittstelle.value).then(() => {
-        mutableZuordnungen.value.forEach((zuordnung) => {
-            if (!props.zuordnungen.includes(zuordnung)) {
-                zuordnung.schnittstelle = props.schnittstelle.id;
-                ZuordnungService.create(zuordnung);
+    SchnittstelleService.update(mutableSchnittstelle.value).then(async () => {
+        for (const zuordnung of mutableZuordnungen.value) {
+            if (!dialogProps.zuordnungen.includes(zuordnung)) {
+                zuordnung.schnittstelle = dialogProps.schnittstelle.id;
+                await ZuordnungService.create(zuordnung);
             }
-        });
-        props.zuordnungen.forEach((toDelete) => {
+        }
+        for (const toDelete of dialogProps.zuordnungen) {
             if (!mutableZuordnungen.value.includes(toDelete))
-                ZuordnungService.delete(toDelete.id);
-        });
+                await ZuordnungService.delete(toDelete.id);
+        }
         emit("schnittstelle-saved");
-        closeDialog();
+        form.value?.reset();
         form.value?.resetValidation();
+        closeDialog();
     });
 }
 
-function saveSchnittstelle(): void {
-    if (form.value?.validate()) {
-        if (props.isEdit) {
+async function saveSchnittstelle() {
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    const valid = (await form.value?.validate())?.valid;
+    if (valid) {
+        if (dialogProps.isEdit) {
             updateSchnittstelle();
         } else {
-            let schnittstelleRequest = new SchnittstelleRequest(
+            const schnittstelleRequest = new SchnittstelleRequest(
                 mutableSchnittstelle.value.name,
                 mutableSchnittstelle.value.status,
                 mutableSchnittstelle.value.begruendung
@@ -258,28 +268,32 @@ function saveZuordnungen(schnittstelle: Schnittstelle) {
 }
 
 function removeZuordnung(zuordnung: Zuordnung): void {
-    mutableZuordnungen.value.splice(
+    mutableZuordnungen.value = mutableZuordnungen.value.toSpliced(
         mutableZuordnungen.value.indexOf(zuordnung),
         1
     );
 }
 
 function resetSchnittstelle(): void {
-    mutableSchnittstelle.value = props.isEdit
-        ? props.schnittstelle
+    mutableSchnittstelle.value = dialogProps.isEdit
+        ? dialogProps.schnittstelle
         : new Schnittstelle("", "", "", "DEAKTIVIERT");
-    mutableZuordnungen.value = props.isEdit ? props.zuordnungen : [];
+    mutableZuordnungen.value = dialogProps.isEdit
+        ? dialogProps.zuordnungen
+        : [];
+    form.value?.reset();
     form.value?.resetValidation();
 }
 
 function closeDialog() {
+    resetSchnittstelle();
     emit("update:showDialog", false);
     emit("update-exited");
-    resetSchnittstelle();
 }
 
 function resetBegruendung(): void {
-    mutableSchnittstelle.value.begruendung = undefined;
+    mutableSchnittstelle.value.begruendung = "";
+    form.value?.validate();
 }
 </script>
 

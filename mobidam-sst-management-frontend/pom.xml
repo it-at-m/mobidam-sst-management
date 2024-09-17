@@ -82,6 +82,9 @@
                         <exclude>**/*.txt</exclude>
                         <exclude>**/*.yml</exclude>
                         <exclude>**/*.d.ts</exclude>
+                        <exclude>**/*.development</exclude>
+                        <exclude>**/*.production</exclude>
+                        <exclude>**/*.browserslistrc</exclude>
                     </excludes>
                     <includes>
                         <include>frontend/*.*</include>

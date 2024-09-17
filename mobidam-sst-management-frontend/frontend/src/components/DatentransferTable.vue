@@ -25,8 +25,10 @@
 <script setup lang="ts">
 import Datentransfer from "@/types/Datentransfer";
 import DatentransferService from "@/api/DatentransferService";
-import { ref, onMounted, watch } from "vue";
-import { DataOptions, DataTableHeader } from "vuetify";
+import { ref, onMounted } from "vue";
+import type { VDataTableServer } from "vuetify/components";
+
+type ReadonlyHeaders = VDataTableServer["$props"]["headers"];
 
 type Props = {
     schnittstelle: string;
@@ -39,45 +41,34 @@ const itemsPerPage = ref(10);
 const items = ref<Datentransfer[]>([]);
 const loading = ref(false);
 const numberOfDatentransfer = ref(0);
-const options = ref<DataOptions>({
-    groupBy: [],
-    groupDesc: [],
-    itemsPerPage: 10,
-    multiSort: false,
-    mustSort: false,
-    page: 1,
-    sortBy: ["zeitstempel"],
-    sortDesc: [],
-});
+const page = 1;
 
-const headers = ref<DataTableHeader[]>([
+const headers = ref<ReadonlyHeaders>([
     {
-        text: "Zeitstempel",
+        title: "Zeitstempel",
         align: "start",
         value: "zeitstempel",
         sortable: false,
     },
     {
-        text: "Prozess ID",
+        title: "Prozess ID",
         align: "start",
         value: "prozessId",
         sortable: false,
     },
     {
-        text: "Ereignis",
+        title: "Ereignis",
         align: "start",
         value: "ereignis",
         sortable: false,
     },
     {
-        text: "Info",
+        title: "Info",
         align: "start",
         value: "info",
         sortable: false,
     },
 ]);
-
-watch(options, loadItems);
 
 onMounted(() => {
     DatentransferService.getDatentransferNumberBySchnittstelle(
@@ -87,7 +78,8 @@ onMounted(() => {
     });
 });
 
-function loadItems(updatedOptions: DataOptions) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function loadItems(updatedOptions: any) {
     loading.value = true;
     DatentransferService.getDatentransfersBySchnittstelle(
         props.schnittstelle,
@@ -101,19 +93,23 @@ function loadItems(updatedOptions: DataOptions) {
 </script>
 
 <template>
-    <v-data-table
+    <v-data-table-server
+        v-model:items-per-page="itemsPerPage"
         :headers="headers"
         :items="items"
         :loading="loading"
-        :items-per-page="itemsPerPage"
-        :server-items-length="numberOfDatentransfer"
-        :options.sync="options"
-        :footer-props="{
-            itemsPerPageOptions: [10],
-        }"
-    ></v-data-table>
+        :items-length="numberOfDatentransfer"
+        :sort-by="[{ key: 'zeitstempel' }]"
+        @update:options="loadItems"
+    >
+        <template #bottom>
+            <v-data-table-footer
+                :items-per-page-options="[itemsPerPage]"
+                :items-per-page-text="'Einträge pro Seite'"
+            >
+            </v-data-table-footer>
+        </template>
+    </v-data-table-server>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

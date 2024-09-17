@@ -24,9 +24,9 @@
 -->
 <template>
     <v-dialog
-        :value="props.showDialog"
+        :model-value="dialogProps.showDialog"
         max-width="60%"
-        @input="closeDialog"
+        @update:model-value="closeDialog"
     >
         <v-card :style="{ overflowX: 'hidden' }">
             <v-card-title class="title-content">
@@ -35,7 +35,10 @@
 
             <v-divider class="divider"></v-divider>
             <v-card-text>
-                <v-form ref="form">
+                <v-form
+                    ref="form"
+                    @submit.prevent
+                >
                     <v-text-field
                         ref="person"
                         v-model="zuordnung.benutzerkennung"
@@ -69,69 +72,81 @@
                     <v-row>
                         <v-col>
                             <v-menu
+                                v-model="gueltigAbMenu"
                                 max-width="100%"
-                                :close-on-content-click="true"
+                                :close-on-content-click="false"
                             >
-                                <template #activator="{ on }">
+                                <template #activator="{ props }">
                                     <v-text-field
                                         v-model="zuordnung.gueltigAb"
                                         label="Gültig ab"
                                         readonly
-                                        outlined
+                                        variant="outlined"
                                         :rules="textInputRules"
-                                        v-on="on"
+                                        v-bind="props"
+                                        @click="gueltigAbMenu = true"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker
-                                    v-model="zuordnung.gueltigAb"
-                                    color="primary"
-                                    header-color="primary"
-                                    :first-day-of-week="1"
-                                    :min="today"
-                                    locale="de"
-                                ></v-date-picker>
+                                <v-locale-provider locale="de">
+                                    <v-date-picker
+                                        v-model="gueltigAb"
+                                        title="Datum auswählen"
+                                        color="primary"
+                                        header-color="primary"
+                                        :min="today"
+                                        @update:model-value="updateGueltigAb"
+                                    >
+                                    </v-date-picker>
+                                </v-locale-provider>
                             </v-menu>
                         </v-col>
                         <v-col>
                             <v-menu
+                                v-model="gueltigBisMenu"
                                 max-width="100%"
-                                :close-on-content-click="true"
+                                :close-on-content-click="false"
                             >
-                                <template #activator="{ on }">
+                                <template #activator="{ props }">
                                     <v-text-field
                                         v-model="zuordnung.gueltigBis"
                                         label="Gültig bis"
                                         readonly
-                                        outlined
+                                        variant="outlined"
                                         :rules="textInputRules"
-                                        v-on="on"
+                                        v-bind="props"
+                                        @click="gueltigBisMenu = true"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker
-                                    v-model="zuordnung.gueltigBis"
-                                    color="primary"
-                                    header-color="primary"
-                                    :first-day-of-week="1"
-                                    :min="today"
-                                    locale="de"
-                                ></v-date-picker>
+                                <v-locale-provider locale="de">
+                                    <v-date-picker
+                                        v-model="gueltigBis"
+                                        title="Datum auswählen"
+                                        color="primary"
+                                        header-color="primary"
+                                        :min="today"
+                                        @update:model-value="updateGueltiBis"
+                                    >
+                                    </v-date-picker>
+                                </v-locale-provider>
                             </v-menu>
                         </v-col>
                     </v-row>
+                    &nbsp;
+                    <v-divider class="divider"></v-divider>
+                    <v-card-actions>
+                        <v-btn @click="closeDialog">Schließen</v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="text-white"
+                            color="success"
+                            type="submit"
+                            @click="saveTask"
+                        >
+                            {{ confirmButton }}
+                        </v-btn>
+                    </v-card-actions>
                 </v-form>
             </v-card-text>
-            <v-divider class="divider"></v-divider>
-            <v-card-actions>
-                <v-btn @click="closeDialog">Schließen</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn
-                    class="white--text"
-                    color="success"
-                    @click="saveTask"
-                >
-                    {{ confirmButton }}
-                </v-btn>
-            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -140,25 +155,32 @@
 import Zuordnung from "@/types/Zuordnung";
 import { ref } from "vue";
 import { useRules } from "@/composables/rules";
+import type { VForm } from "vuetify/components";
 
 const textMaxLength = ref<number>(255);
 const textMinLength = ref<number>(1);
-const today = ref<string>(new Date().toISOString());
+const today = ref(formatDate(new Date().toLocaleDateString()));
 const validationRules = useRules();
 const textInputRules = [
     validationRules.notEmptyRule("Das Feld darf nicht leer sein."),
     validationRules.maxLengthRule(
         textMaxLength.value,
-        "Die Eingabe darf maximal " + textMaxLength + " Zeichen lang sein."
+        "Die Eingabe darf maximal " +
+            textMaxLength.value +
+            " Zeichen lang sein."
     ),
 ];
+const gueltigBisMenu = ref(false);
+const gueltigBis = ref(new Date());
+const gueltigAbMenu = ref(false);
+const gueltigAb = ref(new Date());
 
 interface Props {
     showDialog: boolean;
     confirmButton: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const dialogProps = withDefaults(defineProps<Props>(), {
     showDialog: false,
 });
 
@@ -169,25 +191,45 @@ const emit = defineEmits<{
     (e: "zuordnung-saved", b: Zuordnung): void;
 }>();
 
-const form = ref<HTMLFormElement>();
+const form = ref<VForm>();
 
-function saveTask(): void {
-    if (form.value?.validate()) {
+async function saveTask() {
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    const valid = (await form.value?.validate())?.valid;
+    if (valid) {
         emit("zuordnung-saved", zuordnung.value);
         closeDialog();
-        resetZuordnung();
-        form.value?.resetValidation();
     }
-}
-
-function resetZuordnung(): void {
-    zuordnung.value = new Zuordnung("", "", "", "", "", "");
-    form.value?.resetValidation();
 }
 
 function closeDialog() {
     emit("update:showDialog", false);
+    zuordnung.value = new Zuordnung("", "", "", "", "", "");
     form.value?.resetValidation();
+    form.value?.reset();
+}
+
+function updateGueltiBis(date: Date) {
+    gueltigBisMenu.value = false;
+    zuordnung.value.gueltigBis = formatDate(date.toLocaleDateString());
+}
+
+function updateGueltigAb(date: Date) {
+    gueltigAbMenu.value = false;
+    zuordnung.value.gueltigAb = formatDate(date.toLocaleDateString());
+}
+
+function formatDate(localeDate: string): string {
+    const dateParts = localeDate.split(".");
+    return (
+        dateParts[2] +
+        "-" +
+        (dateParts[1].length == 1 ? "0" : "") +
+        dateParts[1] +
+        "-" +
+        (dateParts[0].length == 1 ? "0" : "") +
+        dateParts[0]
+    );
 }
 </script>
 

@@ -21,25 +21,12 @@
 /// THE SOFTWARE.
 ///
 
-import { fileURLToPath } from "node:url";
+import type { App } from "vue";
 
-import { configDefaults, defineConfig, mergeConfig } from "vitest/config";
+import router from "../router";
+import pinia from "./pinia";
+import vuetify from "./vuetify";
 
-import viteConfig from "./vite.config";
-
-export default mergeConfig(
-    viteConfig,
-    defineConfig({
-        test: {
-            globals: true,
-            environment: "jsdom",
-            exclude: [...configDefaults.exclude, "e2e/*"],
-            root: fileURLToPath(new URL("./", import.meta.url)),
-            server: {
-                deps: {
-                    inline: ["vuetify"],
-                },
-            },
-        },
-    })
-);
+export function registerPlugins(app: App) {
+    app.use(vuetify).use(router).use(pinia);
+}
