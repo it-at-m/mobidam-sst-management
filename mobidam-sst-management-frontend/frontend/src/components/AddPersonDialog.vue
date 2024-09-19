@@ -112,7 +112,7 @@
                                         label="Gültig bis"
                                         readonly
                                         variant="outlined"
-                                        :rules="textInputRules"
+                                        clearable
                                         v-bind="props"
                                         @click="gueltigBisMenu = true"
                                     ></v-text-field>
