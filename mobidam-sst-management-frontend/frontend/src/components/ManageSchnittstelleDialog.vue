@@ -150,6 +150,7 @@ import Zuordnung from "@/types/Zuordnung";
 import ZuordnungService from "@/api/ZuordnungService";
 import SchnittstelleRequest from "@/types/SchnittstelleRequest";
 import type { VForm } from "vuetify/components";
+import HealthService from "@/api/HealthService";
 
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
@@ -224,7 +225,13 @@ function updateSchnittstelle() {
         for (const zuordnung of mutableZuordnungen.value) {
             if (!dialogProps.zuordnungen.includes(zuordnung)) {
                 zuordnung.schnittstelle = dialogProps.schnittstelle.id;
-                await ZuordnungService.create(zuordnung);
+                try {
+                    await ZuordnungService.create(zuordnung);
+                } catch (error) {
+                    HealthService.checkHealth().catch((error) => {
+                        snackbarStore.showMessage(error);
+                    });
+                }
             }
         }
         for (const toDelete of dialogProps.zuordnungen) {
