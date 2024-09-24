@@ -36,7 +36,7 @@
         </h1>
         <br />
         <v-row>
-            <v-tooltip location="left">
+            <v-tooltip location="top">
                 <template #activator="{ props }">
                     <v-col
                         cols="2"
@@ -48,9 +48,13 @@
                 </template>
                 Anlagedatum
             </v-tooltip>
-            <v-tooltip location="left">
+            <v-tooltip location="top">
                 <template #activator="{ props }">
-                    <v-col v-if="schnittstelle.aenderungsdatum">
+                    <v-col
+                        v-if="schnittstelle.aenderungsdatum"
+                        cols="2"
+                        v-bind="props"
+                    >
                         <v-icon>mdi-calendar-edit</v-icon>
                         {{ schnittstelle.aenderungsdatum }}
                     </v-col>
@@ -66,22 +70,29 @@
             </v-tooltip>
         </v-row>
         <v-row>
-            <v-col
-                v-if="schnittstelle.status"
-                cols="2"
-            >
-                <v-icon
-                    v-if="schnittstelle.status == 'AKTIVIERT'"
-                    color="green"
-                    >mdi-check</v-icon
-                >
-                <v-icon
-                    v-else
-                    color="red"
-                    >mdi-window-close</v-icon
-                >
-                {{ schnittstelle.status }}
-            </v-col>
+            <v-tooltip location="top">
+                <template #activator="{ props }">
+                    <v-col
+                        v-if="schnittstelle.status"
+                        cols="2"
+                        v-bind="props"
+                    >
+                        <v-icon
+                            v-if="schnittstelle.status == 'AKTIVIERT'"
+                            color="green"
+                            >mdi-check</v-icon
+                        >
+                        <v-icon
+                            v-else
+                            color="red"
+                            v-bind="props"
+                            >mdi-window-close</v-icon
+                        >
+                        {{ schnittstelle.status }}
+                    </v-col>
+                </template>
+                Schnittstellen Status
+            </v-tooltip>
             <v-col>
                 <v-textarea
                     v-model="schnittstelle.begruendung"
@@ -106,26 +117,66 @@
                 :key="zuordnung.id"
             >
                 <v-row>
-                    <v-col cols="2">
-                        <v-icon>mdi-account</v-icon>
-                        {{ zuordnung.benutzerkennung }}
-                    </v-col>
-                    <v-col cols="2">
-                        <v-icon>mdi-home</v-icon>
-                        {{ zuordnung.fachbereich }}</v-col
-                    >
-                    <v-col cols="2">
-                        <v-icon>mdi-email</v-icon>
-                        {{ zuordnung.funktionsadresse }}</v-col
-                    >
-                    <v-col cols="2">
-                        <v-icon>mdi-calendar-start</v-icon>
-                        {{ zuordnung.gueltigAb }}
-                    </v-col>
-                    <v-col cols="2">
-                        <v-icon>mdi-calendar-end</v-icon>
-                        {{ zuordnung.gueltigBis }}
-                    </v-col>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-account</v-icon>
+                                {{ zuordnung.benutzerkennung }}
+                            </v-col>
+                        </template>
+                        Benutzerkennung
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-home</v-icon>
+                                {{ zuordnung.fachbereich }}</v-col
+                            >
+                        </template>
+                        Fachbereich
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-email</v-icon>
+                                {{ zuordnung.funktionsadresse }}</v-col
+                            >
+                        </template>
+                        Gruppenpostfach
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-calendar-start</v-icon>
+                                {{ zuordnung.gueltigAb }}
+                            </v-col>
+                        </template>
+                        Gültig Ab
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-calendar-end</v-icon>
+                                {{ zuordnung.gueltigBis }}
+                            </v-col>
+                        </template>
+                        Gültig Bis
+                    </v-tooltip>
                 </v-row>
             </v-list-item>
         </v-list>

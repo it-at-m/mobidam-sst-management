@@ -61,12 +61,13 @@
                     <v-text-field
                         ref="address"
                         v-model="zuordnung.funktionsadresse"
-                        label="Funktionsadresse"
+                        label="EMail"
                         hint="Welchem Gruppenpostfach gehört diese Person an?"
+                        placeholder="[Ändere mich]@muenchen.de"
                         :counter="textMaxLength"
                         :maxlength="textMaxLength"
                         :minlength="textMinLength"
-                        :rules="textInputRules"
+                        :rules="emailInputRules"
                     ></v-text-field>
                     &nbsp;
                     <v-row>
@@ -114,6 +115,13 @@
                                         variant="outlined"
                                         clearable
                                         v-bind="props"
+                                        :rules="[
+                                            isGueltigAbRecentGueltigBis(
+                                                zuordnung.gueltigAb,
+                                                zuordnung.gueltigBis,
+                                                'Datum ab muss <= Datum bis.'
+                                            ),
+                                        ]"
                                         @click="gueltigBisMenu = true"
                                     ></v-text-field>
                                 </template>
@@ -124,7 +132,7 @@
                                         color="primary"
                                         header-color="primary"
                                         :min="today"
-                                        @update:model-value="updateGueltiBis"
+                                        @update:model-value="updateGueltigBis"
                                     >
                                     </v-date-picker>
                                 </v-locale-provider>
@@ -170,6 +178,10 @@ const textInputRules = [
             " Zeichen lang sein."
     ),
 ];
+const emailInputRules = textInputRules.concat([
+    validationRules.isValidEmail("Kein gültiges EMail Format."),
+]);
+
 const gueltigBisMenu = ref(false);
 const gueltigBis = ref(new Date());
 const gueltigAbMenu = ref(false);
@@ -196,10 +208,35 @@ const form = ref<VForm>();
 async function saveTask() {
     // eslint-disable-next-line no-unsafe-optional-chaining
     const valid = (await form.value?.validate())?.valid;
-    if (valid) {
-        emit("zuordnung-saved", zuordnung.value);
-        closeDialog();
+    {
+        if (valid) {
+            if (
+                isGueltigAbRecentGueltigBis(
+                    zuordnung.value.gueltigAb,
+                    zuordnung.value.gueltigBis
+                )
+            ) {
+                emit("zuordnung-saved", zuordnung.value);
+                closeDialog();
+            }
+        }
     }
+}
+
+function isGueltigAbRecentGueltigBis(
+    fromDate: string,
+    toDate: string,
+    message: string
+) {
+    if (!toDate && !fromDate) {
+        return true;
+    }
+    if (!toDate && fromDate) {
+        return true;
+    }
+    const to = new Date(toDate);
+    const from = new Date(fromDate);
+    return from <= to || message;
 }
 
 function closeDialog() {
@@ -209,7 +246,7 @@ function closeDialog() {
     form.value?.reset();
 }
 
-function updateGueltiBis(date: Date) {
+function updateGueltigBis(date: Date) {
     gueltigBisMenu.value = false;
     zuordnung.value.gueltigBis = formatDate(date.toLocaleDateString());
 }

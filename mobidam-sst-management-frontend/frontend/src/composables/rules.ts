@@ -37,9 +37,16 @@ export function useRules() {
             (value && value.trim() != "") || message;
     }
 
+    function isValidEmail(message = "error") {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return (value: string | null | undefined) =>
+            (value && emailPattern.test(value.trim())) || message;
+    }
+
     return {
         maxLengthRule,
         notEmptyDateRule,
         notEmptyRule,
+        isValidEmail,
     };
 }
