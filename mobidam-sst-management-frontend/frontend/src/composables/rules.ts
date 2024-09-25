@@ -43,10 +43,21 @@ export function useRules() {
             (value && emailPattern.test(value.trim())) || message;
     }
 
+    function isExpiredGueltigBis(toDate:string) {
+        if (!toDate) {
+            return false;
+        }
+        const today = new Date();
+        const to = new Date(toDate);
+        return to < today ;
+    }
+
     return {
         maxLengthRule,
         notEmptyDateRule,
         notEmptyRule,
         isValidEmail,
+        isExpiredGueltigBis,
+
     };
 }

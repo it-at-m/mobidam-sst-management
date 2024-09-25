@@ -36,38 +36,28 @@
         </h1>
         <br />
         <v-row>
-            <v-tooltip location="top">
-                <template #activator="{ props }">
-                    <v-col
-                        cols="2"
-                        v-bind="props"
-                    >
-                        <v-icon>mdi-calendar-plus</v-icon>
-                        {{ schnittstelle.anlagedatum }}
-                    </v-col>
-                </template>
-                Anlagedatum
-            </v-tooltip>
-            <v-tooltip location="top">
-                <template #activator="{ props }">
-                    <v-col
-                        v-if="schnittstelle.aenderungsdatum"
-                        cols="2"
-                        v-bind="props"
-                    >
-                        <v-icon>mdi-calendar-edit</v-icon>
-                        {{ schnittstelle.aenderungsdatum }}
-                    </v-col>
-                    <v-col
-                        v-else
-                        v-bind="props"
-                    >
-                        <v-icon>mdi-calendar-edit</v-icon>
-                        -
-                    </v-col>
-                </template>
-                Änderungsdatum
-            </v-tooltip>
+            <v-col
+                cols="2"
+            >
+              <v-text-field
+                  v-model="schnittstelle.anlagedatum"
+                  label="Anlagedatum"
+                  variant="plain"
+                  readonly
+              >
+              </v-text-field>
+            </v-col>
+          <v-col
+              cols="2"
+          >
+            <v-text-field
+                v-model="schnittstelle.aenderungsdatum"
+                label="Änderungsdatum"
+                variant="plain"
+                readonly
+            >
+            </v-text-field>
+          </v-col>
         </v-row>
         <v-row>
             <v-tooltip location="top">
@@ -172,6 +162,7 @@
                             <v-col
                                 cols="2"
                                 v-bind="props"
+                                v-bind:style="[validationRules.isExpiredGueltigBis(zuordnung.gueltigBis) ? {color: 'red'} : {}]"
                             >
                                 <v-icon>mdi-calendar-end</v-icon>
                                 {{ zuordnung.gueltigBis }}
@@ -217,11 +208,13 @@ import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 import router from "@/router";
+import {useRules} from "@/composables/rules";
 
 const snackbarStore = useSnackbarStore();
 const schnittstelleID = router.currentRoute.value.params.id as string;
 const zuordnungen = ref<Zuordnung[]>([]);
 const showManageSchnittstelleDialog = ref(false);
+const validationRules = useRules();
 
 const schnittstelle = ref<Schnittstelle>({
     name: "",
