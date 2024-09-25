@@ -49,7 +49,7 @@ export function useRules() {
         }
         const today = new Date();
         const to = new Date(toDate);
-        return to < today ;
+        return to < today;
     }
 
     return {
