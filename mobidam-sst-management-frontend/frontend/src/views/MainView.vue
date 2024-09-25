@@ -61,7 +61,7 @@
                     <v-tooltip location="top">
                         <template #activator="{ props }">
                             <v-col
-                                cols="2"
+                                cols="3" md="3"
                                 v-bind="props"
                             >
                                 {{ schnittstelle.name }}

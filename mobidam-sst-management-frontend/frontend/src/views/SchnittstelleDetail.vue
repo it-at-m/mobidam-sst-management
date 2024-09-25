@@ -120,11 +120,12 @@
                     <v-tooltip location="top">
                         <template #activator="{ props }">
                             <v-col
-                                cols="2"
+                                cols_="3" md="3" sm="3"
                                 v-bind="props"
                             >
-                                <v-icon>mdi-account</v-icon>
-                                {{ zuordnung.benutzerkennung }}
+                                <v-icon
+                                >mdi-account</v-icon>
+                              {{ zuordnung.benutzerkennung }}
                             </v-col>
                         </template>
                         Benutzerkennung
@@ -135,7 +136,8 @@
                                 cols="2"
                                 v-bind="props"
                             >
-                                <v-icon>mdi-home</v-icon>
+                                <v-icon
+                                >mdi-home</v-icon>
                                 {{ zuordnung.fachbereich }}</v-col
                             >
                         </template>
@@ -144,8 +146,8 @@
                     <v-tooltip location="top">
                         <template #activator="{ props }">
                             <v-col
-                                cols="2"
-                                v-bind="props"
+                                cols="3" md="3" sm="3"
+                                 v-bind="props"
                             >
                                 <v-icon>mdi-email</v-icon>
                                 {{ zuordnung.funktionsadresse }}</v-col
@@ -197,6 +199,10 @@
             @schnittstelle-saved="getSchnittstelle"
             @update-exited="reload"
         ></manage-schnittstelle-dialog>
+        <v-divider class="divider"></v-divider>
+        <v-card-actions>
+            <v-btn @click="goBack">Zurück</v-btn>
+        </v-card-actions>
     </v-container>
 </template>
 
@@ -245,6 +251,10 @@ function getSchnittstelle() {
             getZuordnungen();
         }
     );
+}
+
+function goBack() {
+    router.push("/");
 }
 
 function reload() {

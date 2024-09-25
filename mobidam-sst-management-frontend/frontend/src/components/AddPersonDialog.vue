@@ -142,7 +142,7 @@
                     &nbsp;
                     <v-divider class="divider"></v-divider>
                     <v-card-actions>
-                        <v-btn @click="closeDialog">Schließen</v-btn>
+                        <v-btn @click="closeDialog">Abbrechen</v-btn>
                         <v-spacer></v-spacer>
                         <v-btn
                             class="text-white"
