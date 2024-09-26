@@ -107,7 +107,14 @@
                                 v-for="zuordnung in mutableZuordnungen"
                                 :key="zuordnung.benutzerkennung"
                                 closable
-                                v-bind:style="['margin-right: 1%', validationRules.isExpiredGueltigBis(zuordnung.gueltigBis) ? {color: 'red'} : {}]"
+                                :style="[
+                                    'margin-right: 1%',
+                                    validationRules.isExpiredGueltigBis(
+                                        zuordnung.gueltigBis
+                                    )
+                                        ? { color: 'red' }
+                                        : {},
+                                ]"
                                 @click:close="removeZuordnung(zuordnung)"
                             >
                                 {{ zuordnung.benutzerkennung }}
@@ -151,7 +158,9 @@ import ZuordnungService from "@/api/ZuordnungService";
 import SchnittstelleRequest from "@/types/SchnittstelleRequest";
 import type { VForm } from "vuetify/components";
 import HealthService from "@/api/HealthService";
+import { useSnackbarStore } from "@/stores/snackbar";
 
+const snackbarStore = useSnackbarStore();
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
 const textInputRules = [

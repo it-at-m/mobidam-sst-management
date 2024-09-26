@@ -116,7 +116,7 @@
                                         clearable
                                         v-bind="props"
                                         :rules="[
-                                            isGueltigAbRecentGueltigBis(
+                                            isGueltigAbBeforeGueltigBis(
                                                 zuordnung.gueltigAb,
                                                 zuordnung.gueltigBis,
                                                 'Datum ab muss <= Datum bis.'
@@ -211,9 +211,10 @@ async function saveTask() {
     {
         if (valid) {
             if (
-                isGueltigAbRecentGueltigBis(
+                isGueltigAbBeforeGueltigBis(
                     zuordnung.value.gueltigAb,
-                    zuordnung.value.gueltigBis
+                    zuordnung.value.gueltigBis,
+                    "Datum ab muss <= Datum bis."
                 )
             ) {
                 emit("zuordnung-saved", zuordnung.value);
@@ -223,9 +224,9 @@ async function saveTask() {
     }
 }
 
-function isGueltigAbRecentGueltigBis(
+function isGueltigAbBeforeGueltigBis(
     fromDate: string,
-    toDate: string,
+    toDate: string | number | Date | undefined,
     message: string
 ) {
     if (!toDate && !fromDate) {
@@ -233,10 +234,11 @@ function isGueltigAbRecentGueltigBis(
     }
     if (!toDate && fromDate) {
         return true;
+    } else {
+        const to = new Date(toDate ?? "");
+        const from = new Date(fromDate);
+        return from <= to || message;
     }
-    const to = new Date(toDate);
-    const from = new Date(fromDate);
-    return from <= to || message;
 }
 
 function closeDialog() {

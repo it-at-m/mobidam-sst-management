@@ -36,28 +36,24 @@
         </h1>
         <br />
         <v-row>
-            <v-col
-                cols="2"
-            >
-              <v-text-field
-                  v-model="schnittstelle.anlagedatum"
-                  label="Anlagedatum"
-                  variant="plain"
-                  readonly
-              >
-              </v-text-field>
+            <v-col cols="2">
+                <v-text-field
+                    v-model="schnittstelle.anlagedatum"
+                    label="Anlagedatum"
+                    variant="plain"
+                    readonly
+                >
+                </v-text-field>
             </v-col>
-          <v-col
-              cols="2"
-          >
-            <v-text-field
-                v-model="schnittstelle.aenderungsdatum"
-                label="Änderungsdatum"
-                variant="plain"
-                readonly
-            >
-            </v-text-field>
-          </v-col>
+            <v-col cols="2">
+                <v-text-field
+                    v-model="schnittstelle.aenderungsdatum"
+                    label="Änderungsdatum"
+                    variant="plain"
+                    readonly
+                >
+                </v-text-field>
+            </v-col>
         </v-row>
         <v-row>
             <v-tooltip location="top">
@@ -110,12 +106,13 @@
                     <v-tooltip location="top">
                         <template #activator="{ props }">
                             <v-col
-                                cols_="3" md="3" sm="3"
+                                class="cols_"
+                                md="3"
+                                sm="3"
                                 v-bind="props"
                             >
-                                <v-icon
-                                >mdi-account</v-icon>
-                              {{ zuordnung.benutzerkennung }}
+                                <v-icon>mdi-account</v-icon>
+                                {{ zuordnung.benutzerkennung }}
                             </v-col>
                         </template>
                         Benutzerkennung
@@ -126,8 +123,7 @@
                                 cols="2"
                                 v-bind="props"
                             >
-                                <v-icon
-                                >mdi-home</v-icon>
+                                <v-icon>mdi-home</v-icon>
                                 {{ zuordnung.fachbereich }}</v-col
                             >
                         </template>
@@ -136,8 +132,10 @@
                     <v-tooltip location="top">
                         <template #activator="{ props }">
                             <v-col
-                                cols="3" md="3" sm="3"
-                                 v-bind="props"
+                                cols="3"
+                                md="3"
+                                sm="3"
+                                v-bind="props"
                             >
                                 <v-icon>mdi-email</v-icon>
                                 {{ zuordnung.funktionsadresse }}</v-col
@@ -162,7 +160,13 @@
                             <v-col
                                 cols="2"
                                 v-bind="props"
-                                v-bind:style="[validationRules.isExpiredGueltigBis(zuordnung.gueltigBis) ? {color: 'red'} : {}]"
+                                :style="[
+                                    validationRules.isExpiredGueltigBis(
+                                        zuordnung.gueltigBis
+                                    )
+                                        ? { color: 'red' }
+                                        : {},
+                                ]"
                             >
                                 <v-icon>mdi-calendar-end</v-icon>
                                 {{ zuordnung.gueltigBis }}
@@ -208,7 +212,7 @@ import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 import router from "@/router";
-import {useRules} from "@/composables/rules";
+import { useRules } from "@/composables/rules";
 
 const snackbarStore = useSnackbarStore();
 const schnittstelleID = router.currentRoute.value.params.id as string;
