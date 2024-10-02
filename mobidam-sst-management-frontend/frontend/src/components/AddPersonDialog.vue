@@ -42,7 +42,7 @@
                     <v-text-field
                         ref="person"
                         v-model="zuordnung.benutzerkennung"
-                        label="Person angeben"
+                        label="Benutzerkennung"
                         hint="Welche Person soll der
                     Schnittstelle zugewiesen werden?"
                         :rules="textInputRules"
@@ -61,7 +61,7 @@
                     <v-text-field
                         ref="address"
                         v-model="zuordnung.funktionsadresse"
-                        label="EMail"
+                        label="Funktionspostfach"
                         hint="Welchem Gruppenpostfach gehört diese Person an?"
                         placeholder="[Ändere mich]@muenchen.de"
                         :counter="textMaxLength"
@@ -116,10 +116,10 @@
                                         clearable
                                         v-bind="props"
                                         :rules="[
-                                            isGueltigAbBeforeGueltigBis(
+                                            validationRules.isGueltigAbBeforeGueltigBis(
                                                 zuordnung.gueltigAb,
                                                 zuordnung.gueltigBis,
-                                                'Datum ab muss <= Datum bis.'
+                                                'Gültig-ab muss kleiner gleich Gültig-bis sein.'
                                             ),
                                         ]"
                                         @click="gueltigBisMenu = true"
@@ -208,36 +208,9 @@ const form = ref<VForm>();
 async function saveTask() {
     // eslint-disable-next-line no-unsafe-optional-chaining
     const valid = (await form.value?.validate())?.valid;
-    {
-        if (valid) {
-            if (
-                isGueltigAbBeforeGueltigBis(
-                    zuordnung.value.gueltigAb,
-                    zuordnung.value.gueltigBis,
-                    "Datum ab muss <= Datum bis."
-                )
-            ) {
-                emit("zuordnung-saved", zuordnung.value);
-                closeDialog();
-            }
-        }
-    }
-}
-
-function isGueltigAbBeforeGueltigBis(
-    fromDate: string,
-    toDate: string | number | Date | undefined,
-    message: string
-) {
-    if (!toDate && !fromDate) {
-        return true;
-    }
-    if (!toDate && fromDate) {
-        return true;
-    } else {
-        const to = new Date(toDate ?? "");
-        const from = new Date(fromDate);
-        return from <= to || message;
+    if (valid) {
+        emit("zuordnung-saved", zuordnung.value);
+        closeDialog();
     }
 }
 

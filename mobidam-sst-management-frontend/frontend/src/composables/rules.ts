@@ -27,11 +27,6 @@ export function useRules() {
             (value && value.length <= length) || message;
     }
 
-    function notEmptyDateRule(message = "error") {
-        return (value: string | null | undefined) =>
-            (value && value.trim() != "-") || message;
-    }
-
     function notEmptyRule(message = "error") {
         return (value: string | null | undefined) =>
             (value && value.trim() != "") || message;
@@ -52,11 +47,28 @@ export function useRules() {
         return to < today;
     }
 
+    function isGueltigAbBeforeGueltigBis(
+        gueltigAb: string,
+        gueltigBis: string | number | Date | undefined,
+        message: string
+    ) {
+        if (!gueltigBis && !gueltigAb) {
+            return true;
+        }
+        if (!gueltigBis && gueltigAb) {
+            return true;
+        } else {
+            const to = new Date(gueltigBis ?? "");
+            const from = new Date(gueltigAb);
+            return from <= to || message;
+        }
+    }
+
     return {
         maxLengthRule,
-        notEmptyDateRule,
         notEmptyRule,
         isValidEmail,
         isExpiredGueltigBis,
+        isGueltigAbBeforeGueltigBis,
     };
 }

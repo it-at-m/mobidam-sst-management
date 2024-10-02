@@ -75,6 +75,7 @@ public class Zuordnung extends BaseEntity {
     @FutureOrPresent
     private LocalDate gueltigAb;
 
+    @FutureOrPresent
     private LocalDate gueltigBis;
 
 }

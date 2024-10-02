@@ -141,7 +141,7 @@
                                 {{ zuordnung.funktionsadresse }}</v-col
                             >
                         </template>
-                        Gruppenpostfach
+                      Funktionspostfach
                     </v-tooltip>
                     <v-tooltip location="top">
                         <template #activator="{ props }">
