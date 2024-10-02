@@ -62,7 +62,7 @@
                         ref="address"
                         v-model="zuordnung.funktionsadresse"
                         label="Funktionspostfach"
-                        hint="Welchem Gruppenpostfach gehört diese Person an?"
+                        hint="Wie lautet das Funktionspostfach?"
                         placeholder="[Ändere mich]@muenchen.de"
                         :counter="textMaxLength"
                         :maxlength="textMaxLength"

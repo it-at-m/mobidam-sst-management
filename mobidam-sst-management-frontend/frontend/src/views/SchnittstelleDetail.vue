@@ -141,7 +141,7 @@
                                 {{ zuordnung.funktionsadresse }}</v-col
                             >
                         </template>
-                      Funktionspostfach
+                        Funktionspostfach
                     </v-tooltip>
                     <v-tooltip location="top">
                         <template #activator="{ props }">
@@ -161,7 +161,7 @@
                                 cols="2"
                                 v-bind="props"
                                 :style="[
-                                    validationRules.isExpiredGueltigBis(
+                                    validationRules.isExpired(
                                         zuordnung.gueltigBis
                                     )
                                         ? { color: 'red' }

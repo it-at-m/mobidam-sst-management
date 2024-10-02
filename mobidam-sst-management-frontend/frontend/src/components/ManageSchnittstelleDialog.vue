@@ -109,7 +109,7 @@
                                 closable
                                 :style="[
                                     'margin-right: 1%',
-                                    validationRules.isExpiredGueltigBis(
+                                    validationRules.isExpired(
                                         zuordnung.gueltigBis
                                     )
                                         ? { color: 'red' }
@@ -157,10 +157,7 @@ import Zuordnung from "@/types/Zuordnung";
 import ZuordnungService from "@/api/ZuordnungService";
 import SchnittstelleRequest from "@/types/SchnittstelleRequest";
 import type { VForm } from "vuetify/components";
-import HealthService from "@/api/HealthService";
-import { useSnackbarStore } from "@/stores/snackbar";
 
-const snackbarStore = useSnackbarStore();
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
 const textInputRules = [
@@ -234,13 +231,7 @@ function updateSchnittstelle() {
         for (const zuordnung of mutableZuordnungen.value) {
             if (!dialogProps.zuordnungen.includes(zuordnung)) {
                 zuordnung.schnittstelle = dialogProps.schnittstelle.id;
-                try {
-                    await ZuordnungService.create(zuordnung);
-                } catch (error) {
-                    HealthService.checkHealth().catch((error) => {
-                        snackbarStore.showMessage(error);
-                    });
-                }
+                await ZuordnungService.create(zuordnung);
             }
         }
         for (const toDelete of dialogProps.zuordnungen) {

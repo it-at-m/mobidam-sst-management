@@ -38,7 +38,7 @@ export function useRules() {
             (value && emailPattern.test(value.trim())) || message;
     }
 
-    function isExpiredGueltigBis(toDate: string | undefined) {
+    function isExpired(toDate: string | undefined) {
         if (!toDate) {
             return false;
         }
@@ -68,7 +68,7 @@ export function useRules() {
         maxLengthRule,
         notEmptyRule,
         isValidEmail,
-        isExpiredGueltigBis,
+        isExpired,
         isGueltigAbBeforeGueltigBis,
     };
 }
