@@ -107,7 +107,14 @@
                                 v-for="zuordnung in mutableZuordnungen"
                                 :key="zuordnung.benutzerkennung"
                                 closable
-                                style="margin-right: 1%"
+                                :style="[
+                                    'margin-right: 1%',
+                                    validationRules.isExpired(
+                                        zuordnung.gueltigBis
+                                    )
+                                        ? { color: 'red' }
+                                        : {},
+                                ]"
                                 @click:close="removeZuordnung(zuordnung)"
                             >
                                 {{ zuordnung.benutzerkennung }}

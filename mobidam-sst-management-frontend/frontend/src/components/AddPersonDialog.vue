@@ -42,7 +42,7 @@
                     <v-text-field
                         ref="person"
                         v-model="zuordnung.benutzerkennung"
-                        label="Person angeben"
+                        label="Benutzerkennung"
                         hint="Welche Person soll der
                     Schnittstelle zugewiesen werden?"
                         :rules="textInputRules"
@@ -61,12 +61,13 @@
                     <v-text-field
                         ref="address"
                         v-model="zuordnung.funktionsadresse"
-                        label="Funktionsadresse"
-                        hint="Welchem Gruppenpostfach gehört diese Person an?"
+                        label="Funktionspostfach"
+                        hint="Wie lautet das Funktionspostfach?"
+                        placeholder="[Ändere mich]@muenchen.de"
                         :counter="textMaxLength"
                         :maxlength="textMaxLength"
                         :minlength="textMinLength"
-                        :rules="textInputRules"
+                        :rules="emailInputRules"
                     ></v-text-field>
                     &nbsp;
                     <v-row>
@@ -112,8 +113,15 @@
                                         label="Gültig bis"
                                         readonly
                                         variant="outlined"
-                                        :rules="textInputRules"
+                                        clearable
                                         v-bind="props"
+                                        :rules="[
+                                            validationRules.isGueltigAbBeforeGueltigBis(
+                                                zuordnung.gueltigAb,
+                                                zuordnung.gueltigBis,
+                                                'Gültig-ab muss kleiner gleich Gültig-bis sein.'
+                                            ),
+                                        ]"
                                         @click="gueltigBisMenu = true"
                                     ></v-text-field>
                                 </template>
@@ -124,7 +132,7 @@
                                         color="primary"
                                         header-color="primary"
                                         :min="today"
-                                        @update:model-value="updateGueltiBis"
+                                        @update:model-value="updateGueltigBis"
                                     >
                                     </v-date-picker>
                                 </v-locale-provider>
@@ -134,7 +142,7 @@
                     &nbsp;
                     <v-divider class="divider"></v-divider>
                     <v-card-actions>
-                        <v-btn @click="closeDialog">Schließen</v-btn>
+                        <v-btn @click="closeDialog">Abbrechen</v-btn>
                         <v-spacer></v-spacer>
                         <v-btn
                             class="text-white"
@@ -170,6 +178,10 @@ const textInputRules = [
             " Zeichen lang sein."
     ),
 ];
+const emailInputRules = textInputRules.concat([
+    validationRules.isValidEmail("Kein gültiges EMail Format."),
+]);
+
 const gueltigBisMenu = ref(false);
 const gueltigBis = ref(new Date());
 const gueltigAbMenu = ref(false);
@@ -209,7 +221,7 @@ function closeDialog() {
     form.value?.reset();
 }
 
-function updateGueltiBis(date: Date) {
+function updateGueltigBis(date: Date) {
     gueltigBisMenu.value = false;
     zuordnung.value.gueltigBis = formatDate(date.toLocaleDateString());
 }

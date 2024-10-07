@@ -36,52 +36,49 @@
         </h1>
         <br />
         <v-row>
-            <v-tooltip location="left">
+            <v-col cols="2">
+                <v-text-field
+                    v-model="schnittstelle.anlagedatum"
+                    label="Anlagedatum"
+                    variant="plain"
+                    readonly
+                >
+                </v-text-field>
+            </v-col>
+            <v-col cols="2">
+                <v-text-field
+                    v-model="schnittstelle.aenderungsdatum"
+                    label="Änderungsdatum"
+                    variant="plain"
+                    readonly
+                >
+                </v-text-field>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-tooltip location="top">
                 <template #activator="{ props }">
                     <v-col
+                        v-if="schnittstelle.status"
                         cols="2"
                         v-bind="props"
                     >
-                        <v-icon>mdi-calendar-plus</v-icon>
-                        {{ schnittstelle.anlagedatum }}
+                        <v-icon
+                            v-if="schnittstelle.status == 'AKTIVIERT'"
+                            color="green"
+                            >mdi-check</v-icon
+                        >
+                        <v-icon
+                            v-else
+                            color="red"
+                            v-bind="props"
+                            >mdi-window-close</v-icon
+                        >
+                        {{ schnittstelle.status }}
                     </v-col>
                 </template>
-                Anlagedatum
+                Schnittstellen Status
             </v-tooltip>
-            <v-tooltip location="left">
-                <template #activator="{ props }">
-                    <v-col v-if="schnittstelle.aenderungsdatum">
-                        <v-icon>mdi-calendar-edit</v-icon>
-                        {{ schnittstelle.aenderungsdatum }}
-                    </v-col>
-                    <v-col
-                        v-else
-                        v-bind="props"
-                    >
-                        <v-icon>mdi-calendar-edit</v-icon>
-                        -
-                    </v-col>
-                </template>
-                Änderungsdatum
-            </v-tooltip>
-        </v-row>
-        <v-row>
-            <v-col
-                v-if="schnittstelle.status"
-                cols="2"
-            >
-                <v-icon
-                    v-if="schnittstelle.status == 'AKTIVIERT'"
-                    color="green"
-                    >mdi-check</v-icon
-                >
-                <v-icon
-                    v-else
-                    color="red"
-                    >mdi-window-close</v-icon
-                >
-                {{ schnittstelle.status }}
-            </v-col>
             <v-col>
                 <v-textarea
                     v-model="schnittstelle.begruendung"
@@ -106,26 +103,77 @@
                 :key="zuordnung.id"
             >
                 <v-row>
-                    <v-col cols="2">
-                        <v-icon>mdi-account</v-icon>
-                        {{ zuordnung.benutzerkennung }}
-                    </v-col>
-                    <v-col cols="2">
-                        <v-icon>mdi-home</v-icon>
-                        {{ zuordnung.fachbereich }}</v-col
-                    >
-                    <v-col cols="2">
-                        <v-icon>mdi-email</v-icon>
-                        {{ zuordnung.funktionsadresse }}</v-col
-                    >
-                    <v-col cols="2">
-                        <v-icon>mdi-calendar-start</v-icon>
-                        {{ zuordnung.gueltigAb }}
-                    </v-col>
-                    <v-col cols="2">
-                        <v-icon>mdi-calendar-end</v-icon>
-                        {{ zuordnung.gueltigBis }}
-                    </v-col>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                class="cols_"
+                                md="3"
+                                sm="3"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-account</v-icon>
+                                {{ zuordnung.benutzerkennung }}
+                            </v-col>
+                        </template>
+                        Benutzerkennung
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-home</v-icon>
+                                {{ zuordnung.fachbereich }}</v-col
+                            >
+                        </template>
+                        Fachbereich
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="3"
+                                md="3"
+                                sm="3"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-email</v-icon>
+                                {{ zuordnung.funktionsadresse }}</v-col
+                            >
+                        </template>
+                        Funktionspostfach
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
+                                v-bind="props"
+                            >
+                                <v-icon>mdi-calendar-start</v-icon>
+                                {{ zuordnung.gueltigAb }}
+                            </v-col>
+                        </template>
+                        Gültig Ab
+                    </v-tooltip>
+                    <v-tooltip location="top">
+                        <template #activator="{ props }">
+                            <v-col
+                                cols="2"
+                                v-bind="props"
+                                :style="[
+                                    validationRules.isExpired(
+                                        zuordnung.gueltigBis
+                                    )
+                                        ? { color: 'red' }
+                                        : {},
+                                ]"
+                            >
+                                <v-icon>mdi-calendar-end</v-icon>
+                                {{ zuordnung.gueltigBis }}
+                            </v-col>
+                        </template>
+                        Gültig Bis
+                    </v-tooltip>
                 </v-row>
             </v-list-item>
         </v-list>
@@ -146,6 +194,10 @@
             @schnittstelle-saved="getSchnittstelle"
             @update-exited="reload"
         ></manage-schnittstelle-dialog>
+        <v-divider class="divider"></v-divider>
+        <v-card-actions>
+            <v-btn @click="goBack">Zurück</v-btn>
+        </v-card-actions>
     </v-container>
 </template>
 
@@ -160,11 +212,13 @@ import SchnittstelleService from "@/api/SchnittstelleService";
 import Schnittstelle from "@/types/Schnittstelle";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 import router from "@/router";
+import { useRules } from "@/composables/rules";
 
 const snackbarStore = useSnackbarStore();
 const schnittstelleID = router.currentRoute.value.params.id as string;
 const zuordnungen = ref<Zuordnung[]>([]);
 const showManageSchnittstelleDialog = ref(false);
+const validationRules = useRules();
 
 const schnittstelle = ref<Schnittstelle>({
     name: "",
@@ -194,6 +248,10 @@ function getSchnittstelle() {
             getZuordnungen();
         }
     );
+}
+
+function goBack() {
+    router.push("/");
 }
 
 function reload() {
