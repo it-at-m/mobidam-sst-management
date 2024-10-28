@@ -10,35 +10,10 @@ spring:
   mvc:
     log-request-details: on
 
-  # security config
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: https://ssodev.muenchen.de/auth/realms/${realm}
-        registration:
-          keycloak:
-            client-id: mobidam-sst-management
-            client-secret: 4t5LRitOoNxk7OqyDiTYKyYNPtNcv8Ma
-      resourceserver:
-        jwt:
-          jwk-set-uri: https://ssodev.muenchen.de/auth/realms/${realm}/protocol/openid-connect/certs
-
-      resource:
-        user-info-uri: https://ssodev.muenchen.de/auth/realms/${realm}/protocol/openid-connect/userinfo
-
-realm: mobidam
-
 app:
   gateway:
     routing:
       backend:
         uri: http://localhost:39146/
       sso:
-        uri: https://ssodev.muenchen.de
-
-    security:
-      keycloak:
-        realm: ${realm}
-
+        uri: http://kubernetes.docker.internal:8100/
