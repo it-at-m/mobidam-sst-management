@@ -1,4 +1,9 @@
 # Release-Notes
+
+## Sprint 17 (23.10.2024 - 12.11.2024)
+### Verbessert
+- SSO Namenskonvention umgesetzt
+
 ## Sprint 17 (10.09.2024 - 01.10.2024)
 ## Hinzugefügt
 - Vue 3 und Vuetify 3 Hebung
