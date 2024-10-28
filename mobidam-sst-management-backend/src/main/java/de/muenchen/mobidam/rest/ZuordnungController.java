@@ -53,7 +53,7 @@ public class ZuordnungController {
 
     @Operation(summary = "Generates a zuordnung")
     @PostMapping
-    @PreAuthorize("hasAuthority(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
     public ResponseEntity<?> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
         Optional<ZuordnungDTO> zuordnungDTO = zuordnungService.create(zuordnungCreateDTO);
         if (zuordnungDTO.isEmpty())
@@ -63,7 +63,7 @@ public class ZuordnungController {
 
     @Operation(summary = "Returns the list of all zuordnungen of a schnittstelle")
     @GetMapping("/bySchnittstelle/{id}")
-    @PreAuthorize("hasAuthority(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
     public ResponseEntity<Iterable<ZuordnungDTO>> getAllById(@PathVariable String id) {
         List<ZuordnungDTO> personDTOList = new ArrayList<>();
         zuordnungService.getAllById(id)
@@ -75,7 +75,7 @@ public class ZuordnungController {
 
     @Operation(summary = "Deletes the zuordnung with the given ID")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return this.zuordnungService.deleteById(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -46,14 +46,14 @@ public class SchnittstelleController {
 
     @Operation(summary = "Creates schnittstelle")
     @PostMapping
-    @PreAuthorize("hasAuthority(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
     public ResponseEntity<SchnittstelleDTO> create(@Valid @RequestBody SchnittstelleCreateDTO schnittstelleCreateDTO) {
         return new ResponseEntity<>(schnittstelleService.create(schnittstelleCreateDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Get all schnittstelle")
     @GetMapping
-    @PreAuthorize("hasAuthority(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
     public ResponseEntity<Iterable<SchnittstelleDTO>> getAll() {
         return new ResponseEntity<>(schnittstelleService.getAll(), HttpStatus.OK);
     }
@@ -70,14 +70,14 @@ public class SchnittstelleController {
 
     @Operation(summary = "Deletes the schnittstelle with the given ID")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return this.schnittstelleService.deleteById(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Operation(summary = "Updates the schnittstelle")
     @PutMapping("/update")
-    @PreAuthorize("hasAuthority(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
     public ResponseEntity<?> update(@Valid @RequestBody SchnittstelleDTO schnittstelleDTO) {
         Optional<SchnittstelleDTO> updatedSchnittstelleDTO = schnittstelleService.update(schnittstelleDTO);
         if (updatedSchnittstelleDTO.isPresent())
@@ -87,7 +87,7 @@ public class SchnittstelleController {
 
     @Operation(summary = "Get schnittstelle")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
     public ResponseEntity<SchnittstelleDTO> getSchnittstelle(@PathVariable String id) {
         Optional<SchnittstelleDTO> schnittstelle = schnittstelleService.getById(id);
         return schnittstelle.map(schnittstelleDTO -> new ResponseEntity<>(schnittstelleDTO, HttpStatus.OK))
