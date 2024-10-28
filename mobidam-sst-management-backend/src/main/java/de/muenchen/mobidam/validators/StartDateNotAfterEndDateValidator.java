@@ -62,6 +62,8 @@ public class StartDateNotAfterEndDateValidator implements ConstraintValidator<St
 
             final Method endDateGetter = o.getClass().getMethod(endDateFieldName);
             final LocalDate endDate = (LocalDate) endDateGetter.invoke(o);
+            if (startDate != null && endDate == null)
+                return true;
             if (endDate.isBefore(startDate)) {
                 throw new ValidationException(message);
             } else {

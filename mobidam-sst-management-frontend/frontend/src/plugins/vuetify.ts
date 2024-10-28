@@ -22,24 +22,22 @@
 ///
 
 import "@mdi/font/css/materialdesignicons.css";
-import "@fontsource/roboto";
-import Vue from "vue";
-import Vuetify from "vuetify/lib";
+import "vuetify/styles";
 
-Vue.use(Vuetify);
+import { createVuetify } from "vuetify";
 
-const theme = {
-    themes: {
-        light: {
-            primary: "#333333",
-            secondary: "#FFCC00",
-            accent: "#7BA4D9",
-            success: "#69BE28",
-            error: "#FF0000",
+export default createVuetify({
+    theme: {
+        themes: {
+            light: {
+                colors: {
+                    primary: "#333333",
+                    secondary: "#FFCC00",
+                    accent: "#7BA4D9",
+                    success: "#69BE28",
+                    error: "#FF0000",
+                },
+            },
         },
     },
-};
-
-export default new Vuetify({
-    theme: theme,
 });

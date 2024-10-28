@@ -25,18 +25,13 @@
 <template>
     <v-app>
         <the-snackbar />
-        <v-app-bar
-            app
-            clipped-left
-            dark
-            color="primary"
-        >
+        <v-app-bar color="primary">
             <v-col
                 cols="4"
                 class="d-flex align-center justify-start"
             >
                 <v-toolbar-title class="font-weight-bold">
-                    <span class="white--text">MobidaM</span>
+                    <span class="text-white">MobidaM</span>
                 </v-toolbar-title>
             </v-col>
             <v-row align="center">
@@ -46,10 +41,9 @@
                 >
                     <v-img
                         class="my-3"
-                        :src="require('./assets/logo.png')"
+                        src="@/assets/logo.png"
                         max-height="60"
                         max-width="100"
-                        contain
                     ></v-img>
                 </v-col>
                 <v-col
@@ -57,21 +51,21 @@
                     class="d-flex align-center justify-end"
                 >
                     <v-btn
-                        text
-                        fab
+                        variant="text"
+                        icon
                     >
-                        <v-icon class="white--text">
-                            mdi-account-circle
-                        </v-icon>
+                        <v-icon class="text-white"> mdi-account-circle </v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
         </v-app-bar>
         <v-main>
             <v-container fluid>
-                <v-fade-transition mode="out-in">
-                    <router-view />
-                </v-fade-transition>
+                <router-view v-slot="{ Component }">
+                    <v-fade-transition mode="out-in">
+                        <component :is="Component" />
+                    </v-fade-transition>
+                </router-view>
             </v-container>
         </v-main>
     </v-app>
@@ -79,33 +73,24 @@
 
 <script setup lang="ts">
 import InfoService from "@/api/InfoService";
-import { onMounted, ref, watch } from "vue";
-import { useRoute } from "vue-router/composables";
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 import { useSnackbarStore } from "@/stores/snackbar";
 import TheSnackbar from "@/components/TheSnackbar.vue";
 
-const query = ref("");
+const query = ref<string>("");
 
 const route = useRoute();
 const snackbarStore = useSnackbarStore();
 
 onMounted(() => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
-    query.value = route.params.query;
+    query.value = route.params.query as string;
     InfoService.getInfo().catch((error) => {
         snackbarStore.showMessage(error);
     });
     /* eslint-enable  @typescript-eslint/no-explicit-any */
 });
-
-watch(
-    () => route.params.query,
-    (q: string) => {
-        if (query.value !== q) {
-            query.value = q;
-        }
-    }
-);
 </script>
 
 <style>

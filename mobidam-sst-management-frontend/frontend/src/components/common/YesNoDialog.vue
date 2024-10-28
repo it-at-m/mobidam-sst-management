@@ -24,27 +24,23 @@
 -->
 <template>
     <v-dialog
-        :key="props.value"
         v-model="visible"
         persistent
         width="800"
     >
-        <template #activator="{ on }">
+        <template #activator="{ props }">
             <template v-if="props.buttontext">
-                <v-btn
-                    color="primary"
-                    v-on="on"
-                >
+                <v-btn color="primary">
                     {{ buttontext }}
                 </v-btn>
             </template>
             <template v-else-if="props.icontext">
                 <v-btn
-                    text
+                    variant="text"
                     color="primary"
-                    v-on="on"
+                    v-bind="props"
                 >
-                    <v-icon large>
+                    <v-icon size="large">
                         {{ props.icontext }}
                     </v-icon>
                 </v-btn>
@@ -52,16 +48,16 @@
         </template>
         <v-card>
             <v-card-title>
-                {{ props.dialogtitle }}
+                {{ dialogProps.dialogtitle }}
             </v-card-title>
             <v-card-text>
-                {{ props.dialogtext }}
+                {{ dialogProps.dialogtext }}
             </v-card-text>
             <v-card-actions>
                 <v-spacer />
                 <v-btn
                     id="yesnodialog-btn-no"
-                    text
+                    variant="text"
                     @click="no"
                 >
                     Nein
@@ -103,7 +99,7 @@ import { computed } from "vue";
  *    @yes="deleteSome"></yes-no-dialog>
  */
 
-const props = defineProps<{
+const dialogProps = defineProps<{
     buttontext?: string;
     icontext?: string;
     dialogtitle: string;
@@ -121,7 +117,7 @@ const emits = defineEmits<{
 }>();
 
 const visible = computed({
-    get: () => props.value,
+    get: () => dialogProps.value,
     set: (v) => emits("input", v),
 });
 

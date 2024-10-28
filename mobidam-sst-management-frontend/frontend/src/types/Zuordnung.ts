@@ -28,7 +28,7 @@ export default class Zuordnung {
         public fachbereich: string,
         public funktionsadresse: string,
         public gueltigAb: string,
-        public gueltigBis: string,
+        public gueltigBis?: string,
         public id?: string
     ) {}
 }

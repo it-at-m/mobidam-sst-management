@@ -76,7 +76,7 @@ class DatentransferControllerTest {
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
     void test_getBySchnittstelle() {
 
-        ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle(UUID.randomUUID().toString(), 0);
+        ResponseEntity<?> datentransferDTOs = datentransferController.getBySchnittstelle(UUID.randomUUID().toString(), 1);
 
         assertEquals(HttpStatus.OK, datentransferDTOs.getStatusCode());
         assertNotNull(datentransferDTOs.getBody());

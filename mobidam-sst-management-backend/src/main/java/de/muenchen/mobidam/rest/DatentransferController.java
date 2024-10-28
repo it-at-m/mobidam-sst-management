@@ -75,4 +75,11 @@ public class DatentransferController {
         return ResponseEntity.badRequest().build();
     }
 
+    @Operation(summary = "Getting the total number of Datentransfers for an existing Schnittstelle")
+    @GetMapping("/{schnittstelleId}")
+    public ResponseEntity<Integer> getNumberOfDatentransfers(@PathVariable String schnittstelleId) {
+        Optional<Integer> datentransferNumber = datentransferService.getDatentransferNumber(schnittstelleId);
+        return datentransferNumber.map(integer -> new ResponseEntity<>(integer, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

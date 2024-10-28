@@ -69,4 +69,41 @@ export default class SchnittstelleService {
                 FetchUtils.defaultResponseHandler(err);
             });
     }
+
+    public static update(instance: Schnittstelle): Promise<Schnittstelle> {
+        return fetch(
+            `${this.base}/api/schnittstelle/update`,
+            FetchUtils.getPUTConfig(instance)
+        )
+            .then((response) => {
+                useSnackbarStore().showMessage({
+                    message: "Speichern erfolgreich.",
+                    level: Levels.SUCCESS,
+                });
+                FetchUtils.defaultResponseHandler(response);
+                return response.json();
+            })
+            .catch((err) => {
+                useSnackbarStore().showMessage({
+                    message: "Speichern der Schnittstelle fehlgeschlagen.",
+                    level: Levels.ERROR,
+                });
+                FetchUtils.defaultResponseHandler(err);
+            });
+    }
+
+    public static getSchnittstelle(id: string): Promise<Schnittstelle> {
+        return fetch(
+            `${this.base}/api/schnittstelle/${id}`,
+            FetchUtils.getGETConfig()
+        ).then((response) => {
+            if (response.status != 200) {
+                FetchUtils.defaultResponseHandler(
+                    response,
+                    "Die Schnittstellen konnte nicht geladen werden."
+                );
+            }
+            return response.json();
+        });
+    }
 }

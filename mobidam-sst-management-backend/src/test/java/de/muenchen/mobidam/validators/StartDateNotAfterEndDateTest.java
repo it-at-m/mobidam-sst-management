@@ -60,7 +60,7 @@ public class StartDateNotAfterEndDateTest {
     }
 
     @Test
-    void testIsValidWithInvalidObjectThrowingExceptionInValidator() {
+    void testIsValidWithValidObjectsEndDateNull() {
         final LocalDate startDate = LocalDate.now();
         final LocalDate endDate = null;
 
@@ -68,7 +68,7 @@ public class StartDateNotAfterEndDateTest {
                 startDate,
                 endDate);
 
-        assertThrows(Exception.class, () -> validator.validate(testObject));
+        assertTrue(validator.validate(testObject).isEmpty());
     }
 
     @Test

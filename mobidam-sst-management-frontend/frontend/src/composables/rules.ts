@@ -27,19 +27,48 @@ export function useRules() {
             (value && value.length <= length) || message;
     }
 
-    function notEmptyDateRule(message = "error") {
-        return (value: string | null | undefined) =>
-            (value && value.trim() != "-") || message;
-    }
-
     function notEmptyRule(message = "error") {
         return (value: string | null | undefined) =>
             (value && value.trim() != "") || message;
     }
 
+    function isValidEmail(message = "error") {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return (value: string | null | undefined) =>
+            (value && emailPattern.test(value.trim())) || message;
+    }
+
+    function isExpired(toDate: string | undefined) {
+        if (!toDate) {
+            return false;
+        }
+        const today = new Date();
+        const to = new Date(toDate);
+        return to < today;
+    }
+
+    function isGueltigAbBeforeGueltigBis(
+        gueltigAb: string,
+        gueltigBis: string | number | Date | undefined,
+        message: string
+    ) {
+        if (!gueltigBis && !gueltigAb) {
+            return true;
+        }
+        if (!gueltigBis && gueltigAb) {
+            return true;
+        } else {
+            const to = new Date(gueltigBis ?? "");
+            const from = new Date(gueltigAb);
+            return from <= to || message;
+        }
+    }
+
     return {
         maxLengthRule,
-        notEmptyDateRule,
         notEmptyRule,
+        isValidEmail,
+        isExpired,
+        isGueltigAbBeforeGueltigBis,
     };
 }

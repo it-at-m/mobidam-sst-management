@@ -36,4 +36,6 @@ public interface DatentransferRepository extends CrudRepository<Datentransfer, U
     List<Datentransfer> findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(UUID id, Pageable pageable);
 
     Optional<Datentransfer> findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(UUID id, List<EreignisTyp> unwantedEreignisTypes);
+
+    Optional<Integer> countBySchnittstelleId(UUID id);
 }
