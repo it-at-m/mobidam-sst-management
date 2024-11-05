@@ -50,14 +50,14 @@ public class DatentransferController {
 
     @Operation(summary = "Get all Datentransfers for Schnittstelle")
     @GetMapping("/{schnittstelleId}/{page}")
-    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
 
     @Operation(summary = "Get first Datentransfer result state for Schnittstelle")
     @GetMapping("/latestResultState/{schnittstelleId}")
-    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).admin.name())")
+    @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<?> getLatestResultStateBySchnittstelle(@PathVariable String schnittstelleId) {
         Optional<DatentransferDTO> datentransferDTO = datentransferService.getLatestResultStateBySchnittstelle(schnittstelleId);
         if (datentransferDTO.isPresent())
