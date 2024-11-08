@@ -99,7 +99,8 @@
                                     "fileName" : "%file",
                                     "line" : "%line"
                                 },
-                                "message": "%message"
+                                "message": "%message",
+                                "thrown": "%thrown"
                             }
                         </pattern>
                     </pattern>
