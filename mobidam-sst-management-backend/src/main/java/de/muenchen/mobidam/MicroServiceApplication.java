@@ -22,6 +22,7 @@
  */
 package de.muenchen.mobidam;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -51,9 +52,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         }
 )
 @EnableAutoConfiguration
+@Slf4j
 public class MicroServiceApplication {
 
     public static void main(String[] args) {
+        Exception exc = new RuntimeException("myException");
+        log.error(exc.toString());
+        log.error("This is my exception: {}", exc.toString());
+        log.error("There is my exception", exc);
         SpringApplication.run(MicroServiceApplication.class, args);
     }
 

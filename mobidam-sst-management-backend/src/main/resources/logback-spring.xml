@@ -99,8 +99,8 @@
                                     "fileName" : "%file",
                                     "line" : "%line"
                                 },
-                                "message": "%message",
-                                "thrown": "%thrown"
+                                "message": "%message"
+<!--                                "exception": "%exception"-->
                             }
                         </pattern>
                     </pattern>
