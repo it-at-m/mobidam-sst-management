@@ -82,4 +82,30 @@ class ZuordnungRepositoryTest {
         assertEquals(original, persisted);
     }
 
+    @Test
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
+    void testSaveGueltigBisNull() {
+
+        // initialize
+        Zuordnung original = new Zuordnung();
+        Schnittstelle schnittstelle = new Schnittstelle();
+        schnittstelle.setName("test");
+        schnittstelle.setAnlagedatum(LocalDate.now());
+        schnittstelle.setStatus(SchnittstellenStatus.AKTIVIERT);
+        schnittstelle.setId(UUID.randomUUID());
+        original.setSchnittstelle(schnittstelle);
+        original.setBenutzerkennung(UUID.randomUUID().toString());
+        original.setFachbereich("dep");
+        original.setFunktionsadresse("adr");
+        original.setGueltigAb(LocalDate.now());
+
+        // persist
+        original = repository.save(original);
+
+        // check
+        Zuordnung persisted = repository.findById(original.getId()).orElse(null);
+        assertNotNull(persisted);
+        assertEquals(original, persisted);
+    }
+
 }

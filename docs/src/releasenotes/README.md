@@ -1,5 +1,40 @@
 # Release-Notes
 
+## Sprint 17 (23.10.2024 - 12.11.2024)
+### Verbessert
+- SSO Namenskonvention umgesetzt
+
+## Sprint 17 (10.09.2024 - 01.10.2024)
+## Hinzugefügt
+- Vue 3 und Vuetify 3 Hebung
+- SST-Management Optimierung (Frontend)
+    - Keine Eingabe GueltigBis Datum
+    - Tooltip
+    - Prüfung EMail Format
+    - Spaltenbreite
+    - Zurück Springen
+    - Abgelaufene Personen markieren
+    - Einheitliche Bennenung Abbrechen Button
+    - Anzeige Anlage-, Aenderungsdatum
+    - Prüfung GueltigAb < GueltigBis Datum
+
+## Sprint 15 (30.07.2024 - 20.08.2024)
+## Hinzugefügt
+- Datentransfer Info Spalte auf 512 Zeichen vergrößert
+
+## Entfernt
+- Demo Workflows
+
+## Sprint 13 (18.06.2024 - 09.07.2024)
+## Hinzugefügt
+- Detailansicht der Schnittstellen
+- Bearbeitungsmöglichkeit der Schnittstellen
+- von Dockerhub auf GitHub Registry migriert
+
+## Sprint 12 (28.05.2024 - 18.06.2024)
+### Hinuzgefügt
+- Datentransfer-Log-Tabelle pro Schnittstelle hinzugefügt
+
 ## Sprint 10 (16.04.2024 - 07.05.2024)
 ### Hinuzgefügt
 - Dokumentation wurde veröffenticht

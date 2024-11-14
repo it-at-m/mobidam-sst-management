@@ -33,7 +33,7 @@
         <v-btn
             v-if="color === 'error'"
             color="primary"
-            text
+            variant="text"
             @click="show = false"
         >
             Schließen

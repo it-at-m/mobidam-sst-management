@@ -28,10 +28,7 @@ import de.muenchen.mobidam.domain.mappers.ZuordnungMapper;
 import de.muenchen.mobidam.service.ZuordnungService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +68,8 @@ public class ZuordnungController {
         List<ZuordnungDTO> personDTOList = new ArrayList<>();
         zuordnungService.getAllById(id)
                 .forEach(task -> personDTOList.add(zuordnungMapper.toDTO(task)));
-        personDTOList.sort(Comparator.comparing(ZuordnungDTO::getGueltigBis));
+        personDTOList.sort(
+                Comparator.comparing(ZuordnungDTO::getGueltigBis, Comparator.nullsLast(Comparator.naturalOrder())).thenComparing(ZuordnungDTO::getGueltigAb));
         return new ResponseEntity<>(personDTOList, HttpStatus.OK);
     }
 

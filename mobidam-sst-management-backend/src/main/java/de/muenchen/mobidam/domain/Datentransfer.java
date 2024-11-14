@@ -62,7 +62,7 @@ public class Datentransfer extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private EreignisTyp ereignis;
 
-    @Column
+    @Column(length = 512)
     private String info;
 
     @ManyToOne

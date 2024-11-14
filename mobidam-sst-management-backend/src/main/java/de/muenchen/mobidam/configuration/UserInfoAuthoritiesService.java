@@ -130,6 +130,7 @@ public class UserInfoAuthoritiesService {
             authorities.addAll(
                     Stream.of(((Object[]) object))
                             .map(Object::toString)
+                            .map(String::toUpperCase)
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList()));
         }

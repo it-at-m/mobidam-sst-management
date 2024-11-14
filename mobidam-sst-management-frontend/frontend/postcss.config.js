@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 module.exports = {
-  plugins: {
-    autoprefixer: {}
-  }
+    plugins: {
+        autoprefixer: {},
+    },
 };

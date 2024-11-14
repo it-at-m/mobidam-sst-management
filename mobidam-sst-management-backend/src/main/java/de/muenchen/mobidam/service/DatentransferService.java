@@ -44,6 +44,7 @@ import org.springframework.stereotype.Service;
 public class DatentransferService {
 
     private static final int PAGE_SIZE = 10;
+    private static final int INFO_LENGTH = 512;
 
     private final DatentransferRepository datentransferRepository;
     private final SchnittstelleRepository schnittstelleRepository;
@@ -51,7 +52,8 @@ public class DatentransferService {
 
     public Iterable<DatentransferDTO> getBySchnittstelle(String schnittstelleId, int page) {
         List<DatentransferDTO> dtos = new ArrayList<>();
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        int offset = page - 1;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
         UUID schnittstelleUUID = UUID.fromString(schnittstelleId);
 
         datentransferRepository.findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(schnittstelleUUID, pageable)
@@ -72,7 +74,22 @@ public class DatentransferService {
         if (schnittstelle.isEmpty())
             return Optional.empty();
 
+        datentransferDTO.setInfo(transformDatentransferInfo(datentransferDTO.getInfo()));
         Datentransfer datentransfer = datentransferMapper.toEntity(datentransferDTO, EreignisTyp.valueOf(datentransferDTO.getEreignis()));
         return Optional.of(datentransferMapper.toDTO(datentransferRepository.save(datentransfer)));
+    }
+
+    public Optional<Integer> getDatentransferNumber(String schnittstelleId) {
+        Optional<Schnittstelle> schnittstelle = schnittstelleRepository.findById(UUID.fromString(schnittstelleId));
+        if (schnittstelle.isEmpty())
+            return Optional.empty();
+
+        return datentransferRepository.countBySchnittstelleId(UUID.fromString(schnittstelleId));
+    }
+
+    public String transformDatentransferInfo(String info) {
+        if (info != null && info.length() > INFO_LENGTH)
+            return info.substring(0, INFO_LENGTH);
+        return info;
     }
 }

@@ -51,6 +51,5 @@ public class ZuordnungDTO {
     private String funktionsadresse;
     @NotNull
     private LocalDate gueltigAb;
-    @NotNull
     private LocalDate gueltigBis;
 }
