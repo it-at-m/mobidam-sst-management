@@ -111,4 +111,4 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
           git add mobidam-sst-management-backend/pom.xml
-          gh pr create --title "Bump backend version to $new_version" --base sprint --reviewer it-at-m/mobidam_admin
+          gh pr create --title "Bump backend version to $new_version" --base sprint --reviewer it-at-m/mobidam_admin --body "Bump backend version to $new_version after Release build"
