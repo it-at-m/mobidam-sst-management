@@ -100,8 +100,8 @@ jobs:
 
       - name: Set Maven Project Version
         id: set-version
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           current_version=$(mvn help:evaluate -f mobidam-sst-management-backend/pom.xml -Dexpression=project.version -q -DforceStdout)
           echo "Current version: $current_version"
