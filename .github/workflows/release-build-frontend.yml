@@ -100,6 +100,8 @@ jobs:
 
       - name: Set Maven Project Version
         id: set-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           current_version=$(mvn help:evaluate -f mobidam-sst-management-frontend/pom.xml -Dexpression=project.version -q -DforceStdout)
           echo "Current version: $current_version"
@@ -108,6 +110,8 @@ jobs:
           mvn -B versions:set -DnewVersion=$new_version -f mobidam-sst-management-frontend/pom.xml
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
+          git checkout -b release-$new_version
           git add mobidam-sst-management-frontend/pom.xml
-          git commit -m "Bump frontend version to $new_version"
-          git push
+          git commit -m "Bump frontend sprint version to $new_version"
+          git push --set-upstream origin release-$new_version
+          gh pr create --title "Bump frontend version to $new_version" --base sprint --head release-$new_version --body "Bump frontend version to $new_version after Release build"

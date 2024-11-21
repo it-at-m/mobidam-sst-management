@@ -90,7 +90,7 @@ jobs:
           prerelease: false
 
   increase-snapshot:
-    # needs: release
+    needs: release
     name: Increase SNAPSHOT-Version and PR
     runs-on: ubuntu-latest
     steps:
