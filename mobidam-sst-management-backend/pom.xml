@@ -32,7 +32,7 @@
 
     <groupId>de.muenchen.mobidam</groupId>
     <artifactId>mobidam-sst-management-backend</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.1</version>
     <name>mobidam_sst_management_backend</name>
 
 
