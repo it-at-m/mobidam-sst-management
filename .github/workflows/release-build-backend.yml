@@ -113,4 +113,4 @@ jobs:
           git branch release-$new_version
           git add mobidam-sst-management-backend/pom.xml
           git commit -m "Bump backend sprint version to $new_version"
-          gh pr create --title "Bump backend version to $new_version" --base sprint --head --reviewer it-at-m/mobidam_admin --body "Bump backend version to $new_version after Release build"
+          gh pr create --title "Bump backend version to $new_version" --base sprint --head release-$new_version --reviewer it-at-m/mobidam_admin --body "Bump backend version to $new_version after Release build"
