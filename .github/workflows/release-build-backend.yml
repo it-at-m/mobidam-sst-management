@@ -110,6 +110,7 @@ jobs:
           mvn -B versions:set -DnewVersion=$new_version -f mobidam-sst-management-backend/pom.xml
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
+          git branch release-$new_version
           git add mobidam-sst-management-backend/pom.xml
           git commit -m "Bump backend sprint version to $new_version"
-          gh pr create --title "Bump backend version to $new_version" --base sprint --reviewer it-at-m/mobidam_admin --body "Bump backend version to $new_version after Release build"
+          gh pr create --title "Bump backend version to $new_version" --base sprint --head --reviewer it-at-m/mobidam_admin --body "Bump backend version to $new_version after Release build"
