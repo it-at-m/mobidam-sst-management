@@ -52,6 +52,7 @@ public class DatentransferController {
     @GetMapping("/{schnittstelleId}/{page}")
     @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Iterable<DatentransferDTO>> getBySchnittstelle(@PathVariable String schnittstelleId, @PathVariable int page) {
+        log.debug("DatentransferController - Listing Datentransfers for Schnittstelle: {}", schnittstelleId);
         return new ResponseEntity<>(datentransferService.getBySchnittstelle(schnittstelleId, page), HttpStatus.OK);
     }
 
@@ -59,6 +60,7 @@ public class DatentransferController {
     @GetMapping("/latestResultState/{schnittstelleId}")
     @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<?> getLatestResultStateBySchnittstelle(@PathVariable String schnittstelleId) {
+        log.debug("DatentransferController - Getting latest Datentransfer for Schnittstelle: {}", schnittstelleId);
         Optional<DatentransferDTO> datentransferDTO = datentransferService.getLatestResultStateBySchnittstelle(schnittstelleId);
         if (datentransferDTO.isPresent())
             return new ResponseEntity<>(datentransferDTO.get(), HttpStatus.OK);
@@ -78,6 +80,7 @@ public class DatentransferController {
     @Operation(summary = "Getting the total number of Datentransfers for an existing Schnittstelle")
     @GetMapping("/{schnittstelleId}")
     public ResponseEntity<Integer> getNumberOfDatentransfers(@PathVariable String schnittstelleId) {
+        log.debug("DatentransferController - Getting number of Datentransfers for Schnittstelle: {}", schnittstelleId);
         Optional<Integer> datentransferNumber = datentransferService.getDatentransferNumber(schnittstelleId);
         return datentransferNumber.map(integer -> new ResponseEntity<>(integer, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }

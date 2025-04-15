@@ -32,6 +32,7 @@ import de.muenchen.mobidam.repository.ZuordnungRepository;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -39,25 +40,36 @@ import org.springframework.stereotype.Service;
  */
 @AllArgsConstructor
 @Service
+@Slf4j
 public class ZuordnungService {
     private final ZuordnungRepository zuordnungRepository;
     private final ZuordnungMapper zuordnungMapper;
     private final SchnittstelleRepository schnittstelleRepository;
 
     public Optional<ZuordnungDTO> create(ZuordnungCreateDTO zuordnungCreateDTO) {
+        log.debug("ZuordnungService - Finding Schnittstelle: {}", zuordnungCreateDTO.getSchnittstelle());
         Optional<Schnittstelle> schnittstelle = schnittstelleRepository.findById(zuordnungCreateDTO.getSchnittstelle());
-        return schnittstelle.map(value -> zuordnungMapper.toDTO(zuordnungRepository.save(zuordnungMapper.toEntity(zuordnungCreateDTO, value))));
+        log.debug("ZuordnungService - Saving Zuordnung: {}", zuordnungCreateDTO);
+        return schnittstelle.map(value -> {
+            Zuordnung zuordnung = zuordnungRepository.save(zuordnungMapper.toEntity(zuordnungCreateDTO, value));
+            log.debug("ZuordnungService - Saved Zuordnung");
+            return zuordnungMapper.toDTO(zuordnung);
+        });
     }
 
     public Iterable<Zuordnung> getAllById(String id) {
+        log.debug("ZuordnungService - Getting all Zuordnung for Schnittstelle: {}", id);
         return this.zuordnungRepository.findZuordnungsBySchnittstelleId(UUID.fromString(id));
     }
 
     public boolean deleteById(String zuordnungId) {
         if (this.zuordnungRepository.existsById(UUID.fromString(zuordnungId))) {
+            log.debug("ZuordnungService - Found Zuordnung: {}", zuordnungId);
             this.zuordnungRepository.deleteById(UUID.fromString(zuordnungId));
+            log.debug("ZuordnungService - Deleted Zuordnung: {}", zuordnungId);
             return true;
         }
+        log.debug("ZuordnungService - Couldn't find Zuordnung: {}", zuordnungId);
         return false;
     }
 }

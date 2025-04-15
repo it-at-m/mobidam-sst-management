@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.*;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,6 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/zuordnung")
+@Slf4j
 public class ZuordnungController {
     private final ZuordnungService zuordnungService;
     private final ZuordnungMapper zuordnungMapper;
@@ -55,6 +57,7 @@ public class ZuordnungController {
     @PostMapping
     @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<?> create(@Valid @RequestBody ZuordnungCreateDTO zuordnungCreateDTO) {
+        log.debug("ZuordnungController - Create: {}", zuordnungCreateDTO);
         Optional<ZuordnungDTO> zuordnungDTO = zuordnungService.create(zuordnungCreateDTO);
         if (zuordnungDTO.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given Schnittstelle for this Zuordnung doesn't exist.");
@@ -65,6 +68,7 @@ public class ZuordnungController {
     @GetMapping("/bySchnittstelle/{id}")
     @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Iterable<ZuordnungDTO>> getAllById(@PathVariable String id) {
+        log.debug("ZuordnungController - Get all for Schnittstelle: {}", id);
         List<ZuordnungDTO> personDTOList = new ArrayList<>();
         zuordnungService.getAllById(id)
                 .forEach(task -> personDTOList.add(zuordnungMapper.toDTO(task)));
@@ -77,6 +81,7 @@ public class ZuordnungController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole(T(de.muenchen.mobidam.security.AuthoritiesEnum).ADMIN.name())")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
+        log.debug("ZuordnungController - Delete: {}", id);
         return this.zuordnungService.deleteById(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
