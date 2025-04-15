@@ -34,45 +34,58 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 public class SchnittstelleService {
 
     private final SchnittstelleRepository schnittstelleRepository;
     private final SchnittstelleMapper schnittstelleMapper;
 
     public SchnittstelleDTO create(SchnittstelleCreateDTO schnittstelleCreateDTO) {
+        log.debug("SchnittstelleService - Creating Schnittstelle: {}", schnittstelleCreateDTO);
         return schnittstelleMapper.toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntity(schnittstelleCreateDTO, LocalDate.now())));
     }
 
     private boolean exists(SchnittstelleDTO schnittstelleDTO) {
+        log.debug("SchnittstelleService - Finding Schnittstelle: {}", schnittstelleDTO);
         return schnittstelleRepository.existsById(schnittstelleDTO.getId());
     }
 
     public Iterable<SchnittstelleDTO> getAll() {
         List<SchnittstelleDTO> dtos = new ArrayList<>();
+        log.debug("SchnittstelleService - Getting all Schnittstelle");
         schnittstelleRepository.findAll().forEach(schnittstelle -> dtos.add(schnittstelleMapper.toDTO(schnittstelle)));
-
+        log.debug("SchnittstelleService - Got all Schnittstelle, count: {}", dtos.size());
         return dtos;
     }
 
     public boolean deleteById(String id) {
         UUID uuid = UUID.fromString(id);
         if (schnittstelleRepository.existsById(uuid)) {
+            log.debug("SchnittstelleService - Found Schnittstelle, now deleting: {}", uuid);
             schnittstelleRepository.deleteById(UUID.fromString(id));
+            log.debug("SchnittstelleService - Deleted Schnittstelle: {}", uuid);
             return true;
         } else {
+            log.debug("SchnittstelleService - Couldn't find Schnittstelle: {}", uuid);
             return false;
         }
     }
 
     public Optional<SchnittstelleDTO> update(SchnittstelleDTO schnittstelleDTO) {
         if (this.exists(schnittstelleDTO)) {
+            log.debug("SchnittstelleService - Found Schnittstelle, trying to update: {}", schnittstelleDTO.getId());
             schnittstelleDTO.setAenderungsdatum(LocalDate.now());
-            return Optional.of(schnittstelleMapper.toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntityWithId(schnittstelleDTO))));
+            SchnittstelleDTO schnittstelleUpdated = schnittstelleMapper
+                    .toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntityWithId(schnittstelleDTO)));
+            log.debug("SchnittstelleService - Updated Schnittstelle: {}", schnittstelleDTO.getId());
+            return Optional.of(schnittstelleUpdated);
         }
+        log.debug("SchnittstelleService - Couldn't find Schnittstelle: {}", schnittstelleDTO.getId());
         return Optional.empty();
     }
 
@@ -84,6 +97,7 @@ public class SchnittstelleService {
     public Optional<SchnittstelleDTO> getById(String id) {
         UUID uuid = UUID.fromString(id);
         Optional<Schnittstelle> schnittstelle = schnittstelleRepository.findById(uuid);
+        log.debug("SchnittstelleService - Found Schnittstelle: {}", id);
         return schnittstelle.map(schnittstelleMapper::toDTO);
     }
 }

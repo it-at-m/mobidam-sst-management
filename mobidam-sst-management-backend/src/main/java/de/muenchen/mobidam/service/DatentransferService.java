@@ -35,12 +35,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 public class DatentransferService {
 
     private static final int PAGE_SIZE = 10;
@@ -55,35 +57,40 @@ public class DatentransferService {
         int offset = page - 1;
         Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
         UUID schnittstelleUUID = UUID.fromString(schnittstelleId);
-
+        log.debug("DatentransferService - Finding all Datentransfer for Schnittstelle: {}", schnittstelleId);
         datentransferRepository.findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(schnittstelleUUID, pageable)
                 .forEach(datentransfer -> dtos.add(datentransferMapper.toDTO(datentransfer)));
-
+        log.debug("DatentransferService - Found all Datentransfer for Schnittstelle, count: {}", dtos.size());
         return dtos;
     }
 
     public Optional<DatentransferDTO> getLatestResultStateBySchnittstelle(String schnittstelleId) {
         List<EreignisTyp> notResultStateEreignisTypes = List.of(EreignisTyp.BEGINN, EreignisTyp.ENDE);
+        log.debug("DatentransferService - Finding latest Datentransfer for Schnittstelle: {}", schnittstelleId);
         Optional<Datentransfer> datentransfer = datentransferRepository.findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(
                 UUID.fromString(schnittstelleId), notResultStateEreignisTypes);
+        log.debug("DatentransferService - Found latest Datentransfer for Schnittstelle: {}", datentransfer);
         return datentransfer.map(datentransferMapper::toDTO);
     }
 
     public Optional<DatentransferDTO> createDatentransfer(DatentransferCreateDTO datentransferDTO) {
+        log.debug("DatentransferService - Creating Datentransfer: {}", datentransferDTO);
         Optional<Schnittstelle> schnittstelle = schnittstelleRepository.findById(datentransferDTO.getSchnittstelle());
         if (schnittstelle.isEmpty())
             return Optional.empty();
-
+        log.debug("DatentransferService - Found Schnittstelle: {}", datentransferDTO.getSchnittstelle());
         datentransferDTO.setInfo(transformDatentransferInfo(datentransferDTO.getInfo()));
         Datentransfer datentransfer = datentransferMapper.toEntity(datentransferDTO, EreignisTyp.valueOf(datentransferDTO.getEreignis()));
+        log.debug("DatentransferService - Created Datentransfer: {}", datentransfer);
         return Optional.of(datentransferMapper.toDTO(datentransferRepository.save(datentransfer)));
     }
 
     public Optional<Integer> getDatentransferNumber(String schnittstelleId) {
         Optional<Schnittstelle> schnittstelle = schnittstelleRepository.findById(UUID.fromString(schnittstelleId));
+        log.debug("DatentransferService - Found Schnittstelle: {}", schnittstelleId);
         if (schnittstelle.isEmpty())
             return Optional.empty();
-
+        log.debug("DatentransferService - Getting Datentransfer count");
         return datentransferRepository.countBySchnittstelleId(UUID.fromString(schnittstelleId));
     }
 
