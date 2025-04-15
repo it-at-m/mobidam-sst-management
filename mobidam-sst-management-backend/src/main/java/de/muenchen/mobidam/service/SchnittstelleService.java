@@ -80,7 +80,8 @@ public class SchnittstelleService {
         if (this.exists(schnittstelleDTO)) {
             log.debug("SchnittstelleService - Found Schnittstelle, trying to update: {}", schnittstelleDTO.getId());
             schnittstelleDTO.setAenderungsdatum(LocalDate.now());
-            SchnittstelleDTO schnittstelleUpdated = schnittstelleMapper.toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntityWithId(schnittstelleDTO)));
+            SchnittstelleDTO schnittstelleUpdated = schnittstelleMapper
+                    .toDTO(schnittstelleRepository.save(schnittstelleMapper.toEntityWithId(schnittstelleDTO)));
             log.debug("SchnittstelleService - Updated Schnittstelle: {}", schnittstelleDTO.getId());
             return Optional.of(schnittstelleUpdated);
         }
