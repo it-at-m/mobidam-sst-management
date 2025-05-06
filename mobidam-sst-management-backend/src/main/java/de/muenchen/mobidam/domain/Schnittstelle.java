@@ -27,6 +27,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -47,7 +48,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true, exclude = { "zuordnungen", "datentransfers" })
 @NoArgsConstructor
-@Table(name = "Management_Schnittstelle_Schnittstelle_Tab")
+@Table(name = "Management_Schnittstelle_Schnittstelle_Tab", indexes = @Index(columnList = "id"))
 public class Schnittstelle extends BaseEntity {
 
     @Column(nullable = false)
