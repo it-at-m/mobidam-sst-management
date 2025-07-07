@@ -109,34 +109,38 @@ export default class FetchUtils {
         };
     }
 
-    /**
-     * Deckt das Default-Handling einer Response ab. Dazu zählt:
-     *
-     * - Fehler bei fehlenden Berechtigungen --> HTTP 403
-     * - Reload der App bei Session-Timeout --> HTTP 3xx
-     * - Default-Fehler bei allen HTTP-Codes !2xx
-     *
-     * @param response Die response aus fetch-Befehl die geprüft werden soll.
-     * @param errorMessage Die Fehlermeldung, welche bei einem HTTP-Code != 2xx angezeigt werden soll.
-     */
-    static defaultResponseHandler(
-        response: Response,
-        errorMessage = "Es ist ein unbekannter Fehler aufgetreten."
-    ): void {
-        if (!response.ok) {
-            if (response.status === 403) {
+    static sendRequest(
+        url: string,
+        request: RequestInit,
+        errorMessage: string,
+        skipNotFound = false
+    ): Promise<any> {
+        return fetch(url, request)
+            .catch(() => {
                 throw new ApiError({
                     level: Levels.ERROR,
-                    message: `Sie haben nicht die nötigen Rechte um diese Aktion durchzuführen.`,
+                    message: `Die Verbindung zum Service konnte nicht aufgebaut werden.`,
                 });
-            } else if (response.type === "opaqueredirect") {
-                location.reload();
-            }
-            throw new ApiError({
-                level: Levels.WARNING,
-                message: errorMessage,
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    if (response.status === 403) {
+                        throw new ApiError({
+                            level: Levels.ERROR,
+                            message: `Sie haben nicht die nötigen Rechte um diese Aktion durchzuführen.`,
+                        });
+                    } else if (response.type === "opaqueredirect") {
+                        location.reload();
+                    } else if (response.status === 404 && skipNotFound) {
+                        return Promise.resolve();
+                    }
+                    throw new ApiError({
+                        level: Levels.ERROR,
+                        message: errorMessage,
+                    });
+                }
+                return response.json();
             });
-        }
     }
 
     /**

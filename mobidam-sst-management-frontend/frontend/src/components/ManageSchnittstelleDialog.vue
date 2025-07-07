@@ -157,6 +157,8 @@ import Zuordnung from "@/types/Zuordnung";
 import ZuordnungService from "@/api/ZuordnungService";
 import SchnittstelleRequest from "@/types/SchnittstelleRequest";
 import type { VForm } from "vuetify/components";
+import { useSnackbarStore } from "@/stores/snackbar";
+import { Levels } from "@/api/error";
 
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
@@ -216,6 +218,10 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
     SchnittstelleService.create(schnittstelleRequest)
         .then((schnittstelle) => {
             saveZuordnungen(schnittstelle);
+            useSnackbarStore().showMessage({
+                message: "Schnittstelle wurde gespeichert.",
+                level: Levels.SUCCESS,
+            });
         })
         .finally(() => {
             form.value?.reset();
@@ -223,26 +229,70 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
             emit("schnittstelle-saved");
             resetSchnittstelle();
             closeDialog();
-        });
+        })
+        .catch((exp) =>
+            useSnackbarStore().showMessage({
+                message: exp.message,
+                level: exp.level,
+            })
+        );
 }
 
-function updateSchnittstelle() {
-    SchnittstelleService.update(mutableSchnittstelle.value).then(async () => {
+async function updateSchnittstelle() {
+    try {
+        await SchnittstelleService.update(mutableSchnittstelle.value);
+
+        // Neue Zuordnungen erstellen
         for (const zuordnung of mutableZuordnungen.value) {
             if (!dialogProps.zuordnungen.includes(zuordnung)) {
                 zuordnung.schnittstelle = dialogProps.schnittstelle.id;
-                await ZuordnungService.create(zuordnung);
+                try {
+                    await ZuordnungService.create(zuordnung);
+                    useSnackbarStore().showMessage({
+                        message: "Person wurde gespeichert.",
+                        level: Levels.SUCCESS,
+                    });
+                } catch (exp: any) {
+                    useSnackbarStore().showMessage({
+                        message: exp.message,
+                        level: exp.level,
+                    });
+                }
             }
         }
+
+        // Gelöschte Zuordnungen entfernen
         for (const toDelete of dialogProps.zuordnungen) {
-            if (!mutableZuordnungen.value.includes(toDelete))
-                await ZuordnungService.delete(toDelete.id);
+            if (!mutableZuordnungen.value.includes(toDelete)) {
+                try {
+                    await ZuordnungService.delete(toDelete.id);
+                    useSnackbarStore().showMessage({
+                        message: "Zuordnung wurde gelöscht.",
+                        level: Levels.SUCCESS,
+                    });
+                } catch (exp: any) {
+                    useSnackbarStore().showMessage({
+                        message: exp.message,
+                        level: exp.level,
+                    });
+                }
+            }
         }
+
         emit("schnittstelle-saved");
         form.value?.reset();
         form.value?.resetValidation();
         closeDialog();
-    });
+        useSnackbarStore().showMessage({
+            message: "Schnittstelle aktualisiert.",
+            level: Levels.SUCCESS,
+        });
+    } catch (exp: any) {
+        useSnackbarStore().showMessage({
+            message: exp.message,
+            level: exp.level,
+        });
+    }
 }
 
 async function saveSchnittstelle() {
@@ -270,7 +320,19 @@ function saveZuordnungen(schnittstelle: Schnittstelle) {
     for (const zuordnung of mutableZuordnungen.value) {
         if (schnittstelle.id !== undefined)
             zuordnung.schnittstelle = schnittstelle.id;
-        ZuordnungService.create(zuordnung);
+        ZuordnungService.create(zuordnung)
+            .then(() =>
+                useSnackbarStore().showMessage({
+                    message: "Person wurde gespeichert.",
+                    level: Levels.SUCCESS,
+                })
+            )
+            .catch((exp) =>
+                useSnackbarStore().showMessage({
+                    message: exp.message,
+                    level: exp.level,
+                })
+            );
     }
 }
 

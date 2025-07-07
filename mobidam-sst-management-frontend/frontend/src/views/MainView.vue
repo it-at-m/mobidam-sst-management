@@ -156,15 +156,15 @@
 <script setup lang="ts">
 import HealthService from "@/api/HealthService";
 import { useSnackbarStore } from "@/stores/snackbar";
-import { onMounted, computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import SchnittstelleService from "@/api/SchnittstelleService";
 import Datentransfer from "@/types/Datentransfer";
 import DatentransferService from "@/api/DatentransferService";
 import SchnittstelleWithDatentransfer from "@/types/SchnittstelleWithDatentransfer";
 import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vue";
 import router from "@/router";
+import { Levels } from "@/api/error";
 
-const snackbarStore = useSnackbarStore();
 const showManageSchnittstelleDialog = ref(false);
 const schnittstellen = ref<SchnittstelleWithDatentransfer[]>([]);
 const sortedSchnittstellen = computed(() => {
@@ -180,35 +180,49 @@ const sortedSchnittstellen = computed(() => {
 });
 
 onMounted(() => {
-    HealthService.checkHealth().catch((error) => {
-        snackbarStore.showMessage(error);
-    });
+    HealthService.checkHealth().catch((error) =>
+        useSnackbarStore().showMessage({
+            message: error.message,
+            level: error.level,
+        })
+    );
     getSchnittstellen();
 });
 
 function getSchnittstellen() {
-    SchnittstelleService.getAllSchnittstelle().then((fetchedSchnittstellen) => {
-        const datentransfer: Datentransfer | undefined = undefined;
-        for (const fetchedSchnittstelle of fetchedSchnittstellen) {
-            const schnittstelle: SchnittstelleWithDatentransfer =
-                new SchnittstelleWithDatentransfer(
-                    fetchedSchnittstelle.name,
-                    fetchedSchnittstelle.anlagedatum,
-                    fetchedSchnittstelle.id,
-                    datentransfer,
-                    fetchedSchnittstelle.aenderungsdatum,
-                    fetchedSchnittstelle.status,
-                    fetchedSchnittstelle.begruendung
-                );
-            DatentransferService.getLatestResultStateBySchnittstelle(
-                fetchedSchnittstelle.id
-            ).then((fetchedDatentransfer) => {
-                if (fetchedDatentransfer)
-                    schnittstelle.datentransfer = fetchedDatentransfer;
-                schnittstellen.value.push(schnittstelle);
+    SchnittstelleService.getAllSchnittstelle()
+        .then((fetchedSchnittstellen) => {
+            const datentransfer: Datentransfer | undefined = undefined;
+            for (const fetchedSchnittstelle of fetchedSchnittstellen) {
+                const schnittstelle: SchnittstelleWithDatentransfer =
+                    new SchnittstelleWithDatentransfer(
+                        fetchedSchnittstelle.name,
+                        fetchedSchnittstelle.anlagedatum,
+                        fetchedSchnittstelle.id,
+                        datentransfer,
+                        fetchedSchnittstelle.aenderungsdatum,
+                        fetchedSchnittstelle.status,
+                        fetchedSchnittstelle.begruendung
+                    );
+                DatentransferService.getLatestResultStateBySchnittstelle(
+                    fetchedSchnittstelle.id
+                ).then((fetchedDatentransfer) => {
+                    if (fetchedDatentransfer)
+                        schnittstelle.datentransfer = fetchedDatentransfer;
+                    schnittstellen.value.push(schnittstelle);
+                });
+            }
+            useSnackbarStore().showMessage({
+                message: "Schnittstellen wurden geladen.",
+                level: Levels.SUCCESS,
             });
-        }
-    });
+        })
+        .catch((exp) =>
+            useSnackbarStore().showMessage({
+                message: exp.message,
+                level: exp.level,
+            })
+        );
 }
 
 function getDatentransferEreignis(

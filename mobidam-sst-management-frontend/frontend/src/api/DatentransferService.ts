@@ -31,41 +31,33 @@ export default class DatentransferService {
     public static getLatestResultStateBySchnittstelle(
         schnittstelleId: string | undefined
     ): Promise<Datentransfer | void> {
-        return fetch(
+        return FetchUtils.sendRequest(
             `${this.base}/api/datentransfer/latestResultState/${schnittstelleId}`,
-            FetchUtils.getGETConfig()
-        ).then((response) => {
-            if (response.status == 404) return Promise.resolve();
-            return response.json();
-        });
+            FetchUtils.getGETConfig(),
+            "Der neueste Datentransfer konnte nicht geladen werden für die Schnittstelle: " +
+                schnittstelleId,
+            true
+        );
     }
 
     public static getDatentransfersBySchnittstelle(
         schnittstelleId: string | undefined,
         page: number
     ): Promise<Datentransfer[] | void> {
-        return fetch(
+        return FetchUtils.sendRequest(
             `${this.base}/api/datentransfer/${schnittstelleId}/${page}`,
-            FetchUtils.getGETConfig()
-        ).then((response) => {
-            if (response.status == 404) return Promise.resolve();
-            return response.json();
-        });
+            FetchUtils.getGETConfig(),
+            "Datentransfere konnten nicht geladen werden."
+        );
     }
 
     public static getDatentransferNumberBySchnittstelle(
         schnittstelleId: string | undefined
     ): Promise<number> {
-        return fetch(
+        return FetchUtils.sendRequest(
             `${this.base}/api/datentransfer/${schnittstelleId}`,
-            FetchUtils.getGETConfig()
-        ).then((response) => {
-            if (response.status != 200)
-                FetchUtils.defaultResponseHandler(
-                    response,
-                    "Die Schnittstellen konnte nicht gefunden werden."
-                );
-            return response.json();
-        });
+            FetchUtils.getGETConfig(),
+            "Die Anzahl der Datentransfere konnte nicht geladen werden."
+        );
     }
 }

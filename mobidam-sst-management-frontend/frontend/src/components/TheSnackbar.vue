@@ -44,6 +44,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useSnackbarStore } from "@/stores/snackbar";
+import { Levels } from "@/api/error";
 
 const snackbarStore = useSnackbarStore();
 
@@ -55,32 +56,32 @@ const message = ref("");
 const color = ref("info");
 
 watch(
-    () => snackbarStore.message,
-    () => (message.value = snackbarStore.message ?? "")
-);
-
-watch(
-    () => snackbarStore.level,
+    () => snackbarStore.trigger,
     () => {
-        color.value = snackbarStore.level;
-        if (color.value === "error") {
-            timeout.value = 0;
-        } else {
-            timeout.value = defaultTimeout;
-        }
-    }
-);
-
-watch(
-    () => snackbarStore.show,
-    () => {
-        if (snackbarStore.show) {
-            show.value = false;
-            setTimeout(() => {
-                show.value = true;
-                snackbarStore.show = false;
-            }, 100);
-        }
+        show.value = false;
+        setTimeout(() => {
+            color.value = snackbarStore.level;
+            message.value = snackbarStore.message;
+            switch (color.value) {
+                case Levels.ERROR: {
+                    timeout.value = -1;
+                    break;
+                }
+                case Levels.WARNING: {
+                    timeout.value = 8000;
+                    break;
+                }
+                case Levels.SUCCESS: {
+                    timeout.value = 4000;
+                    break;
+                }
+                default: {
+                    timeout.value = defaultTimeout;
+                    break;
+                }
+            }
+            show.value = true;
+        }, 100);
     }
 );
 </script>

@@ -27,6 +27,7 @@ import Datentransfer from "@/types/Datentransfer";
 import DatentransferService from "@/api/DatentransferService";
 import { ref, onMounted } from "vue";
 import type { VDataTableServer } from "vuetify/components";
+import { useSnackbarStore } from "@/stores/snackbar";
 
 type ReadonlyHeaders = VDataTableServer["$props"]["headers"];
 
@@ -73,9 +74,16 @@ const headers = ref<ReadonlyHeaders>([
 onMounted(() => {
     DatentransferService.getDatentransferNumberBySchnittstelle(
         props.schnittstelle
-    ).then((datentransferNumber) => {
-        numberOfDatentransfer.value = datentransferNumber;
-    });
+    )
+        .then((datentransferNumber) => {
+            numberOfDatentransfer.value = datentransferNumber;
+        })
+        .catch((exp) =>
+            useSnackbarStore().showMessage({
+                message: exp.message,
+                level: exp.level,
+            })
+        );
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,7 +96,13 @@ function loadItems(updatedOptions: any) {
         .then((datentransfer) => {
             if (datentransfer) items.value = datentransfer;
         })
-        .finally(() => (loading.value = false));
+        .finally(() => (loading.value = false))
+        .catch((exp) =>
+            useSnackbarStore().showMessage({
+                message: exp.message,
+                level: exp.level,
+            })
+        );
 }
 </script>
 
