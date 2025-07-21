@@ -48,7 +48,7 @@ import { Levels } from "@/api/error";
 
 const snackbarStore = useSnackbarStore();
 
-const defaultTimeout = 5000;
+const defaultTimeout = 4000;
 
 const show = ref(false);
 const timeout = ref(defaultTimeout);
@@ -69,10 +69,6 @@ watch(
                 }
                 case Levels.WARNING: {
                     timeout.value = 8000;
-                    break;
-                }
-                case Levels.SUCCESS: {
-                    timeout.value = 4000;
                     break;
                 }
                 default: {
