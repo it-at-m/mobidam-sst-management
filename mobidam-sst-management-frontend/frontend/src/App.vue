@@ -81,7 +81,7 @@ import TheSnackbar from "@/components/TheSnackbar.vue";
 const query = ref<string>("");
 
 const route = useRoute();
-useSnackbarStore();
+
 onMounted(() => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     query.value = route.params.query as string;
