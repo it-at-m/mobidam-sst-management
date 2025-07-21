@@ -117,28 +117,37 @@ export default class FetchUtils {
     ): Promise<any> {
         return fetch(url, request)
             .catch(() => {
+                // Catching the Error before any response was able to come
                 throw new ApiError({
                     level: Levels.ERROR,
                     message: `Die Verbindung zum Service konnte nicht aufgebaut werden.`,
                 });
             })
             .then((response) => {
+                // handling not 200 responses
                 if (!response.ok) {
                     if (response.status === 403) {
+                        // HTTP 403 means unauthorized
                         throw new ApiError({
                             level: Levels.ERROR,
                             message: `Sie haben nicht die nötigen Rechte um diese Aktion durchzuführen.`,
                         });
                     } else if (response.type === "opaqueredirect") {
+                        // the redirect option was set to manual and the server redirects the site
                         location.reload();
                     } else if (response.status === 404 && skipNotFound) {
+                        // some backend APIs give a 404 NOT_FOUND, when everything is correct, but the resource doesn't exist
+                        // in such cases the argument 'skipNotFound' can be set as true and this method creates an empty Promise
+                        // (instead of throwing an Error)
                         return Promise.resolve();
                     }
                     throw new ApiError({
+                        // for all other HTTP code the standard error message handling is used
                         level: Levels.ERROR,
                         message: errorMessage,
                     });
                 }
+                // returning a Promise with the request results because HTTP code is 200
                 return response.json();
             });
     }
