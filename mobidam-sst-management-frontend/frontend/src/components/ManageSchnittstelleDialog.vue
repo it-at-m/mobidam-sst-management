@@ -222,8 +222,6 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
                 message: "Schnittstelle wurde gespeichert.",
                 level: Levels.SUCCESS,
             });
-        })
-        .finally(() => {
             form.value?.reset();
             form.value?.resetValidation();
             emit("schnittstelle-saved");
@@ -239,6 +237,8 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
 }
 
 async function updateSchnittstelle() {
+    let hasErrors = false;
+
     try {
         await SchnittstelleService.update(mutableSchnittstelle.value);
 
@@ -253,6 +253,7 @@ async function updateSchnittstelle() {
                         level: Levels.SUCCESS,
                     });
                 } catch (exp: any) {
+                    hasErrors = true;
                     useSnackbarStore().showMessage({
                         message: exp.message,
                         level: exp.level,
@@ -271,6 +272,7 @@ async function updateSchnittstelle() {
                         level: Levels.SUCCESS,
                     });
                 } catch (exp: any) {
+                    hasErrors = true;
                     useSnackbarStore().showMessage({
                         message: exp.message,
                         level: exp.level,
@@ -279,14 +281,16 @@ async function updateSchnittstelle() {
             }
         }
 
-        emit("schnittstelle-saved");
-        form.value?.reset();
-        form.value?.resetValidation();
-        closeDialog();
-        useSnackbarStore().showMessage({
-            message: "Schnittstelle aktualisiert.",
-            level: Levels.SUCCESS,
-        });
+        if (!hasErrors) {
+            emit("schnittstelle-saved");
+            form.value?.reset();
+            form.value?.resetValidation();
+            closeDialog();
+            useSnackbarStore().showMessage({
+                message: "Schnittstelle aktualisiert.",
+                level: Levels.SUCCESS,
+            });
+        }
     } catch (exp: any) {
         useSnackbarStore().showMessage({
             message: exp.message,
