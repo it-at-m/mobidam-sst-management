@@ -215,18 +215,27 @@ onBeforeUpdate(() => {
 });
 
 function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
+    let zuordnungenError = false;
+
     SchnittstelleService.create(schnittstelleRequest)
         .then((schnittstelle) => {
-            saveZuordnungen(schnittstelle);
+            zuordnungenError = saveZuordnungen(schnittstelle);
             useSnackbarStore().showMessage({
                 message: "Schnittstelle wurde gespeichert.",
                 level: Levels.SUCCESS,
             });
-            form.value?.reset();
-            form.value?.resetValidation();
-            emit("schnittstelle-saved");
-            resetSchnittstelle();
-            closeDialog();
+            if (!zuordnungenError) {
+                form.value?.reset();
+                form.value?.resetValidation();
+                emit("schnittstelle-saved");
+                resetSchnittstelle();
+                closeDialog();
+            } else {
+                useSnackbarStore().showMessage({
+                    message: "Zuordnungen konnten nicht gespeichert werden.",
+                    level: Levels.ERROR,
+                });
+            }
         })
         .catch((exp) =>
             useSnackbarStore().showMessage({
@@ -248,10 +257,6 @@ async function updateSchnittstelle() {
                 zuordnung.schnittstelle = dialogProps.schnittstelle.id;
                 try {
                     await ZuordnungService.create(zuordnung);
-                    useSnackbarStore().showMessage({
-                        message: "Person wurde gespeichert.",
-                        level: Levels.SUCCESS,
-                    });
                 } catch (exp: any) {
                     hasErrors = true;
                     useSnackbarStore().showMessage({
@@ -267,10 +272,6 @@ async function updateSchnittstelle() {
             if (!mutableZuordnungen.value.includes(toDelete)) {
                 try {
                     await ZuordnungService.delete(toDelete.id);
-                    useSnackbarStore().showMessage({
-                        message: "Zuordnung wurde gelöscht.",
-                        level: Levels.SUCCESS,
-                    });
                 } catch (exp: any) {
                     hasErrors = true;
                     useSnackbarStore().showMessage({
@@ -304,7 +305,7 @@ async function saveSchnittstelle() {
     const valid = (await form.value?.validate())?.valid;
     if (valid) {
         if (dialogProps.isEdit) {
-            updateSchnittstelle();
+            await updateSchnittstelle();
         } else {
             const schnittstelleRequest = new SchnittstelleRequest(
                 mutableSchnittstelle.value.name,
@@ -321,23 +322,17 @@ function confirmZuordnung(zuordnung: Zuordnung): void {
 }
 
 function saveZuordnungen(schnittstelle: Schnittstelle) {
+    let hasErrors = false;
+
     for (const zuordnung of mutableZuordnungen.value) {
         if (schnittstelle.id !== undefined)
             zuordnung.schnittstelle = schnittstelle.id;
-        ZuordnungService.create(zuordnung)
-            .then(() =>
-                useSnackbarStore().showMessage({
-                    message: "Person wurde gespeichert.",
-                    level: Levels.SUCCESS,
-                })
-            )
-            .catch((exp) =>
-                useSnackbarStore().showMessage({
-                    message: exp.message,
-                    level: exp.level,
-                })
-            );
+        ZuordnungService.create(zuordnung).catch(() => {
+            hasErrors = true;
+        });
     }
+
+    return hasErrors;
 }
 
 function removeZuordnung(zuordnung: Zuordnung): void {
