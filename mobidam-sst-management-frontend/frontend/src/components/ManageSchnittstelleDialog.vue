@@ -220,10 +220,6 @@ function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
     SchnittstelleService.create(schnittstelleRequest)
         .then((schnittstelle) => {
             zuordnungenError = saveZuordnungen(schnittstelle);
-            useSnackbarStore().showMessage({
-                message: "Schnittstelle wurde gespeichert.",
-                level: Levels.SUCCESS,
-            });
             if (!zuordnungenError) {
                 form.value?.reset();
                 form.value?.resetValidation();
@@ -287,10 +283,6 @@ async function updateSchnittstelle() {
             form.value?.reset();
             form.value?.resetValidation();
             closeDialog();
-            useSnackbarStore().showMessage({
-                message: "Schnittstelle aktualisiert.",
-                level: Levels.SUCCESS,
-            });
         }
     } catch (exp: any) {
         useSnackbarStore().showMessage({
