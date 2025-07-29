@@ -31,7 +31,7 @@ export default class ZuordnungService {
         return FetchUtils.sendRequest(
             `${this.base}/api/zuordnung`,
             FetchUtils.getPOSTConfig(instance),
-            "Speicher der Person fehlgeschlagen."
+            "Speichern der Person fehlgeschlagen."
         );
     }
 
@@ -41,7 +41,7 @@ export default class ZuordnungService {
         return FetchUtils.sendRequest(
             `${this.base}/api/zuordnung/bySchnittstelle/${instanceId}`,
             FetchUtils.getGETConfig(),
-            "Zuordnung konnte nicht geladen werden."
+            "Zuordnungen konnten nicht geladen werden."
         );
     }
 

@@ -30,7 +30,7 @@ export default class HealthService {
         return FetchUtils.sendRequest(
             `${API_BASE}/actuator/health`,
             FetchUtils.getGETConfig(),
-            "Bei dem Verbindungsaufbau ist ein Fehler aufgetreten."
+            "Beim Verbindungsaufbau ist ein Fehler aufgetreten."
         );
     }
 }
