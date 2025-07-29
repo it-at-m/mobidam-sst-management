@@ -109,6 +109,18 @@ export default class FetchUtils {
         };
     }
 
+    /**
+     *Deckt das Default-Handling einer Response ab. Dazu zählt:
+     *
+     * - Fehler bei fehlenden Berechtigungen --> HTTP 403
+     * - Reload der App bei Session-Timeout --> HTTP 3xx
+     * - Unbekannter Fehler oder kein Code --> keine Verbindung möglich
+     * - Default-Fehler bei allen HTTP-Codes !2xx
+     * @param url Die URL an die die Anfrage gesendet wird
+     * @param request Die Anfrage
+     * @param errorMessage Die Fehlermeldung, welche bei einem HTTP-Code != 2xx angezeigt werden soll.
+     * @param skipNotFound Ob ein HTTP Code 404 als fehlerhaft behandelt werden soll
+     */
     static sendRequest(
         url: string,
         request: RequestInit,
