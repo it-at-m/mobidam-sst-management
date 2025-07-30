@@ -87,7 +87,7 @@ class DatentransferRepositoryTest {
         assertNotNull(persisted);
         assertEquals(original, persisted);
 
-        List<Datentransfer> allDatentransfer = datentransferRepository.findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(schnittstelle.getId(),
+        List<Datentransfer> allDatentransfer = datentransferRepository.findDatenstransfersBySchnittstelleIdOrderByZeitstempelDescEreignisAsc(schnittstelle.getId(),
                 Pageable.ofSize(10));
         assertEquals(1, allDatentransfer.size());
         assertEquals("Test", allDatentransfer.get(0).getInfo());

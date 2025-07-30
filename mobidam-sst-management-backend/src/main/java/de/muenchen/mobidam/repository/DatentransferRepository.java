@@ -33,7 +33,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface DatentransferRepository extends CrudRepository<Datentransfer, UUID>, PagingAndSortingRepository<Datentransfer, UUID> {
 
-    List<Datentransfer> findDatenstransfersBySchnittstelleIdOrderByZeitstempelDesc(UUID id, Pageable pageable);
+    List<Datentransfer> findDatenstransfersBySchnittstelleIdOrderByZeitstempelDescEreignisAsc(UUID id, Pageable pageable);
 
     Optional<Datentransfer> findFirstBySchnittstelleIdAndEreignisIsNotInOrderByZeitstempelDesc(UUID id, List<EreignisTyp> unwantedEreignisTypes);
 
