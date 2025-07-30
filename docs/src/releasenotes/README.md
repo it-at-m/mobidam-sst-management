@@ -1,4 +1,7 @@
 # Release-Notes
+## Sprint 32 (22.07.2025 - 12.08.2025)
+### Geändert
+- Datentransfere der Schnittstelle werden bei gleichen Zeitstempeln rückwärts alphabetisch sortiert, damit die Ereignisse ENDE immer als letztes stehen
 
 ## Sprint 17 (23.10.2024 - 12.11.2024)
 ### Verbessert
