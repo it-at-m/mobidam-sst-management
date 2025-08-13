@@ -22,31 +22,26 @@
 ///
 
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import { Levels } from "@/api/error";
 
-export interface SnackbarState {
-    message: string | undefined;
-    level: Levels;
-    show: boolean;
-}
-
 export const useSnackbarStore = defineStore("snackbar", () => {
-    const message = ref<string | undefined>(undefined);
+    const message = ref<string>("");
     const level = ref(Levels.INFO);
     const show = ref(false);
+    const displayTrigger = ref(false);
+
+    const trigger = computed(() => displayTrigger.value);
     function showMessage(messageI: {
-        message?: string;
+        message: string;
         level?: Levels;
         show?: boolean;
     }): void {
         message.value = messageI.message;
         level.value = messageI.level ? messageI.level : Levels.INFO;
         show.value = true;
+        displayTrigger.value = !displayTrigger.value;
     }
-    function updateShow(showI: boolean): void {
-        show.value = showI;
-    }
-    return { message, level, show, showMessage, updateShow };
+    return { message, level, show, trigger, showMessage };
 });

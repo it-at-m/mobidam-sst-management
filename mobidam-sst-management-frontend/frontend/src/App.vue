@@ -81,14 +81,16 @@ import TheSnackbar from "@/components/TheSnackbar.vue";
 const query = ref<string>("");
 
 const route = useRoute();
-const snackbarStore = useSnackbarStore();
 
 onMounted(() => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     query.value = route.params.query as string;
-    InfoService.getInfo().catch((error) => {
-        snackbarStore.showMessage(error);
-    });
+    InfoService.getInfo().catch((error) =>
+        useSnackbarStore().showMessage({
+            message: error.message,
+            level: error.level,
+        })
+    );
     /* eslint-enable  @typescript-eslint/no-explicit-any */
 });
 </script>

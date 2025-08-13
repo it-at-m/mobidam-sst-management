@@ -110,33 +110,58 @@ export default class FetchUtils {
     }
 
     /**
-     * Deckt das Default-Handling einer Response ab. Dazu zählt:
+     *Deckt das Default-Handling einer Response ab. Dazu zählt:
      *
      * - Fehler bei fehlenden Berechtigungen --> HTTP 403
      * - Reload der App bei Session-Timeout --> HTTP 3xx
+     * - Unbekannter Fehler oder kein Code --> keine Verbindung möglich
      * - Default-Fehler bei allen HTTP-Codes !2xx
-     *
-     * @param response Die response aus fetch-Befehl die geprüft werden soll.
+     * @param url Die URL an die die Anfrage gesendet wird
+     * @param request Die Anfrage
      * @param errorMessage Die Fehlermeldung, welche bei einem HTTP-Code != 2xx angezeigt werden soll.
+     * @param skipNotFound Ob ein HTTP Code 404 als fehlerhaft behandelt werden soll
      */
-    static defaultResponseHandler(
-        response: Response,
-        errorMessage = "Es ist ein unbekannter Fehler aufgetreten."
-    ): void {
-        if (!response.ok) {
-            if (response.status === 403) {
+    static sendRequest(
+        url: string,
+        request: RequestInit,
+        errorMessage: string,
+        skipNotFound = false
+    ): Promise<any> {
+        return fetch(url, request)
+            .catch(() => {
+                // Catching the Error before any response was able to come
                 throw new ApiError({
                     level: Levels.ERROR,
-                    message: `Sie haben nicht die nötigen Rechte um diese Aktion durchzuführen.`,
+                    message: `Die Verbindung zum Service konnte nicht aufgebaut werden.`,
                 });
-            } else if (response.type === "opaqueredirect") {
-                location.reload();
-            }
-            throw new ApiError({
-                level: Levels.WARNING,
-                message: errorMessage,
+            })
+            .then((response) => {
+                // handling not 200 responses
+                if (!response.ok) {
+                    if (response.status === 403) {
+                        // HTTP 403 means unauthorized
+                        throw new ApiError({
+                            level: Levels.ERROR,
+                            message: `Sie haben nicht die nötigen Rechte um diese Aktion durchzuführen.`,
+                        });
+                    } else if (response.type === "opaqueredirect") {
+                        // the redirect option was set to manual and the server redirects the site
+                        location.reload();
+                    } else if (response.status === 404 && skipNotFound) {
+                        // some backend APIs give a 404 NOT_FOUND, when everything is correct, but the resource doesn't exist
+                        // in such cases the argument 'skipNotFound' can be set as true and this method creates an empty Promise
+                        // (instead of throwing an Error)
+                        return Promise.resolve();
+                    }
+                    throw new ApiError({
+                        // for all other HTTP code the standard error message handling is used
+                        level: Levels.ERROR,
+                        message: errorMessage,
+                    });
+                }
+                // returning a Promise with the request results because HTTP code is 200
+                return response.json();
             });
-        }
     }
 
     /**

@@ -157,6 +157,8 @@ import Zuordnung from "@/types/Zuordnung";
 import ZuordnungService from "@/api/ZuordnungService";
 import SchnittstelleRequest from "@/types/SchnittstelleRequest";
 import type { VForm } from "vuetify/components";
+import { useSnackbarStore } from "@/stores/snackbar";
+import { Levels } from "@/api/error";
 
 const textMaxLength = ref<number>(255);
 const validationRules = useRules();
@@ -213,36 +215,81 @@ onBeforeUpdate(() => {
 });
 
 function createSchnittstelle(schnittstelleRequest: SchnittstelleRequest) {
+    let zuordnungenError = false;
+
     SchnittstelleService.create(schnittstelleRequest)
         .then((schnittstelle) => {
-            saveZuordnungen(schnittstelle);
+            zuordnungenError = saveZuordnungen(schnittstelle);
+            if (!zuordnungenError) {
+                form.value?.reset();
+                form.value?.resetValidation();
+                emit("schnittstelle-saved");
+                resetSchnittstelle();
+                closeDialog();
+            } else {
+                useSnackbarStore().showMessage({
+                    message: "Zuordnungen konnten nicht gespeichert werden.",
+                    level: Levels.ERROR,
+                });
+            }
         })
-        .finally(() => {
-            form.value?.reset();
-            form.value?.resetValidation();
-            emit("schnittstelle-saved");
-            resetSchnittstelle();
-            closeDialog();
-        });
+        .catch((exp) =>
+            useSnackbarStore().showMessage({
+                message: exp.message,
+                level: exp.level,
+            })
+        );
 }
 
-function updateSchnittstelle() {
-    SchnittstelleService.update(mutableSchnittstelle.value).then(async () => {
+async function updateSchnittstelle() {
+    let hasErrors = false;
+
+    try {
+        await SchnittstelleService.update(mutableSchnittstelle.value);
+
+        // Neue Zuordnungen erstellen
         for (const zuordnung of mutableZuordnungen.value) {
             if (!dialogProps.zuordnungen.includes(zuordnung)) {
                 zuordnung.schnittstelle = dialogProps.schnittstelle.id;
-                await ZuordnungService.create(zuordnung);
+                try {
+                    await ZuordnungService.create(zuordnung);
+                } catch (exp: any) {
+                    hasErrors = true;
+                    useSnackbarStore().showMessage({
+                        message: exp.message,
+                        level: exp.level,
+                    });
+                }
             }
         }
+
+        // Gelöschte Zuordnungen entfernen
         for (const toDelete of dialogProps.zuordnungen) {
-            if (!mutableZuordnungen.value.includes(toDelete))
-                await ZuordnungService.delete(toDelete.id);
+            if (!mutableZuordnungen.value.includes(toDelete)) {
+                try {
+                    await ZuordnungService.delete(toDelete.id);
+                } catch (exp: any) {
+                    hasErrors = true;
+                    useSnackbarStore().showMessage({
+                        message: exp.message,
+                        level: exp.level,
+                    });
+                }
+            }
         }
-        emit("schnittstelle-saved");
-        form.value?.reset();
-        form.value?.resetValidation();
-        closeDialog();
-    });
+
+        if (!hasErrors) {
+            emit("schnittstelle-saved");
+            form.value?.reset();
+            form.value?.resetValidation();
+            closeDialog();
+        }
+    } catch (exp: any) {
+        useSnackbarStore().showMessage({
+            message: exp.message,
+            level: exp.level,
+        });
+    }
 }
 
 async function saveSchnittstelle() {
@@ -250,7 +297,7 @@ async function saveSchnittstelle() {
     const valid = (await form.value?.validate())?.valid;
     if (valid) {
         if (dialogProps.isEdit) {
-            updateSchnittstelle();
+            await updateSchnittstelle();
         } else {
             const schnittstelleRequest = new SchnittstelleRequest(
                 mutableSchnittstelle.value.name,
@@ -267,11 +314,17 @@ function confirmZuordnung(zuordnung: Zuordnung): void {
 }
 
 function saveZuordnungen(schnittstelle: Schnittstelle) {
+    let hasErrors = false;
+
     for (const zuordnung of mutableZuordnungen.value) {
         if (schnittstelle.id !== undefined)
             zuordnung.schnittstelle = schnittstelle.id;
-        ZuordnungService.create(zuordnung);
+        ZuordnungService.create(zuordnung).catch(() => {
+            hasErrors = true;
+        });
     }
+
+    return hasErrors;
 }
 
 function removeZuordnung(zuordnung: Zuordnung): void {

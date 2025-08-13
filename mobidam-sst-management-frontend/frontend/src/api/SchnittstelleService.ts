@@ -23,8 +23,6 @@
 
 import FetchUtils from "@/api/FetchUtils";
 import Schnittstelle from "@/types/Schnittstelle";
-import { useSnackbarStore } from "@/stores/snackbar";
-import { Levels } from "@/api/error";
 import SchnittstelleRequest from "@/types/SchnittstelleRequest";
 
 export default class SchnittstelleService {
@@ -32,78 +30,36 @@ export default class SchnittstelleService {
         .VITE_VUE_APP_API_URL;
 
     public static getAllSchnittstelle(): Promise<Schnittstelle[]> {
-        return fetch(
+        return FetchUtils.sendRequest(
             `${this.base}/api/schnittstelle`,
-            FetchUtils.getGETConfig()
-        ).then((response) => {
-            if (response.status != 200) {
-                FetchUtils.defaultResponseHandler(
-                    response,
-                    "Die Schnittstellen konnte nicht geladen werden."
-                );
-            }
-            return response.json();
-        });
+            FetchUtils.getGETConfig(),
+            "Die Schnittstellen konnten nicht geladen werden."
+        );
     }
 
     public static create(
         instance: SchnittstelleRequest
     ): Promise<Schnittstelle> {
-        return fetch(
+        return FetchUtils.sendRequest(
             `${this.base}/api/schnittstelle`,
-            FetchUtils.getPOSTConfig(instance)
-        )
-            .then((response) => {
-                useSnackbarStore().showMessage({
-                    message: "Speichern erfolgreich.",
-                    level: Levels.SUCCESS,
-                });
-                FetchUtils.defaultResponseHandler(response);
-                return response.json();
-            })
-            .catch((err) => {
-                useSnackbarStore().showMessage({
-                    message: "Speichern der Schnittstelle fehlgeschlagen.",
-                    level: Levels.ERROR,
-                });
-                FetchUtils.defaultResponseHandler(err);
-            });
+            FetchUtils.getPOSTConfig(instance),
+            "Die Schnittstelle konnte nicht gespeichert werden."
+        );
     }
 
     public static update(instance: Schnittstelle): Promise<Schnittstelle> {
-        return fetch(
+        return FetchUtils.sendRequest(
             `${this.base}/api/schnittstelle/update`,
-            FetchUtils.getPUTConfig(instance)
-        )
-            .then((response) => {
-                useSnackbarStore().showMessage({
-                    message: "Speichern erfolgreich.",
-                    level: Levels.SUCCESS,
-                });
-                FetchUtils.defaultResponseHandler(response);
-                return response.json();
-            })
-            .catch((err) => {
-                useSnackbarStore().showMessage({
-                    message: "Speichern der Schnittstelle fehlgeschlagen.",
-                    level: Levels.ERROR,
-                });
-                FetchUtils.defaultResponseHandler(err);
-            });
+            FetchUtils.getPUTConfig(instance),
+            "Die Schnittstelle konnte nicht aktualisiert werden."
+        );
     }
 
     public static getSchnittstelle(id: string): Promise<Schnittstelle> {
-        return fetch(
+        return FetchUtils.sendRequest(
             `${this.base}/api/schnittstelle/${id}`,
-            FetchUtils.getGETConfig()
-        ).then((response) => {
-            if (response.status != 200) {
-                FetchUtils.defaultResponseHandler(
-                    response,
-                    "Die Schnittstellen konnte nicht geladen werden."
-                );
-            }
-            return response.json();
-        });
+            FetchUtils.getGETConfig(),
+            "Die Schnittstelle konnte nicht geladen werden."
+        );
     }
 }

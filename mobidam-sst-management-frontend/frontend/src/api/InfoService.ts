@@ -40,13 +40,10 @@ export interface Appswitcher {
 
 export default class InfoService {
     static getInfo(): Promise<Info> {
-        return fetch(`${API_BASE}/actuator/info`, FetchUtils.getGETConfig())
-            .then((response) => {
-                FetchUtils.defaultResponseHandler(response);
-                return response.json();
-            })
-            .catch((err) => {
-                FetchUtils.defaultResponseHandler(err);
-            });
+        return FetchUtils.sendRequest(
+            `${API_BASE}/actuator/info`,
+            FetchUtils.getGETConfig(),
+            "Beim Verbindungsaufbau ist ein Fehler aufgetreten."
+        );
     }
 }

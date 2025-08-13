@@ -214,7 +214,6 @@ import ManageSchnittstelleDialog from "@/components/ManageSchnittstelleDialog.vu
 import router from "@/router";
 import { useRules } from "@/composables/rules";
 
-const snackbarStore = useSnackbarStore();
 const schnittstelleID = router.currentRoute.value.params.id as string;
 const zuordnungen = ref<Zuordnung[]>([]);
 const showManageSchnittstelleDialog = ref(false);
@@ -227,27 +226,40 @@ const schnittstelle = ref<Schnittstelle>({
 });
 
 onMounted(() => {
-    HealthService.checkHealth().catch((error) => {
-        snackbarStore.showMessage(error);
-    });
+    HealthService.checkHealth().catch((error) =>
+        useSnackbarStore().showMessage({
+            message: error.message,
+            level: error.level,
+        })
+    );
     getSchnittstelle();
 });
 
 function getZuordnungen() {
-    ZuordnungService.getZuordnungenByID(schnittstelleID).then(
-        (fetchedZuordnungen) => {
+    ZuordnungService.getZuordnungenByID(schnittstelleID)
+        .then((fetchedZuordnungen) => {
             zuordnungen.value = [...fetchedZuordnungen];
-        }
-    );
+        })
+        .catch((exp) =>
+            useSnackbarStore().showMessage({
+                message: exp.message,
+                level: exp.level,
+            })
+        );
 }
 
 function getSchnittstelle() {
-    SchnittstelleService.getSchnittstelle(schnittstelleID).then(
-        (fetchedSchnittstelle) => {
+    SchnittstelleService.getSchnittstelle(schnittstelleID)
+        .then((fetchedSchnittstelle) => {
             schnittstelle.value = fetchedSchnittstelle;
             getZuordnungen();
-        }
-    );
+        })
+        .catch((exp) =>
+            useSnackbarStore().showMessage({
+                message: exp.message,
+                level: exp.level,
+            })
+        );
 }
 
 function goBack() {
